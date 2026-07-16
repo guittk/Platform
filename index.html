@@ -701,9 +701,10 @@
   /* ---------- Fluência ---------- */
   .fluencia-config{ display:flex; gap:8px; margin-bottom:16px; }
   .fluencia-config input{ flex:1; background:var(--surface); border:1px solid var(--line-strong); border-radius:9px; padding:9px 12px; color:var(--text); font-size:13px; font-family:var(--sans); outline:none; }
-  .fluencia-frame-wrap{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; height:calc(100vh - 190px); min-height:480px; display:flex; align-items:center; justify-content:center; }
+  .fluencia-frame-wrap{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; height:calc(100vh - 32px); min-height:480px; display:flex; align-items:center; justify-content:center; }
   #view-fluencia.view.active{ display:flex; flex-direction:column; height:100%; }
   #view-fluencia .fluencia-frame-wrap{ flex:1; }
+  .main:has(#view-fluencia.active){ padding:16px; }
   .fluencia-frame-wrap iframe{ width:100%; height:100%; border:none; }
 
   .task-add-toggle{ margin-bottom:14px; }
@@ -983,7 +984,9 @@
         <h1 class="view-title">Storage</h1>
         <p class="view-desc">Suas Gavetas — agrupamentos de informação por assunto. Reordene, edite, minimize.</p>
       </div>
+      <button class="btn btn-approve btn-sm" id="runStorageAiOrganizeBtn">✦ Analisar organização com IA</button>
     </div>
+    <div id="storageRevisaoList"></div>
     <div class="new-gaveta-row">
       <input type="text" id="newGavetaInput" placeholder="Nome da nova gaveta (ex: Game Studio, Apartamento...)">
       <button class="btn btn-ghost btn-sm" id="newGavetaBtn">+ Nova gaveta</button>
@@ -1420,14 +1423,6 @@
 
   <!-- FLUÊNCIA -->
   <section class="view" id="view-fluencia">
-    <div class="view-head">
-      <div>
-        <p class="eyebrow">Evoluir</p>
-        <h1 class="view-title">Fluência</h1>
-        <p class="view-desc">Sua plataforma de Repetição Espaçada, incorporada aqui dentro.</p>
-      </div>
-      <a href="https://fluencia.guilherme-oliveira.com" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" id="fluenciaOpenBtn">Abrir em nova aba ↗</a>
-    </div>
     <div class="fluencia-frame-wrap" id="fluenciaFrameWrap">
       <p class="empty-state">Carregando...</p>
     </div>
@@ -2604,6 +2599,182 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
     await renderStorage();
   });
 
+  /* ---------- REORGANIZAÇÃO DE GAVETAS VIA IA (modelo Pull Request) ---------- */
+  document.getElementById('runStorageAiOrganizeBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('runStorageAiOrganizeBtn');
+    if(!openaiApiKey){ await loadOpenAiKey(); }
+    if(!openaiApiKey){ alert('Não foi possível carregar a chave da OpenAI do Firebase.'); return; }
+    btn.disabled = true; btn.textContent = '✦ Analisando...';
+    try{
+      const gavetas = await dbGet(userPath('/Gavetas')) || {};
+      if(!Object.keys(gavetas).length){ alert('Você ainda não tem gavetas para analisar.'); return; }
+      const dump = Object.entries(gavetas).map(([gid,g]) => ({
+        gavetaId: gid, nome: g.name,
+        itens: Object.entries(g.items||{}).map(([iid,it]) => ({ itemId: iid, texto: it.text }))
+      }));
+
+      const systemPrompt = `Você é um assistente que organiza as "Gavetas" (agrupamentos de notas por assunto) de um sistema pessoal chamado Life OS.
+Estrutura atual completa (JSON): ${JSON.stringify(dump)}
+
+Analise tudo e proponha melhorias de organização, como: mover itens para a gaveta mais adequada, mesclar gavetas muito parecidas ou redundantes, excluir itens duplicados ou obsoletos, excluir gavetas vazias/redundantes, renomear gavetas com nomes ruins, e corrigir o texto de itens mal escritos ou repetidos (sem perder informação).
+Se a organização atual já estiver boa, retorne um array de ações vazio.
+Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato exato:
+{
+  "resumo": "breve resumo geral do que está sendo proposto e por quê",
+  "acoes": [
+    {"tipo":"mover_item", "itemId":"...", "gavetaOrigemId":"...", "gavetaDestinoId":"... ou null", "gavetaDestinoNome":"nome se for gaveta nova, senão omitir", "motivo":"..."},
+    {"tipo":"mesclar_gavetas", "gavetaIds":["id1","id2"], "gavetaFinalId":"um dos ids acima, ou null para criar uma nova", "novoNome":"nome final da gaveta (obrigatório se gavetaFinalId for null)", "motivo":"..."},
+    {"tipo":"excluir_item", "gavetaId":"...", "itemId":"...", "motivo":"..."},
+    {"tipo":"excluir_gaveta", "gavetaId":"...", "motivo":"..."},
+    {"tipo":"renomear_gaveta", "gavetaId":"...", "novoNome":"...", "motivo":"..."},
+    {"tipo":"editar_item", "gavetaId":"...", "itemId":"...", "novoTexto":"...", "motivo":"..."}
+  ]
+}`;
+
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer ' + openaiApiKey },
+        body: JSON.stringify({ model:'gpt-4o-mini', temperature:0.3, messages:[{ role:'system', content: systemPrompt }] })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error((data.error && data.error.message) || 'Erro na chamada à OpenAI');
+      const proposal = extractJson(data.choices[0].message.content);
+      const acoes = Array.isArray(proposal.acoes) ? proposal.acoes : [];
+      if(!acoes.length){ alert('A IA não encontrou mudanças relevantes a propor — sua organização já está boa.'); return; }
+
+      const revId = newId();
+      await dbPut(userPath('/StorageRevisao/' + revId), {
+        resumo: proposal.resumo || 'Reorganização proposta pela IA.',
+        acoes, status:'pending', createdAt: new Date().toISOString()
+      });
+      await renderStorageRevisao();
+    }catch(err){
+      alert('Erro ao analisar organização com IA: ' + err.message);
+    }finally{
+      btn.disabled = false; btn.textContent = '✦ Analisar organização com IA';
+    }
+  });
+
+  function describeStorageAcao(a, gavetasById){
+    const gNome = (gid) => escapeHtml((gavetasById[gid] && gavetasById[gid].name) || '(gaveta removida)');
+    const iTexto = (gid, iid) => escapeHtml((gavetasById[gid] && gavetasById[gid].items && gavetasById[gid].items[iid] && gavetasById[gid].items[iid].text) || '(item removido)');
+    switch(a.tipo){
+      case 'mover_item':
+        return `Mover "${iTexto(a.gavetaOrigemId, a.itemId)}" de <strong>${gNome(a.gavetaOrigemId)}</strong> para <strong>${a.gavetaDestinoId ? gNome(a.gavetaDestinoId) : escapeHtml(a.gavetaDestinoNome || 'nova gaveta')}</strong>`;
+      case 'mesclar_gavetas':
+        return `Mesclar <strong>${a.gavetaIds.map(gNome).join(', ')}</strong> em <strong>${a.gavetaFinalId ? gNome(a.gavetaFinalId) : escapeHtml(a.novoNome || 'nova gaveta')}</strong>`;
+      case 'excluir_item':
+        return `Excluir item duplicado/obsoleto: "${iTexto(a.gavetaId, a.itemId)}" (em ${gNome(a.gavetaId)})`;
+      case 'excluir_gaveta':
+        return `Excluir gaveta <strong>${gNome(a.gavetaId)}</strong>`;
+      case 'renomear_gaveta':
+        return `Renomear <strong>${gNome(a.gavetaId)}</strong> para <strong>${escapeHtml(a.novoNome)}</strong>`;
+      case 'editar_item':
+        return `Reescrever item em <strong>${gNome(a.gavetaId)}</strong>: "${iTexto(a.gavetaId, a.itemId)}" → "${escapeHtml(a.novoTexto)}"`;
+      default:
+        return 'Ação desconhecida';
+    }
+  }
+
+  async function renderStorageRevisao(){
+    const el = document.getElementById('storageRevisaoList');
+    const data = await dbGet(userPath('/StorageRevisao')) || {};
+    const gavetasById = await dbGet(userPath('/Gavetas')) || {};
+    const entries = Object.entries(data).filter(([id,r]) => r.status === 'pending');
+    if(!entries.length){ el.innerHTML = ''; return; }
+    el.innerHTML = entries.sort((a,b) => (b[1].createdAt||'').localeCompare(a[1].createdAt||'')).map(([id, r]) => `
+      <div class="pr-card" style="margin-bottom:16px;">
+        <div class="pr-head">
+          <div class="pr-head-top">
+            <p class="pr-raw">${escapeHtml(r.resumo)}</p>
+            <span class="tag tag-gold">${r.acoes.length} ${r.acoes.length===1?'mudança':'mudanças'}</span>
+          </div>
+          <p class="pr-suggested-by">reorganização proposta pela IA</p>
+        </div>
+        <div class="pr-diff">
+          ${r.acoes.map(a => `<div class="diff-row"><span class="diff-key">${escapeHtml(a.tipo)}</span><span class="diff-val new">${describeStorageAcao(a, gavetasById)}</span></div>`).join('')}
+        </div>
+        <div class="pr-foot">
+          <button class="btn btn-approve btn-sm" data-approve-storage-pr="${id}">✓ Aprovar</button>
+          <button class="btn btn-reject btn-sm" data-reject-storage-pr="${id}">Rejeitar</button>
+        </div>
+      </div>
+    `).join('');
+    el.querySelectorAll('[data-approve-storage-pr]').forEach(btn => btn.addEventListener('click', () => approveStorageRevisao(btn.getAttribute('data-approve-storage-pr'))));
+    el.querySelectorAll('[data-reject-storage-pr]').forEach(btn => btn.addEventListener('click', () => rejectStorageRevisao(btn.getAttribute('data-reject-storage-pr'))));
+  }
+
+  async function rejectStorageRevisao(id){
+    await dbDelete(userPath('/StorageRevisao/' + id));
+    await renderStorageRevisao();
+  }
+
+  async function approveStorageRevisao(id){
+    const rev = await dbGet(userPath('/StorageRevisao/' + id));
+    if(!rev) return;
+    const btn = document.querySelector(`[data-approve-storage-pr="${id}"]`);
+    if(btn){ btn.disabled = true; btn.textContent = 'Aplicando...'; }
+    try{
+      const gavetas = await dbGet(userPath('/Gavetas')) || {};
+      let maxOrder = Object.values(gavetas).reduce((m,g) => Math.max(m, g.order||0), -1);
+      const deleted = new Set();
+
+      function ensureGaveta(gid, nome){
+        if(gid && gavetas[gid] && !deleted.has(gid)) return gid;
+        const newGid = newId();
+        maxOrder += 1;
+        gavetas[newGid] = { name: nome || 'Sem nome', order: maxOrder, collapsed:false, items:{} };
+        return newGid;
+      }
+
+      for(const a of (rev.acoes || [])){
+        try{
+          if(a.tipo === 'mover_item'){
+            const origem = gavetas[a.gavetaOrigemId];
+            if(!origem || !origem.items || !origem.items[a.itemId]) continue;
+            const item = origem.items[a.itemId];
+            const destId = ensureGaveta(a.gavetaDestinoId, a.gavetaDestinoNome);
+            if(!gavetas[destId].items) gavetas[destId].items = {};
+            gavetas[destId].items[a.itemId] = item;
+            if(destId !== a.gavetaOrigemId) delete origem.items[a.itemId];
+          } else if(a.tipo === 'mesclar_gavetas'){
+            const finalId = ensureGaveta(a.gavetaFinalId, a.novoNome);
+            if(!gavetas[finalId].items) gavetas[finalId].items = {};
+            (a.gavetaIds || []).forEach(gid => {
+              if(gid === finalId || !gavetas[gid]) return;
+              Object.entries(gavetas[gid].items || {}).forEach(([iid, it]) => {
+                const key = gavetas[finalId].items[iid] ? newId() : iid;
+                gavetas[finalId].items[key] = it;
+              });
+              deleted.add(gid);
+            });
+          } else if(a.tipo === 'excluir_item'){
+            if(gavetas[a.gavetaId] && gavetas[a.gavetaId].items){ delete gavetas[a.gavetaId].items[a.itemId]; }
+          } else if(a.tipo === 'excluir_gaveta'){
+            if(gavetas[a.gavetaId]) deleted.add(a.gavetaId);
+          } else if(a.tipo === 'renomear_gaveta'){
+            if(gavetas[a.gavetaId]) gavetas[a.gavetaId].name = a.novoNome;
+          } else if(a.tipo === 'editar_item'){
+            if(gavetas[a.gavetaId] && gavetas[a.gavetaId].items && gavetas[a.gavetaId].items[a.itemId]){
+              gavetas[a.gavetaId].items[a.itemId].text = a.novoTexto;
+            }
+          }
+        }catch(actionErr){ console.warn('Falha ao aplicar ação de reorganização:', a, actionErr); }
+      }
+
+      // Grava o estado final: gavetas alteradas/criadas em uma única escrita, e remove as excluídas.
+      const finalWrite = {};
+      Object.entries(gavetas).forEach(([gid, g]) => { if(!deleted.has(gid)) finalWrite[gid] = g; });
+      await dbPut(userPath('/Gavetas'), finalWrite);
+      await dbDelete(userPath('/StorageRevisao/' + id));
+      await renderStorage();
+      await renderStorageRevisao();
+    }catch(err){
+      alert('Erro ao aplicar a reorganização: ' + err.message);
+      if(btn){ btn.disabled = false; btn.textContent = '✓ Aprovar'; }
+    }
+  }
+
   const editingGavetas = new Set();
   async function renderStorage(){
     const el = document.getElementById('gavetaList');
@@ -2965,7 +3136,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
     renderHojeHeader();
     await Promise.all([
       renderHojeQueue(), renderHojeEvents(), renderHojeAvisos(), renderFluenciaToday(),
-      renderInbox(), renderRevisao(), renderStorage(),
+      renderInbox(), renderRevisao(), renderStorage(), renderStorageRevisao(),
       renderAgenda(), renderTasks(), renderFluencia()
     ]);
   }
