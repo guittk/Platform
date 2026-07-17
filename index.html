@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Life OS</title>
+<title>Life OS — Sistema Operacional para Evolução Pessoal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="shortcut icon" href="platform-favicon.ico">
 <style>
   :root{
     --bg: #14171c;
@@ -56,15 +55,19 @@
     flex-shrink:0;
     background: var(--bg-deep);
     border-right: 1px solid var(--line);
-    padding: 26px 18px;
+    padding: 22px 18px;
     display:flex;
     flex-direction:column;
-    gap: 26px;
-    position: sticky;
+    gap: 18px;
+    position: fixed;
+    left:0;
     top:0;
     height:100vh;
     overflow-y:auto;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
   }
+  .sidebar::-webkit-scrollbar{ display:none; }
   .brand{
     display:flex;
     align-items:center;
@@ -81,15 +84,15 @@
   .brand-name{ font-family:var(--serif); font-size:17px; font-weight:600; letter-spacing:0.2px; }
   .brand-sub{ font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1.2px; margin-top:1px; }
 
-  .nav-level{ display:flex; flex-direction:column; gap:4px; }
+  .nav-level{ display:flex; flex-direction:column; gap:2px; }
   .nav-level-label{
     font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase;
-    color: var(--text-dim); padding: 10px 10px 2px;
+    color: var(--text-dim); padding: 8px 10px 2px;
     font-weight:600;
   }
   .nav-item{
     display:flex; align-items:center; gap:10px;
-    padding:9px 10px; border-radius:9px; cursor:pointer;
+    padding:7px 10px; border-radius:9px; cursor:pointer;
     color: var(--text-mut); font-size:13.5px; font-weight:500;
     border:1px solid transparent;
     user-select:none;
@@ -114,9 +117,29 @@
   .sidebar-foot{ margin-top:auto; padding-top:14px; border-top:1px solid var(--line); }
 
   /* ---------- Main ---------- */
-  .main{ flex:1; min-width:0; padding: 34px 44px 60px; }
+  .main{ flex:1; min-width:0; padding: 34px 44px 60px; margin-left:250px; }
   .view{ display:none; animation: fadein 0.32s ease; }
   .view.active{ display:block; }
+  #view-hoje.view.active{
+    display:flex; flex-direction:column; height:calc(100vh - 94px); min-height:0; overflow:hidden;
+  }
+  #view-hoje .view-head, #view-hoje .hero-card{ flex:0 0 auto; }
+  #view-hoje .grid-2{ flex:1 1 auto; min-height:0; overflow:hidden; margin-top:18px; }
+  #view-hoje .grid-2 > .panel{ height:100%; min-height:0; display:flex; flex-direction:column; }
+  #view-hoje .grid-2 > .panel #flowList{ flex:1 1 auto; min-height:0; overflow-y:auto; }
+  #view-hoje .grid-2 > div[style*="flex-direction:column"]{ height:100%; min-height:0; overflow:hidden; display:flex; }
+  #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:first-child{ flex:0 0 auto; }
+  #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child){ flex:1 1 0; min-height:0; display:flex; flex-direction:column; }
+  #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child) > div:last-child{ flex:1 1 auto; min-height:0; overflow-y:auto; }
+  @media (max-width:880px){
+    #view-hoje.view.active{ height:auto; overflow:visible; }
+    #view-hoje .grid-2{ overflow:visible; }
+    #view-hoje .grid-2 > .panel{ height:auto; }
+    #view-hoje .grid-2 > .panel #flowList{ overflow-y:visible; }
+    #view-hoje .grid-2 > div[style*="flex-direction:column"]{ height:auto; overflow:visible; display:block; }
+    #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child){ flex:none; }
+    #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child) > div:last-child{ overflow-y:visible; }
+  }
   @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
 
   .view-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: 30px; gap:20px; flex-wrap:wrap;}
@@ -168,7 +191,7 @@
   .btn-reject:hover{ color:var(--coral); border-color: rgba(180,106,92,0.4); }
 
   .grid-2{ display:grid; grid-template-columns: 1.3fr 1fr; gap:18px; }
-  @media (max-width:880px){ .grid-2{ grid-template-columns:1fr; } .sidebar{display:none;} .main{padding:22px;} }
+  @media (max-width:880px){ .grid-2{ grid-template-columns:1fr; } .sidebar{display:none;} .main{padding:22px; margin-left:0;} }
 
   .panel{
     background: var(--surface); border:1px solid var(--line); border-radius: var(--radius);
@@ -202,7 +225,7 @@
 
   .event-row{ display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); align-items:baseline; }
   .event-row:last-child{ border:none; }
-  .event-time{ font-family:var(--mono); font-size:12px; color:var(--sage); width:52px; flex-shrink:0; }
+  .event-time{ font-family:var(--mono); font-size:12px; color:var(--sage); width:60px; flex-shrink:0; white-space:nowrap; }
   .event-title{ font-size:13.5px; }
 
   .notice{
@@ -609,6 +632,34 @@
   }
   .ai-drawer-input:focus{ border-color:var(--sage-line); }
 
+  /* ---------- Loading global (IA / operações assíncronas) ---------- */
+  .global-loading-overlay{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(15,18,22,0.55); backdrop-filter:blur(2px);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .18s ease;
+  }
+  .global-loading-overlay.active{ opacity:1; pointer-events:all; }
+  .global-loading-box{
+    background:var(--surface); border:1px solid var(--line-strong); border-radius:14px;
+    padding:20px 26px; display:flex; align-items:center; gap:14px;
+    box-shadow:0 16px 44px rgba(0,0,0,0.45);
+  }
+  .global-loading-spinner{
+    width:20px; height:20px; border-radius:50%; flex-shrink:0;
+    border:2.5px solid var(--line-strong); border-top-color:var(--sage);
+    animation: gl-spin .75s linear infinite;
+  }
+  @keyframes gl-spin{ to{ transform:rotate(360deg); } }
+  .global-loading-text{ font-size:13px; color:var(--text); }
+
+  /* Spinner inline pequeno, usado em botões durante ações assíncronas */
+  .btn-spinner{
+    width:12px; height:12px; border-radius:50%; display:inline-block;
+    border:2px solid rgba(255,255,255,0.35); border-top-color:currentColor;
+    animation: gl-spin .7s linear infinite; margin-right:2px;
+  }
+
   /* ---------- Modo Foco ---------- */
   .focus-overlay{
     display:none; position:fixed; inset:0; z-index:90;
@@ -659,6 +710,64 @@
   .btn-block{ width:100%; justify-content:center; }
   .btn[disabled]{ opacity:0.55; cursor:default; pointer-events:none; }
 
+  /* ---------- Academia ---------- */
+  .academia-days-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:14px; }
+  .academia-day-card{ background:var(--surface-hi); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; display:flex; flex-direction:column; gap:10px; transition:opacity .2s, border-color .2s; min-width:0; }
+  .academia-day-card.today{ border-color:var(--sage-line); }
+  .academia-day-card.inactive{ opacity:0.55; }
+  .academia-day-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .academia-day-name{ font-family:var(--serif); font-size:15px; font-weight:600; }
+  .academia-day-today-tag{ font-family:var(--mono); font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--sage); background:var(--sage-soft); padding:2px 6px; border-radius:20px; }
+  .academia-toggle{ position:relative; width:34px; height:19px; flex-shrink:0; }
+  .academia-toggle input{ opacity:0; width:0; height:0; position:absolute; }
+  .academia-toggle-track{ position:absolute; inset:0; background:var(--line-strong); border-radius:20px; cursor:pointer; transition:background .2s; }
+  .academia-toggle-track::before{ content:''; position:absolute; width:14px; height:14px; left:2.5px; top:2.5px; background:var(--bg); border-radius:50%; transition:transform .2s; }
+  .academia-toggle input:checked + .academia-toggle-track{ background:var(--sage); }
+  .academia-toggle input:checked + .academia-toggle-track::before{ transform:translateX(15px); }
+  .academia-ex-list{ display:flex; flex-direction:column; gap:5px; min-height:8px; }
+  .academia-ex-row{ display:flex; align-items:center; gap:6px; font-size:12.5px; padding:5px 7px; background:var(--surface); border-radius:7px; border:1px solid var(--line); }
+  .academia-ex-row span{ flex:1; line-height:1.4; min-width:0; word-break:break-word; }
+  .academia-ex-row button{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:11px; flex-shrink:0; }
+  .academia-ex-row button:hover{ color:var(--coral); }
+  .academia-ex-empty{ font-size:11.5px; color:var(--text-dim); padding:3px 2px; }
+  .academia-add-row{ display:flex; gap:6px; min-width:0; }
+  .academia-add-row input{ flex:1; min-width:0; width:100%; background:var(--surface); border:1px solid var(--line-strong); border-radius:7px; padding:6px 9px; color:var(--text); font-size:12.5px; font-family:var(--sans); outline:none; }
+  .academia-add-row button{ background:transparent; border:1px solid var(--line-strong); color:var(--text-mut); border-radius:7px; padding:0 10px; cursor:pointer; font-size:14px; flex-shrink:0; }
+  .academia-add-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
+  .academia-habits-list{ display:flex; flex-direction:column; gap:8px; }
+  .academia-habit-row{ display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--surface-hi); border:1px solid var(--line); border-radius:9px; font-size:13.5px; }
+  .academia-habit-row span{ flex:1; min-width:0; word-break:break-word; }
+  .academia-habit-row button{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:11.5px; flex-shrink:0; }
+  .academia-habit-row button:hover{ color:var(--coral); }
+  @media (max-width:640px){
+    .academia-days-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .academia-day-card{ padding:12px 13px; }
+    .academia-add-row{ flex-wrap:wrap; }
+    .academia-add-row input{ flex-basis:100%; }
+    .academia-add-row button{ flex:1; padding:6px 10px; }
+  }
+
+  /* ---------- Academia: metas diárias (água / creatina) ---------- */
+  .academia-metas-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; }
+  .academia-meta-card{ background:var(--surface-hi); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+  .academia-meta-card label{ font-family:var(--mono); font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--text-mut); }
+  .academia-meta-input-row{ display:flex; align-items:center; gap:8px; min-width:0; }
+  .academia-meta-input-row input{ flex:1; min-width:0; width:100%; background:var(--surface); border:1px solid var(--line-strong); border-radius:7px; padding:8px 10px; color:var(--text); font-size:14px; font-family:var(--sans); outline:none; }
+  .academia-meta-input-row span{ font-family:var(--mono); font-size:12px; color:var(--text-dim); flex-shrink:0; }
+
+  /* ---------- Hoje: água & creatina ---------- */
+  .hidra-row{ padding:10px 0; border-bottom:1px solid var(--line); }
+  .hidra-row:last-child{ border-bottom:none; padding-bottom:0; }
+  .hidra-top{ display:flex; justify-content:space-between; align-items:center; font-size:12.5px; margin-bottom:6px; gap:8px; }
+  .hidra-top span:first-child{ display:flex; align-items:center; gap:6px; }
+  .hidra-top span:last-child{ font-family:var(--mono); color:var(--text-dim); font-size:11px; white-space:nowrap; }
+  .hidra-done-tag{ font-family:var(--mono); font-size:9px; letter-spacing:0.5px; text-transform:uppercase; color:var(--sage); background:var(--sage-soft); padding:2px 6px; border-radius:20px; }
+  .hidra-actions{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+  .hidra-btn{ background:var(--surface-hi); border:1px solid var(--line-strong); color:var(--text-mut); border-radius:20px; padding:4px 10px; font-size:11.5px; cursor:pointer; font-family:var(--sans); }
+  .hidra-btn:hover{ color:var(--sage); border-color:var(--sage-line); }
+
   /* ---------- Storage (Gavetas) ---------- */
   .gaveta-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:12px; overflow:hidden; }
   .gaveta-head{ display:flex; align-items:center; gap:10px; padding:13px 16px; cursor:pointer; }
@@ -672,7 +781,7 @@
   .gaveta-card.collapsed .gaveta-body{ display:none; }
   .gaveta-item-row{ display:flex; align-items:flex-start; gap:8px; padding:8px 0; border-bottom:1px solid var(--line); font-size:13px; }
   .gaveta-item-row:last-child{ border-bottom:none; }
-  .gaveta-item-text{ flex:1; line-height:1.45; }
+  .gaveta-item-text{ flex:1; line-height:1.7; font-family:var(--sans); font-size:14px; font-weight:400; color:var(--text); letter-spacing:0.1px; }
   .gaveta-item-row button{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:11.5px; }
   .gaveta-item-row button:hover{ color:var(--coral); }
   .gaveta-empty{ color:var(--text-dim); font-size:12.5px; padding:8px 0; }
@@ -699,7 +808,36 @@
   .cal-day-title{ font-size:12.5px; color:var(--text-mut); font-weight:600; margin-bottom:4px; }
   .import-ics-input{ display:none; }
 
-  /* ---------- Fluência ---------- */
+  /* ---------- Fluência hoje (painel na Hoje) ---------- */
+  .fluencia-panel-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:16px; }
+  .fluencia-panel-head .panel-title{ margin-bottom:3px; }
+  .fluencia-streak{ font-family:var(--mono); font-size:11.5px; color:var(--text-mut); display:flex; align-items:center; gap:5px; }
+  .fluencia-streak .flame{ font-size:12px; }
+  .fluencia-streak.active{ color:var(--gold); }
+  .fluencia-goto{ cursor:pointer; }
+  .fluencia-ring-row{ display:flex; align-items:center; gap:22px; }
+  .fluencia-ring-wrap{ position:relative; width:100px; height:100px; flex-shrink:0; }
+  .fluencia-ring{ width:100%; height:100%; transform:rotate(-90deg); }
+  .fluencia-ring-track{ fill:none; stroke:var(--surface-hi); stroke-width:9; }
+  .fluencia-ring-fill{
+    fill:none; stroke:var(--sage); stroke-width:9; stroke-linecap:round;
+    stroke-dasharray:263.9; stroke-dashoffset:263.9; transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1), stroke .3s;
+  }
+  .fluencia-ring-fill.goal-hit{ stroke:var(--gold); }
+  .fluencia-ring-center{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .fluencia-ring-count{ font-family:var(--serif); font-size:25px; font-weight:600; line-height:1; color:var(--text); }
+  .fluencia-ring-goal{ font-family:var(--mono); font-size:10px; color:var(--text-dim); margin-top:3px; }
+  .fluencia-week{ display:flex; gap:7px; flex:1; justify-content:space-between; }
+  .fluencia-day{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .fluencia-day-label{ font-family:var(--mono); font-size:9px; color:var(--text-dim); text-transform:uppercase; }
+  .fluencia-day-dot{ width:19px; height:19px; border-radius:6px; border:1.5px solid var(--line-strong); background:var(--surface-hi); transition:background .2s, border-color .2s; }
+  .fluencia-day-dot.partial{ background:var(--sage-soft); border-color:var(--sage-line); }
+  .fluencia-day-dot.done{ background:var(--sage); border-color:var(--sage); }
+  .fluencia-day-dot.today{ box-shadow:0 0 0 2px var(--sage-soft); }
+  .fluencia-note{ margin:14px 0 0; }
+  .fluencia-note.hit{ color:var(--sage); }
+
+  /* ---------- Fluência (view completa / iframe) ---------- */
   .fluencia-config{ display:flex; gap:8px; margin-bottom:16px; }
   .fluencia-config input{ flex:1; background:var(--surface); border:1px solid var(--line-strong); border-radius:9px; padding:9px 12px; color:var(--text); font-size:13px; font-family:var(--sans); outline:none; }
   .fluencia-frame-wrap{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; height:calc(100vh - 32px); min-height:480px; display:flex; align-items:center; justify-content:center; }
@@ -778,6 +916,7 @@
   <nav class="nav-level">
     <div class="nav-level-label">Evoluir</div>
     <div class="nav-item" data-view="fluencia"><span class="dot"></span> Fluência</div>
+    <div class="nav-item" data-view="academia"><span class="dot"></span> Academia</div>
     <div class="nav-item" data-view="dashboard"><span class="dot"></span> Dashboard</div>
     <div class="nav-item" data-view="objetivos"><span class="dot"></span> Objetivos</div>
     <div class="nav-item" data-view="projetos"><span class="dot"></span> Projetos</div>
@@ -790,11 +929,6 @@
   </nav>
 
   <div class="sidebar-foot">
-    <div class="search-trigger" id="searchTrigger">
-      <span class="search-trigger-icon">⌕</span>
-      <span class="search-trigger-text">Pesquisar</span>
-      <span class="search-trigger-kbd">⌘K</span>
-    </div>
     <div class="nav-item" data-view="config"><span class="dot"></span> Configurações</div>
     <div class="nav-item" id="logoutBtn"><span class="dot"></span> Sair</div>
   </div>
@@ -863,6 +997,14 @@
   </div>
 </div>
 
+<!-- OVERLAY — LOADING GLOBAL (IA / operações assíncronas) -->
+<div class="global-loading-overlay" id="globalLoading" aria-live="polite">
+  <div class="global-loading-box">
+    <div class="global-loading-spinner"></div>
+    <span class="global-loading-text" id="globalLoadingText">Carregando...</span>
+  </div>
+</div>
+
 <!-- OVERLAY — MODO FOCO -->
 <div class="focus-overlay" id="focusOverlay">
   <button class="focus-exit" id="focusExit" aria-label="Sair do modo foco">✕ sair</button>
@@ -886,7 +1028,7 @@
       <div>
         <p class="eyebrow" id="hojeEyebrow">Bom dia</p>
         <h1 class="view-title">Hoje</h1>
-        <p class="view-desc">Só o necessário: eventos, tarefas e estudos de hoje — e avisos importantes.</p>
+        <p class="view-desc">Só o necessário: tarefas, estudos e treino de hoje — eventos e avisos à parte.</p>
       </div>
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:9px;">
         <div class="date-pill" id="hojeDatePill">—</div>
@@ -913,7 +1055,7 @@
 
     <div class="grid-2">
       <div class="panel">
-        <p class="panel-title">Sequência de execução (tarefas e estudos) <span class="tag tag-sage" id="seqCountTag">0 hoje</span></p>
+        <p class="panel-title">Sequência de execução (tarefas, estudos e treino) <span class="tag tag-sage" id="seqCountTag">0 hoje</span></p>
         <div class="flow-list" id="flowList">
           <p class="empty-state">Carregando...</p>
         </div>
@@ -921,20 +1063,44 @@
 
       <div style="display:flex; flex-direction:column; gap:18px;">
         <div class="panel">
-          <p class="panel-title">Fluência hoje <span class="tag tag-sage" id="fluenciaTodayTag">0 / 30</span></p>
-          <div class="day-progress" style="margin:2px 0 12px;">
-            <div class="day-progress-track"><div class="day-progress-fill" id="fluenciaTodayFill" style="width:0%"></div></div>
+          <div class="fluencia-panel-head">
+            <div>
+              <p class="panel-title">Fluência hoje</p>
+              <p class="fluencia-streak" id="fluenciaStreak"><span class="flame">🔥</span> <span id="fluenciaStreakText">carregando...</span></p>
+            </div>
+            <span class="tag tag-sage fluencia-goto" data-view-link="fluencia">praticar →</span>
           </div>
-          <p class="empty-state" id="fluenciaTodayNote" style="margin-bottom:0;">Carregando...</p>
+
+          <div class="fluencia-ring-row">
+            <div class="fluencia-ring-wrap">
+              <svg viewBox="0 0 92 92" class="fluencia-ring">
+                <circle class="fluencia-ring-track" cx="46" cy="46" r="42"></circle>
+                <circle class="fluencia-ring-fill" id="fluenciaRingFill" cx="46" cy="46" r="42"></circle>
+              </svg>
+              <div class="fluencia-ring-center">
+                <span class="fluencia-ring-count" id="fluenciaRingCount">0</span>
+                <span class="fluencia-ring-goal" id="fluenciaTodayTag">/ 30</span>
+              </div>
+            </div>
+            <div class="fluencia-week" id="fluenciaWeek"></div>
+          </div>
+
+          <p class="empty-state fluencia-note" id="fluenciaTodayNote">Carregando...</p>
         </div>
 
         <div class="panel">
-          <p class="panel-title">Eventos de hoje</p>
-          <div id="hojeEventsList"><p class="empty-state">Carregando...</p></div>
+          <p class="panel-title">Academia hoje</p>
+          <div id="hojeAcademiaList"><p class="empty-state">Carregando...</p></div>
         </div>
 
         <div class="panel">
-          <p class="panel-title">Avisos</p>
+          <p class="panel-title">Água &amp; creatina hoje</p>
+          <div id="hojeHidratacaoList"><p class="empty-state">Carregando...</p></div>
+        </div>
+
+        <div class="panel">
+          <p class="panel-title">Avisos &amp; eventos</p>
+          <div id="hojeEventsList"></div>
           <div id="hojeAvisosList"><p class="empty-state">Carregando...</p></div>
         </div>
       </div>
@@ -949,7 +1115,7 @@
         <h1 class="view-title">Inbox</h1>
         <p class="view-desc">Capture qualquer coisa, sem categorizar. A IA organiza em Gavetas — e toda mudança passa por aprovação, como um Pull Request.</p>
       </div>
-      <button class="btn btn-approve btn-sm" id="runAiOrganizeBtn">✦ Organizar com IA</button>
+      <button class="btn btn-approve btn-sm" id="runAiOrganizeBtn" style="display:none;">✦ Organizar com IA</button>
     </div>
 
     <div class="subtabs">
@@ -960,7 +1126,7 @@
     <!-- Captura -->
     <div class="subview active" id="inbox-captura">
       <div class="capture-bar">
-        <textarea id="inboxCaptureInput" rows="1" placeholder="Digite, cole um link, ou uma ideia qualquer... (Shift+Enter para quebrar linha)"></textarea>
+        <textarea id="inboxCaptureInput" rows="1" placeholder="Digite, cole um link, ou uma ideia qualquer..."></textarea>
         <button class="btn btn-primary btn-sm" id="inboxCaptureBtn">Capturar</button>
       </div>
       <div class="inbox-list" id="inboxList">
@@ -1429,6 +1595,55 @@
     </div>
   </section>
 
+  <section class="view" id="view-academia">
+    <div class="view-head">
+      <div>
+        <p class="eyebrow">Evoluir</p>
+        <h1 class="view-title">Academia</h1>
+        <p class="view-desc">Monte seu cronograma semanal de treino e seus hábitos diários. O que estiver marcado para hoje entra na sua % de conclusão em "Hoje".</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:18px;">
+      <p class="panel-title">Metas diárias — água &amp; creatina</p>
+      <p class="view-desc" style="margin:-6px 0 14px;">Definido aqui, aparece todo dia em "Hoje" para acompanhar o quanto já foi tomado.</p>
+      <div class="academia-metas-grid">
+        <div class="academia-meta-card">
+          <label>Água por dia</label>
+          <div class="academia-meta-input-row">
+            <input type="number" min="0" step="50" id="academiaAguaMetaInput" placeholder="Ex: 3000">
+            <span>ml</span>
+          </div>
+        </div>
+        <div class="academia-meta-card">
+          <label>Creatina por dia</label>
+          <div class="academia-meta-input-row">
+            <input type="number" min="0" step="0.5" id="academiaCreatinaMetaInput" placeholder="Ex: 5">
+            <span>g</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:18px;">
+      <p class="panel-title">Cronograma semanal</p>
+      <div class="academia-days-grid" id="academiaDaysGrid">
+        <p class="empty-state">Carregando...</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">Hábitos diários</p>
+      <div class="academia-add-row" style="margin-bottom:12px;">
+        <input type="text" id="academiaHabitInput" placeholder="Ex: Tomar 2L de água, tomar creatina...">
+        <button id="academiaHabitAddBtn">+</button>
+      </div>
+      <div class="academia-habits-list" id="academiaHabitsList">
+        <p class="empty-state">Carregando...</p>
+      </div>
+    </div>
+  </section>
+
   <section class="view" id="view-diario">
     <div class="view-head">
       <div>
@@ -1848,7 +2063,7 @@
       </div>
     </div>
 
-    <div class="config-section">
+    <div class="config-section" style="margin-top:16px;">
       <p class="config-section-title">Integrações</p>
       <p class="config-section-desc">Conecte outras ferramentas ao seu Life OS.</p>
       <div class="integration-row">
@@ -1935,8 +2150,9 @@
     searchModal.classList.remove('active');
     searchModalInput.value = '';
   }
-  document.getElementById('searchTrigger').addEventListener('click', openSearch);
-  searchModal.addEventListener('click', (e) => { if(e.target === searchModal){ closeSearch(); } });
+  const searchTriggerBtn = document.getElementById('searchTrigger');
+  if(searchTriggerBtn){ searchTriggerBtn.addEventListener('click', openSearch); }
+  if(searchModal){ searchModal.addEventListener('click', (e) => { if(e.target === searchModal){ closeSearch(); } }); }
   document.addEventListener('keydown', (e) => {
     if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'){
       e.preventDefault();
@@ -1948,8 +2164,10 @@
 
   /* ---------- Assistente IA ---------- */
   const aiDrawer = document.getElementById('aiDrawer');
-  document.getElementById('aiFabBtn').addEventListener('click', () => aiDrawer.classList.toggle('active'));
-  document.getElementById('aiDrawerClose').addEventListener('click', () => aiDrawer.classList.remove('active'));
+  const aiFabBtn = document.getElementById('aiFabBtn');
+  const aiDrawerCloseBtn = document.getElementById('aiDrawerClose');
+  if(aiFabBtn && aiDrawer){ aiFabBtn.addEventListener('click', () => aiDrawer.classList.toggle('active')); }
+  if(aiDrawerCloseBtn && aiDrawer){ aiDrawerCloseBtn.addEventListener('click', () => aiDrawer.classList.remove('active')); }
   document.querySelectorAll('.ai-suggest-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const input = document.querySelector('.ai-drawer-input');
@@ -1992,8 +2210,9 @@
   function updateDayProgress(){
     const done = activities.filter(a => a.done).length;
     const total = activities.length;
-    dayProgressLabel.textContent = done + ' de ' + total + ' concluídas';
-    dayProgressFill.style.width = (total ? Math.round((done / total) * 100) : 0) + '%';
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    dayProgressLabel.textContent = done + ' de ' + total + ' concluídas (' + pct + '%)';
+    dayProgressFill.style.width = pct + '%';
     seqCountTag.textContent = total + ' hoje';
   }
 
@@ -2026,22 +2245,30 @@
     comecarAtividadeBtn.textContent = hasStartedAny ? 'Começar Próxima' : 'Começar';
   }
 
+  const FLOW_KIND_META = {
+    tarefa:  { label:'Tarefa',  cls:'tag-gold' },
+    estudo:  { label:'Estudo',  cls:'tag-sage' },
+    treino:  { label:'Treino',  cls:'tag-sage' },
+    habito:  { label:'Hábito',  cls:'tag-gold' }
+  };
   function renderFlowList(){
     const nextIdx = getNextIndex();
     if(!activities.length){
-      flowListEl.innerHTML = '<p class="empty-state">Nenhuma tarefa ou estudo para hoje.</p>';
+      flowListEl.innerHTML = '<p class="empty-state">Nenhuma tarefa, estudo ou treino para hoje.</p>';
       return;
     }
-    flowListEl.innerHTML = activities.map((a, idx) => `
+    flowListEl.innerHTML = activities.map((a, idx) => {
+      const meta = FLOW_KIND_META[a.kind] || FLOW_KIND_META.tarefa;
+      return `
       <div class="flow-item ${a.done ? 'done' : ''} ${idx === nextIdx ? 'now' : ''}" data-activity="${idx}">
         <div class="flow-rail"><div class="seq-node"></div>${idx < activities.length - 1 ? '<div class="flow-connector"></div>' : ''}</div>
         <div class="flow-body">
           <div class="flow-top">${idx === nextIdx ? '<span class="flow-now-tag">Agora</span>' : ''}</div>
           <div class="flow-text">${escapeHtml(a.name)}</div>
-          <div class="flow-meta"><span class="tag ${a.kind === 'estudo' ? 'tag-sage' : 'tag-gold'}">${a.kind === 'estudo' ? 'Estudo' : 'Tarefa'}</span>${a.time ? '<span class="queue-time">' + escapeHtml(a.time) + '</span>' : ''}</div>
+          <div class="flow-meta"><span class="tag ${meta.cls}">${meta.label}</span>${a.time ? '<span class="queue-time">' + escapeHtml(a.time) + '</span>' : ''}</div>
         </div>
       </div>
-    `).join('');
+    `; }).join('');
     flowListEl.querySelectorAll('.flow-item[data-activity]').forEach(row => {
       row.addEventListener('click', () => {
         const idx = parseInt(row.getAttribute('data-activity'), 10);
@@ -2210,30 +2437,77 @@
   }
   function clearSession(){ session = null; localStorage.removeItem(SESSION_KEY); }
 
+  /* ---------- Loading global (IA / operações assíncronas) ---------- */
+  const globalLoadingEl = document.getElementById('globalLoading');
+  const globalLoadingTextEl = document.getElementById('globalLoadingText');
+  let loadingDepth = 0;
+  function showLoading(msg){
+    loadingDepth++;
+    globalLoadingTextEl.textContent = msg || 'Carregando...';
+    globalLoadingEl.classList.add('active');
+  }
+  function hideLoading(){
+    loadingDepth = Math.max(0, loadingDepth - 1);
+    if(loadingDepth === 0) globalLoadingEl.classList.remove('active');
+  }
+
   /* ---------- Firebase Realtime Database (REST) ---------- */
+  // fetch() pode ficar pendurado para sempre (nunca resolve, nunca rejeita) em
+  // certas condições de rede/navegador — por exemplo, ao abrir este arquivo
+  // direto como file:// em vez de por um servidor web, o Chrome pode bloquear
+  // ou travar silenciosamente chamadas para domínios remotos (Firebase, etc.).
+  // Sem um timeout, isso trava a seção correspondente em "Carregando..." para
+  // sempre, mesmo com o tratamento de erro no boot. Este wrapper garante que
+  // toda chamada de rede sempre resolve ou rejeita dentro de 15s.
+  async function fetchWithTimeout(url, options, timeoutMs){
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs || 15000);
+    try{
+      return await fetch(url, Object.assign({}, options, { signal: controller.signal }));
+    }catch(err){
+      if(err && err.name === 'AbortError'){
+        throw new Error('Tempo de conexão esgotado. Verifique sua internet e tente novamente.');
+      }
+      throw err;
+    }finally{
+      clearTimeout(timer);
+    }
+  }
   function buildUrl(path){
     const qs = session && session.idToken ? ('auth=' + session.idToken) : '';
     return FIREBASE_DB_URL + path + '.json' + (qs ? '?' + qs : '');
   }
   async function dbGet(path){
-    const res = await fetch(buildUrl(path));
-    if(!res.ok) throw new Error('Erro ao ler ' + path);
-    return await res.json();
+    showLoading('Carregando...');
+    try{
+      const res = await fetchWithTimeout(buildUrl(path));
+      if(!res.ok) throw new Error('Erro ao ler ' + path);
+      return await res.json();
+    } finally { hideLoading(); }
   }
   async function dbPut(path, data){
-    const res = await fetch(buildUrl(path), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
-    if(!res.ok) throw new Error('Erro ao salvar ' + path);
-    return await res.json();
+    showLoading('Salvando...');
+    try{
+      const res = await fetchWithTimeout(buildUrl(path), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+      if(!res.ok) throw new Error('Erro ao salvar ' + path);
+      return await res.json();
+    } finally { hideLoading(); }
   }
   async function dbPatch(path, data){
-    const res = await fetch(buildUrl(path), { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
-    if(!res.ok) throw new Error('Erro ao atualizar ' + path);
-    return await res.json();
+    showLoading('Salvando...');
+    try{
+      const res = await fetchWithTimeout(buildUrl(path), { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+      if(!res.ok) throw new Error('Erro ao atualizar ' + path);
+      return await res.json();
+    } finally { hideLoading(); }
   }
   async function dbDelete(path){
-    const res = await fetch(buildUrl(path), { method:'DELETE' });
-    if(!res.ok) throw new Error('Erro ao remover ' + path);
-    return await res.json();
+    showLoading('Removendo...');
+    try{
+      const res = await fetchWithTimeout(buildUrl(path), { method:'DELETE' });
+      if(!res.ok) throw new Error('Erro ao remover ' + path);
+      return await res.json();
+    } finally { hideLoading(); }
   }
   function userPath(sub){ return '/users/' + session.uid + sub; }
 
@@ -2244,17 +2518,20 @@
 
   /* ---------- Autenticação (Identity Toolkit REST) ---------- */
   async function identityRequest(kind, email, password){
-    const url = 'https://identitytoolkit.googleapis.com/v1/accounts:' + kind + '?key=' + FIREBASE_API_KEY;
-    const res = await fetch(url, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ email, password, returnSecureToken:true })
-    });
-    const data = await res.json();
-    if(!res.ok){
-      const msg = (data.error && data.error.message) || 'Erro desconhecido';
-      throw new Error(msg);
-    }
-    return data;
+    showLoading('Entrando...');
+    try{
+      const url = 'https://identitytoolkit.googleapis.com/v1/accounts:' + kind + '?key=' + FIREBASE_API_KEY;
+      const res = await fetchWithTimeout(url, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ email, password, returnSecureToken:true })
+      });
+      const data = await res.json();
+      if(!res.ok){
+        const msg = (data.error && data.error.message) || 'Erro desconhecido';
+        throw new Error(msg);
+      }
+      return data;
+    } finally { hideLoading(); }
   }
   function friendlyAuthError(msg){
     const map = {
@@ -2335,16 +2612,21 @@
       } else if(authMode === 'signup'){
         if(!password){ throw new Error('Crie uma senha.'); }
         const data = await identityRequest('signUp', email, password);
-        await dbPut(('/users/' + data.localId + '/Profile'), { Email: email, CreatedAt: new Date().toISOString(), LastLogin: new Date().toISOString() });
-        // refetch com auth já presente
+        // Define a sessão ANTES de gravar no Firebase — buildUrl() depende de
+        // session.idToken para autenticar a escrita. Gravar antes fazia essa
+        // primeira escrita ir sem token, sendo rejeitada por regras de segurança.
         session = { idToken: data.idToken, uid: data.localId, email, expiresAt: Date.now() + 3600000 };
+        await dbPut(('/users/' + data.localId + '/Profile'), { Email: email, CreatedAt: new Date().toISOString(), LastLogin: new Date().toISOString() });
         await afterLoginSuccess(data);
       } else if(authMode === 'reset'){
-        const url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + FIREBASE_API_KEY;
-        const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ requestType:'PASSWORD_RESET', email }) });
-        const data = await res.json();
-        if(!res.ok) throw new Error((data.error && data.error.message) || 'Erro ao enviar e-mail.');
-        authNote.textContent = 'Link enviado! Verifique seu e-mail.'; authNote.classList.add('active');
+        showLoading('Enviando...');
+        try{
+          const url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + FIREBASE_API_KEY;
+          const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ requestType:'PASSWORD_RESET', email }) });
+          const data = await res.json();
+          if(!res.ok) throw new Error((data.error && data.error.message) || 'Erro ao enviar e-mail.');
+          authNote.textContent = 'Link enviado! Verifique seu e-mail.'; authNote.classList.add('active');
+        } finally { hideLoading(); }
       }
     }catch(err){
       authError.textContent = friendlyAuthError(err.message);
@@ -2391,6 +2673,10 @@
     const items = Object.entries(data).filter(([id,it]) => it.status !== 'processed');
     document.getElementById('navInboxBadge').textContent = items.length;
     document.getElementById('inboxCountTab').textContent = items.length ? '(' + items.length + ')' : '';
+    const aiOrganizeBtn = document.getElementById('runAiOrganizeBtn');
+    // Só mostra o botão de organizar com IA se houver itens ainda não enviados para revisão
+    const organizable = items.filter(([id,it]) => it.status !== 'awaiting_review');
+    if(aiOrganizeBtn){ aiOrganizeBtn.style.display = organizable.length ? '' : 'none'; }
     if(!items.length){ el.innerHTML = '<p class="empty-state">Sua Inbox está vazia. Capture qualquer coisa acima.</p>'; return; }
     el.innerHTML = items.sort((a,b) => (b[1].createdAt||'').localeCompare(a[1].createdAt||'')).map(([id, it]) => `
       <div class="inbox-item">
@@ -2416,6 +2702,7 @@
     if(!openaiApiKey){ await loadOpenAiKey(); }
     if(!openaiApiKey){ alert('Não foi possível carregar a chave da OpenAI do Firebase.'); return; }
     btn.disabled = true; btn.textContent = '✦ Organizando...';
+    showLoading('Organizando sua Inbox com IA...');
     try{
       const inbox = await dbGet(userPath('/Inbox')) || {};
       const pending = Object.entries(inbox).filter(([id,it]) => it.status === 'pending');
@@ -2458,6 +2745,7 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
     }catch(err){
       alert('Erro ao organizar com IA: ' + err.message);
     }finally{
+      hideLoading();
       btn.disabled = false; btn.textContent = '✦ Organizar com IA';
     }
   });
@@ -2517,6 +2805,10 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
     el.querySelectorAll('[data-reanalyze-pr]').forEach(btn => btn.addEventListener('click', () => reanalyzeRevisao(btn.getAttribute('data-reanalyze-pr'))));
   }
 
+  function normalizeBullets(text){
+    if(!text) return text;
+    return text.split('\n').map(l => l.replace(/^\s*[\*\-]\s+/, '• ')).join('\n');
+  }
   async function approveRevisao(id){
     const r = await dbGet(userPath('/Revisao/' + id));
     if(!r) return;
@@ -2527,7 +2819,7 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
       await dbPut(userPath('/Gavetas/' + gavetaId), { name: r.gavetaNome || 'Sem nome', order: Object.keys(existing).length, collapsed:false, items:{} });
     }
     const itemId = newId();
-    await dbPut(userPath('/Gavetas/' + gavetaId + '/items/' + itemId), { text: r.texto, addedAt: new Date().toISOString() });
+    await dbPut(userPath('/Gavetas/' + gavetaId + '/items/' + itemId), { text: normalizeBullets(r.texto), addedAt: new Date().toISOString() });
     await dbDelete(userPath('/Inbox/' + r.inboxId));
     await dbDelete(userPath('/Revisao/' + id));
     await renderInbox(); await renderRevisao(); await renderStorage();
@@ -2548,6 +2840,7 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
     if(!editedRaw){ alert('O texto não pode ficar vazio.'); return; }
     const btn = el.querySelector(`[data-reanalyze-pr="${id}"]`);
     btn.disabled = true; btn.textContent = '↻ Reanalisando...';
+    showLoading('Reanalisando com IA...');
     try{
       if(!openaiApiKey){ await loadOpenAiKey(); }
       if(!openaiApiKey){ alert('Não foi possível carregar a chave da OpenAI do Firebase.'); return; }
@@ -2584,6 +2877,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
     }catch(err){
       alert('Erro ao reanalisar com IA: ' + err.message);
     }finally{
+      hideLoading();
       if(btn){ btn.disabled = false; btn.textContent = '↻ Reanalisar com IA'; }
     }
   }
@@ -2606,6 +2900,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
     if(!openaiApiKey){ await loadOpenAiKey(); }
     if(!openaiApiKey){ alert('Não foi possível carregar a chave da OpenAI do Firebase.'); return; }
     btn.disabled = true; btn.textContent = '✦ Analisando...';
+    showLoading('Analisando suas Gavetas com IA...');
     try{
       const gavetas = await dbGet(userPath('/Gavetas')) || {};
       if(!Object.keys(gavetas).length){ alert('Você ainda não tem gavetas para analisar.'); return; }
@@ -2617,8 +2912,9 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
       const systemPrompt = `Você é um assistente que organiza as "Gavetas" (agrupamentos de notas por assunto) de um sistema pessoal chamado Life OS.
 Estrutura atual completa (JSON): ${JSON.stringify(dump)}
 
-Analise tudo e proponha melhorias de organização, como: mover itens para a gaveta mais adequada, mesclar gavetas muito parecidas ou redundantes, excluir itens duplicados ou obsoletos, excluir gavetas vazias/redundantes, renomear gavetas com nomes ruins, e corrigir o texto de itens mal escritos ou repetidos (sem perder informação).
-Se a organização atual já estiver boa, retorne um array de ações vazio.
+Seja CONSERVADOR: só proponha uma ação quando houver um problema real e evidente, como: item claramente na gaveta errada, gavetas duplicadas/redundantes tratando do mesmo assunto, itens duplicados ou obsoletos, gaveta vazia, nome de gaveta confuso/genérico demais, ou texto de item com erro claro (typo, corte, informação quebrada).
+NÃO proponha uma ação só para "melhorar o estilo" ou reescrever um texto que já está compreensível — pequenas preferências de redação não justificam uma ação. Cada ação deve ter um motivo objetivo e específico.
+Se, depois de analisar com calma, tudo já estiver bem organizado, retorne "acoes": [] (array vazio) e um resumo dizendo que está tudo organizado. Um array vazio é o resultado esperado na maioria das análises — não crie ações artificiais apenas para ter o que mostrar.
 Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato exato:
 {
   "resumo": "breve resumo geral do que está sendo proposto e por quê",
@@ -2652,6 +2948,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }catch(err){
       alert('Erro ao analisar organização com IA: ' + err.message);
     }finally{
+      hideLoading();
       btn.disabled = false; btn.textContent = '✦ Analisar organização com IA';
     }
   });
@@ -2757,7 +3054,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
             if(gavetas[a.gavetaId]) gavetas[a.gavetaId].name = a.novoNome;
           } else if(a.tipo === 'editar_item'){
             if(gavetas[a.gavetaId] && gavetas[a.gavetaId].items && gavetas[a.gavetaId].items[a.itemId]){
-              gavetas[a.gavetaId].items[a.itemId].text = a.novoTexto;
+              gavetas[a.gavetaId].items[a.itemId].text = normalizeBullets(a.novoTexto);
             }
           }
         }catch(actionErr){ console.warn('Falha ao aplicar ação de reorganização:', a, actionErr); }
@@ -2844,7 +3141,8 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       e.stopPropagation();
       const gid = btn.getAttribute('data-save-gaveta');
       const ta = el.querySelector(`[data-gid-edit="${gid}"]`);
-      const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
+      const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean)
+        .map(l => normalizeBullets(l));
       const newItems = {};
       lines.forEach((text, i) => { newItems['it' + i] = { text, order: i, addedAt: new Date().toISOString() }; });
       await dbPut(userPath('/Gavetas/' + gid + '/items'), newItems);
@@ -2862,6 +3160,128 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     await dbPatch(userPath('/Gavetas/' + idB), { order: gA.order });
     await renderStorage();
   }
+
+  /* ---------- ACADEMIA (cronograma semanal + hábitos diários) ---------- */
+  const ACADEMIA_DAY_NAMES = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+
+  async function renderAcademia(){
+    const grid = document.getElementById('academiaDaysGrid');
+    const habitsEl = document.getElementById('academiaHabitsList');
+    const [dias, habitos, metas] = await Promise.all([
+      dbGet(userPath('/AcademiaDias')) || {},
+      dbGet(userPath('/AcademiaHabitos')) || {},
+      dbGet(userPath('/AcademiaMetas')) || {}
+    ]);
+    const diasData = dias || {};
+    const habitosData = habitos || {};
+    const metasData = metas || {};
+    const todayDow = new Date().getDay();
+
+    const aguaMetaInput = document.getElementById('academiaAguaMetaInput');
+    const creatinaMetaInput = document.getElementById('academiaCreatinaMetaInput');
+    if(document.activeElement !== aguaMetaInput) aguaMetaInput.value = metasData.aguaMl || '';
+    if(document.activeElement !== creatinaMetaInput) creatinaMetaInput.value = metasData.creatinaG || '';
+
+    grid.innerHTML = ACADEMIA_DAY_NAMES.map((nome, dow) => {
+      const dia = diasData[dow] || {};
+      const ativo = !!dia.ativo;
+      const exercicios = Object.entries(dia.exercicios || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+      return `
+      <div class="academia-day-card ${dow === todayDow ? 'today' : ''} ${ativo ? '' : 'inactive'}" data-dow="${dow}">
+        <div class="academia-day-head">
+          <span class="academia-day-name">${nome}${dow === todayDow ? ' <span class="academia-day-today-tag">hoje</span>' : ''}</span>
+          <label class="academia-toggle">
+            <input type="checkbox" data-day-toggle="${dow}" ${ativo ? 'checked' : ''}>
+            <span class="academia-toggle-track"></span>
+          </label>
+        </div>
+        <div class="academia-ex-list" data-ex-list="${dow}">
+          ${exercicios.length ? exercicios.map(([eid,e]) => `
+            <div class="academia-ex-row">
+              <span>${escapeHtml(e.nome)}</span>
+              <button data-del-ex="${dow}|${eid}">✕</button>
+            </div>`).join('') : '<p class="academia-ex-empty">Nenhum exercício ainda.</p>'}
+        </div>
+        <div class="academia-add-row">
+          <input type="text" placeholder="Adicionar exercício..." data-ex-input="${dow}">
+          <button data-add-ex="${dow}">+</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    const habitosList = Object.entries(habitosData).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+    habitsEl.innerHTML = habitosList.length ? habitosList.map(([hid,h]) => `
+      <div class="academia-habit-row">
+        <span>${escapeHtml(h.nome)}</span>
+        <button data-del-habit="${hid}">excluir</button>
+      </div>`).join('') : '<p class="empty-state">Nenhum hábito diário ainda.</p>';
+
+    grid.querySelectorAll('[data-day-toggle]').forEach(input => {
+      input.addEventListener('change', async () => {
+        const dow = input.getAttribute('data-day-toggle');
+        await dbPatch(userPath('/AcademiaDias/' + dow), { ativo: input.checked });
+        await renderAcademia(); await renderHojeQueue();
+      });
+    });
+
+    grid.querySelectorAll('[data-add-ex]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const dow = btn.getAttribute('data-add-ex');
+        const input = grid.querySelector(`[data-ex-input="${dow}"]`);
+        const nome = input.value.trim();
+        if(!nome) return;
+        input.value = '';
+        const existing = (diasData[dow] && diasData[dow].exercicios) || {};
+        const eid = newId();
+        await dbPut(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid), { nome, order: Object.keys(existing).length });
+        await renderAcademia(); await renderHojeQueue();
+      });
+    });
+    grid.querySelectorAll('[data-ex-input]').forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter'){ e.preventDefault(); grid.querySelector(`[data-add-ex="${input.getAttribute('data-ex-input')}"]`).click(); }
+      });
+    });
+    grid.querySelectorAll('[data-del-ex]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const [dow, eid] = btn.getAttribute('data-del-ex').split('|');
+        await dbDelete(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid));
+        await renderAcademia(); await renderHojeQueue();
+      });
+    });
+
+    habitsEl.querySelectorAll('[data-del-habit]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        await dbDelete(userPath('/AcademiaHabitos/' + btn.getAttribute('data-del-habit')));
+        await renderAcademia(); await renderHojeQueue();
+      });
+    });
+  }
+
+  document.getElementById('academiaHabitAddBtn').addEventListener('click', async () => {
+    const input = document.getElementById('academiaHabitInput');
+    const nome = input.value.trim();
+    if(!nome) return;
+    input.value = '';
+    const existing = await dbGet(userPath('/AcademiaHabitos')) || {};
+    const hid = newId();
+    await dbPut(userPath('/AcademiaHabitos/' + hid), { nome, order: Object.keys(existing).length });
+    await renderAcademia(); await renderHojeQueue();
+  });
+  document.getElementById('academiaHabitInput').addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('academiaHabitAddBtn').click(); }
+  });
+
+  document.getElementById('academiaAguaMetaInput').addEventListener('change', async (e) => {
+    const val = Math.max(0, Number(e.target.value) || 0);
+    await dbPatch(userPath('/AcademiaMetas'), { aguaMl: val });
+    await renderHojeHidratacao();
+  });
+  document.getElementById('academiaCreatinaMetaInput').addEventListener('change', async (e) => {
+    const val = Math.max(0, Number(e.target.value) || 0);
+    await dbPatch(userPath('/AcademiaMetas'), { creatinaG: val });
+    await renderHojeHidratacao();
+  });
 
   /* ---------- AGENDA (eventos + importação .ics) ---------- */
   document.getElementById('addEventBtn').addEventListener('click', async () => {
@@ -2910,23 +3330,83 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   });
 
   function parseIcs(text){
+    // Desdobra linhas continuadas (RFC5545): uma linha que começa com espaço/tab
+    // é continuação da linha anterior. Sem isso, DTSTART/RRULE/SUMMARY longos ou
+    // quebrados pelo app de calendário de origem não batem no regex e o evento
+    // simplesmente some da importação.
+    const unfolded = text.replace(/\r\n/g,'\n').replace(/\n[ \t]/g, '');
     const events = [];
-    const blocks = text.split('BEGIN:VEVENT').slice(1);
+    const blocks = unfolded.split('BEGIN:VEVENT').slice(1);
+    const today = new Date(); today.setHours(0,0,0,0);
+
     for(const block of blocks){
       const body = block.split('END:VEVENT')[0];
-      const summaryMatch = body.match(/SUMMARY:(.*)/);
-      const dtstartMatch = body.match(/DTSTART[^:]*:(\d{8})(T(\d{2})(\d{2}))?/);
+      const summaryMatch = body.match(/^SUMMARY.*?:(.*)$/m);
+      const dtstartMatch = body.match(/^DTSTART[^:]*:(\d{8})(T(\d{2})(\d{2}))?/m);
+      const rruleMatch = body.match(/^RRULE:(.*)$/m);
       if(!dtstartMatch) continue;
+
       const y = dtstartMatch[1].slice(0,4), m = dtstartMatch[1].slice(4,6), d = dtstartMatch[1].slice(6,8);
-      const date = y + '-' + m + '-' + d;
       const allDay = !dtstartMatch[2];
       const time = allDay ? '' : (dtstartMatch[3] + ':' + dtstartMatch[4]);
+      const dtstartDate = new Date(Number(y), Number(m)-1, Number(d));
+      const title = (summaryMatch ? summaryMatch[1].trim() : 'Evento importado').replace(/\r/g,'');
+
+      let occDate = dtstartDate;
+      let recurring = false;
+
+      if(rruleMatch){
+        recurring = true;
+        occDate = nextIcsOccurrence(dtstartDate, rruleMatch[1], today);
+        // Evento recorrente que já terminou (UNTIL/COUNT no passado) — não há
+        // próxima ocorrência, então não faz sentido importar.
+        if(!occDate) continue;
+      } else if(dtstartDate < today){
+        // Evento único no passado: não entra na Agenda (que só lista futuros),
+        // mas isso é intencional — não é um bug de importação.
+        continue;
+      }
+
+      const date = occDate.getFullYear() + '-' + String(occDate.getMonth()+1).padStart(2,'0') + '-' + String(occDate.getDate()).padStart(2,'0');
       events.push({
-        title: (summaryMatch ? summaryMatch[1].trim() : 'Evento importado').replace(/\r/g,''),
-        date, time, allDay, createdAt: new Date().toISOString(), source:'ics'
+        title, date, time, allDay, recurring,
+        createdAt: new Date().toISOString(), source:'ics'
       });
     }
     return events;
+  }
+
+  // Calcula a próxima ocorrência (>= fromDate) de um evento recorrente simples.
+  // Suporta FREQ=DAILY|WEEKLY|MONTHLY|YEARLY, INTERVAL, COUNT e UNTIL — cobre a
+  // grande maioria dos eventos exportados por Google/Apple/Outlook Calendar.
+  function nextIcsOccurrence(dtstart, rrule, fromDate){
+    const parts = {};
+    rrule.split(';').forEach(p => { const [k,v] = p.split('='); if(k) parts[k] = v; });
+    const freq = parts.FREQ;
+    const interval = Math.max(1, parseInt(parts.INTERVAL || '1', 10) || 1);
+    const count = parts.COUNT ? parseInt(parts.COUNT, 10) : null;
+    let until = null;
+    if(parts.UNTIL){
+      const um = parts.UNTIL.match(/(\d{4})(\d{2})(\d{2})/);
+      if(um) until = new Date(Number(um[1]), Number(um[2])-1, Number(um[3]));
+    }
+    if(!freq) return dtstart >= fromDate ? dtstart : null;
+
+    let cursor = new Date(dtstart);
+    let n = 0;
+    const MAX_ITER = 2000; // trava de segurança
+    for(let i=0; i<MAX_ITER; i++){
+      if(count !== null && n >= count) return null;
+      if(until && cursor > until) return null;
+      if(cursor >= fromDate) return cursor;
+      n++;
+      if(freq === 'DAILY') cursor.setDate(cursor.getDate() + interval);
+      else if(freq === 'WEEKLY') cursor.setDate(cursor.getDate() + 7*interval);
+      else if(freq === 'MONTHLY') cursor.setMonth(cursor.getMonth() + interval);
+      else if(freq === 'YEARLY') cursor.setFullYear(cursor.getFullYear() + interval);
+      else return dtstart >= fromDate ? dtstart : null; // FREQ não suportado: melhor mostrar do que sumir
+    }
+    return null;
   }
 
   async function renderAgenda(){
@@ -2950,7 +3430,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       const monthLabel = MONTHS_FULL_PT[evDate.getMonth()] + ' de ' + evDate.getFullYear();
       if(inThisWeek && !weekPrinted){ html += '<div class="cal-week-label">Esta semana</div>'; weekPrinted = true; currentMonthLabel = null; }
       else if(!inThisWeek && monthLabel !== currentMonthLabel){ html += '<div class="cal-week-label">' + monthLabel + '</div>'; currentMonthLabel = monthLabel; }
-      html += `<div class="event-row"><div class="event-time">${ev.allDay ? 'dia todo' : (ev.time||'—')}</div><div><div class="event-title">${escapeHtml(ev.title)}</div><div class="item-meta" style="margin-top:2px;">${fmtShortDate(ev.date)}</div></div></div>`;
+      html += `<div class="event-row"><div class="event-time">${ev.allDay ? 'dia todo' : (ev.time||'—')}</div><div><div class="event-title">${escapeHtml(ev.title)}${ev.recurring ? ' <span style="color:var(--text-dim); font-size:11px;">↻ recorrente</span>' : ''}</div><div class="item-meta" style="margin-top:2px;">${fmtShortDate(ev.date)}</div></div></div>`;
     }
     el.innerHTML = '<div class="panel">' + html + '</div>';
   }
@@ -3041,15 +3521,20 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     document.querySelectorAll('[data-del-task]').forEach(btn => btn.addEventListener('click', () => deleteTask(btn.getAttribute('data-del-task'))));
   }
 
-  /* ---------- HOJE (fila combinada: tarefas de hoje + estudos de hoje) ---------- */
+  /* ---------- HOJE (fila combinada: tarefas + estudos + treino/hábitos de hoje) ---------- */
   async function renderHojeQueue(){
     const today = todayStr();
     const dow = new Date().getDay(); // 0=domingo
     const tasksData = await dbGet(userPath('/Tasks')) || {};
     const estudosData = await dbGet(userPath('/Estudos')) || {};
+    const academiaDias = await dbGet(userPath('/AcademiaDias')) || {};
+    const academiaHabitos = await dbGet(userPath('/AcademiaHabitos')) || {};
 
     const todaysTasks = Object.entries(tasksData).filter(([id,t]) => t.date === today);
     const todaysEstudos = Object.entries(estudosData).filter(([id,e]) => !e.days || !e.days.length || e.days.includes(dow));
+    const diaHoje = academiaDias[dow] || {};
+    const exerciciosHoje = diaHoje.ativo ? Object.entries(diaHoje.exercicios || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0)) : [];
+    const habitosHoje = Object.entries(academiaHabitos).sort((a,b) => (a[1].order||0) - (b[1].order||0));
 
     activities = [
       ...todaysTasks.map(([id,t]) => ({
@@ -3059,9 +3544,138 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       ...todaysEstudos.map(([id,e]) => ({
         kind:'estudo', obj: 'Estudo', name: e.name, time: e.days && e.days.length ? 'dia específico' : 'diário', done: e.lastDoneDate === today,
         onComplete: async () => { await dbPatch(userPath('/Estudos/' + id), { lastDoneDate: today }); }
+      })),
+      ...exerciciosHoje.map(([eid,e]) => ({
+        kind:'treino', obj: 'Academia', name: e.nome, time: 'treino', done: !!(e.doneDates && e.doneDates[today]),
+        onComplete: async () => { await dbPatch(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid + '/doneDates'), { [today]: true }); }
+      })),
+      ...habitosHoje.map(([hid,h]) => ({
+        kind:'habito', obj: 'Academia', name: h.nome, time: 'hábito diário', done: !!(h.doneDates && h.doneDates[today]),
+        onComplete: async () => { await dbPatch(userPath('/AcademiaHabitos/' + hid + '/doneDates'), { [today]: true }); }
       }))
     ];
     updateHeroCard(); updateDayProgress(); updateFlowUI();
+  }
+
+  /* ---------- HOJE — painel visual "Academia hoje" ---------- */
+  async function renderHojeAcademia(){
+    const el = document.getElementById('hojeAcademiaList');
+    const today = todayStr();
+    const dow = new Date().getDay();
+    const [academiaDias, academiaHabitos] = await Promise.all([
+      dbGet(userPath('/AcademiaDias')) || {},
+      dbGet(userPath('/AcademiaHabitos')) || {}
+    ]);
+    const diaHoje = (academiaDias || {})[dow] || {};
+    const exercicios = diaHoje.ativo ? Object.entries(diaHoje.exercicios || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0)) : [];
+    const habitos = Object.entries(academiaHabitos || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+
+    let html = '';
+    html += diaHoje.ativo
+      ? (exercicios.length
+          ? exercicios.map(([eid,e]) => {
+              const done = !!(e.doneDates && e.doneDates[today]);
+              return `<div class="queue-item ${done?'done':''}"><div class="queue-check ${done?'done':''}" data-toggle-ex="${eid}"></div><div class="queue-text">${escapeHtml(e.nome)}</div></div>`;
+            }).join('')
+          : '<p class="empty-state" style="margin:2px 0 10px;">Dia de treino, mas nenhum exercício cadastrado ainda.</p>')
+      : '<p class="empty-state" style="margin:2px 0 10px;">Sem treino hoje.</p>';
+
+    if(habitos.length){
+      html += '<div style="height:1px; background:var(--line); margin:10px 0;"></div>';
+      html += habitos.map(([hid,h]) => {
+        const done = !!(h.doneDates && h.doneDates[today]);
+        return `<div class="queue-item ${done?'done':''}"><div class="queue-check ${done?'done':''}" data-toggle-habito="${hid}"></div><div class="queue-text">${escapeHtml(h.nome)}</div></div>`;
+      }).join('');
+    }
+    el.innerHTML = html || '<p class="empty-state">Nada configurado em Academia ainda.</p>';
+
+    el.querySelectorAll('[data-toggle-ex]').forEach(chk => chk.addEventListener('click', async () => {
+      const eid = chk.getAttribute('data-toggle-ex');
+      const nowDone = !chk.classList.contains('done');
+      await dbPatch(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid + '/doneDates'), { [today]: nowDone });
+      await renderHojeAcademia(); await renderHojeQueue();
+    }));
+    el.querySelectorAll('[data-toggle-habito]').forEach(chk => chk.addEventListener('click', async () => {
+      const hid = chk.getAttribute('data-toggle-habito');
+      const nowDone = !chk.classList.contains('done');
+      await dbPatch(userPath('/AcademiaHabitos/' + hid + '/doneDates'), { [today]: nowDone });
+      await renderHojeAcademia(); await renderHojeQueue();
+    }));
+  }
+
+  /* ---------- HOJE — painel "Água & creatina" ---------- */
+  async function renderHojeHidratacao(){
+    const el = document.getElementById('hojeHidratacaoList');
+    const today = todayStr();
+    const [metas, consumo] = await Promise.all([
+      dbGet(userPath('/AcademiaMetas')) || {},
+      dbGet(userPath('/AcademiaConsumo/' + today)) || {}
+    ]);
+    const metasData = metas || {};
+    const consumoData = consumo || {};
+    const aguaMeta = Number(metasData.aguaMl) || 0;
+    const creatinaMeta = Number(metasData.creatinaG) || 0;
+    const aguaAtual = Number(consumoData.aguaMl) || 0;
+    const creatinaAtual = Number(consumoData.creatinaG) || 0;
+
+    if(!aguaMeta && !creatinaMeta){
+      el.innerHTML = '<p class="empty-state">Defina suas metas de água e creatina na Academia.</p>';
+      return;
+    }
+
+    let html = '';
+    if(aguaMeta){
+      const pct = Math.min(100, Math.round((aguaAtual / aguaMeta) * 100));
+      html += `
+        <div class="hidra-row">
+          <div class="hidra-top">
+            <span>💧 Água ${aguaAtual >= aguaMeta ? '<span class="hidra-done-tag">meta batida</span>' : ''}</span>
+            <span>${aguaAtual} / ${aguaMeta} ml</span>
+          </div>
+          <div class="obj-bar-track"><div class="obj-bar-fill" style="width:${pct}%"></div></div>
+          <div class="hidra-actions">
+            <button class="hidra-btn" data-add-agua="200">+200ml</button>
+            <button class="hidra-btn" data-add-agua="300">+300ml</button>
+            <button class="hidra-btn" data-add-agua="500">+500ml</button>
+            <button class="hidra-btn" data-reset-agua="1">zerar</button>
+          </div>
+        </div>`;
+    }
+    if(creatinaMeta){
+      const pct = Math.min(100, Math.round((creatinaAtual / creatinaMeta) * 100));
+      html += `
+        <div class="hidra-row">
+          <div class="hidra-top">
+            <span>💊 Creatina ${creatinaAtual >= creatinaMeta ? '<span class="hidra-done-tag">tomada</span>' : ''}</span>
+            <span>${creatinaAtual} / ${creatinaMeta} g</span>
+          </div>
+          <div class="obj-bar-track"><div class="obj-bar-fill" style="width:${pct}%"></div></div>
+          <div class="hidra-actions">
+            <button class="hidra-btn" data-add-creatina="${creatinaMeta}">tomei a dose</button>
+            <button class="hidra-btn" data-reset-creatina="1">zerar</button>
+          </div>
+        </div>`;
+    }
+    el.innerHTML = html;
+
+    el.querySelectorAll('[data-add-agua]').forEach(btn => btn.addEventListener('click', async () => {
+      const add = Number(btn.getAttribute('data-add-agua'));
+      await dbPatch(userPath('/AcademiaConsumo/' + today), { aguaMl: aguaAtual + add });
+      await renderHojeHidratacao();
+    }));
+    el.querySelectorAll('[data-reset-agua]').forEach(btn => btn.addEventListener('click', async () => {
+      await dbPatch(userPath('/AcademiaConsumo/' + today), { aguaMl: 0 });
+      await renderHojeHidratacao();
+    }));
+    el.querySelectorAll('[data-add-creatina]').forEach(btn => btn.addEventListener('click', async () => {
+      const add = Number(btn.getAttribute('data-add-creatina'));
+      await dbPatch(userPath('/AcademiaConsumo/' + today), { creatinaG: add });
+      await renderHojeHidratacao();
+    }));
+    el.querySelectorAll('[data-reset-creatina]').forEach(btn => btn.addEventListener('click', async () => {
+      await dbPatch(userPath('/AcademiaConsumo/' + today), { creatinaG: 0 });
+      await renderHojeHidratacao();
+    }));
   }
 
   async function renderHojeEvents(){
@@ -3069,7 +3683,9 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     const data = await dbGet(userPath('/Events')) || {};
     const today = todayStr();
     const todays = Object.values(data).filter(ev => ev.date === today).sort((a,b) => (a.time||'').localeCompare(b.time||''));
-    el.innerHTML = todays.length ? todays.map(ev => `<div class="event-row"><div class="event-time">${ev.allDay?'dia todo':(ev.time||'—')}</div><div class="event-title">${escapeHtml(ev.title)}</div></div>`).join('') : '<p class="empty-state">Nenhum evento hoje.</p>';
+    el.innerHTML = todays.length
+      ? todays.map(ev => `<div class="event-row"><div class="event-time">${ev.allDay?'dia todo':(ev.time||'—')}</div><div class="event-title">${escapeHtml(ev.title)}</div></div>`).join('') + '<div style="height:1px; background:var(--line); margin:8px 0;"></div>'
+      : '';
   }
 
   async function renderHojeAvisos(){
@@ -3089,27 +3705,85 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
 
   /* ---------- FLUÊNCIA — cards respondidos hoje (dados reais de /Cards, meta: 30/dia) ---------- */
   const FLUENCIA_DAILY_GOAL = 30;
+  const FLUENCIA_RING_CIRC = 2 * Math.PI * 42; // r=42 no SVG do anel
+  const FLUENCIA_WEEK_LABELS = ['D','S','T','Q','Q','S','S'];
+
+  function dateKey(d){
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
   async function renderFluenciaToday(){
     const tag = document.getElementById('fluenciaTodayTag');
-    const fill = document.getElementById('fluenciaTodayFill');
     const note = document.getElementById('fluenciaTodayNote');
+    const ringFill = document.getElementById('fluenciaRingFill');
+    const ringCount = document.getElementById('fluenciaRingCount');
+    const weekEl = document.getElementById('fluenciaWeek');
+    const streakEl = document.getElementById('fluenciaStreak');
+    const streakText = document.getElementById('fluenciaStreakText');
+
     try{
       const cards = await dbGet(userPath('/Cards')) || {};
-      const today = todayStr(); // 'YYYY-MM-DD'
-      let count = 0;
+
+      // Conta cards respondidos por dia (chave 'YYYY-MM-DD') para os últimos 7 dias + histórico p/ streak
+      const countsByDay = {};
       Object.values(cards).forEach(card => {
         (card.History || []).forEach(h => {
           if(!h || typeof h.Date !== 'string') return;
           const d = new Date(h.Date);
           if(isNaN(d)) return;
-          const localKey = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-          if(localKey === today) count++;
+          const key = dateKey(d);
+          countsByDay[key] = (countsByDay[key] || 0) + 1;
         });
       });
-      const pct = Math.min(100, Math.round((count / FLUENCIA_DAILY_GOAL) * 100));
-      tag.textContent = count + ' / ' + FLUENCIA_DAILY_GOAL;
-      fill.style.width = pct + '%';
-      note.textContent = count >= FLUENCIA_DAILY_GOAL
+
+      const today = new Date();
+      const todayKey = dateKey(today);
+      const count = countsByDay[todayKey] || 0;
+
+      // Anel de progresso
+      const pct = Math.min(1, count / FLUENCIA_DAILY_GOAL);
+      const goalHit = count >= FLUENCIA_DAILY_GOAL;
+      ringFill.style.strokeDashoffset = String(FLUENCIA_RING_CIRC * (1 - pct));
+      ringFill.classList.toggle('goal-hit', goalHit);
+      ringCount.textContent = count;
+      tag.textContent = '/ ' + FLUENCIA_DAILY_GOAL;
+
+      // Últimos 7 dias (mais antigo → hoje)
+      weekEl.innerHTML = '';
+      for(let i = 6; i >= 0; i--){
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const key = dateKey(d);
+        const dayCount = countsByDay[key] || 0;
+        const isToday = key === todayKey;
+        let dotClass = 'fluencia-day-dot';
+        if(dayCount >= FLUENCIA_DAILY_GOAL) dotClass += ' done';
+        else if(dayCount > 0) dotClass += ' partial';
+        if(isToday) dotClass += ' today';
+        const dayEl = document.createElement('div');
+        dayEl.className = 'fluencia-day';
+        dayEl.title = fmtShortDate(key) + ' · ' + dayCount + ' cards';
+        dayEl.innerHTML = `<div class="${dotClass}"></div><span class="fluencia-day-label">${FLUENCIA_WEEK_LABELS[d.getDay()]}</span>`;
+        weekEl.appendChild(dayEl);
+      }
+
+      // Streak de dias seguidos batendo a meta (conta a partir de hoje; se hoje ainda
+      // não bateu a meta, considera a partir de ontem para não zerar cedo demais)
+      let streak = 0;
+      let cursor = new Date(today);
+      if(!goalHit) cursor.setDate(cursor.getDate() - 1);
+      while((countsByDay[dateKey(cursor)] || 0) >= FLUENCIA_DAILY_GOAL){
+        streak++;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+      streakEl.classList.toggle('active', streak > 0);
+      streakText.textContent = streak > 0
+        ? streak + (streak === 1 ? ' dia seguido na meta' : ' dias seguidos na meta')
+        : 'nenhuma sequência ativa';
+
+      // Nota de status
+      note.classList.toggle('hit', goalHit);
+      note.textContent = goalHit
         ? 'Meta batida — ' + count + ' cards respondidos hoje. 🎉'
         : (FLUENCIA_DAILY_GOAL - count) + ' cards restantes para bater a meta de hoje.';
     }catch(err){
@@ -3129,17 +3803,71 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     // nas próximas visitas.
     const email = session && session.email ? session.email : '';
     const src = FLUENCIA_URL + (email ? ('?email=' + encodeURIComponent(email)) : '');
-    wrap.innerHTML = `<iframe src="${escapeHtml(src)}" title="Fluência"></iframe>`;
+    // sandbox sem 'allow-top-navigation': impede que o site embutido tente
+    // navegar a aba principal (isso é o que gerava o aviso "Unsafe attempt to
+    // load URL ... file://" no console — o Fluência tentando redirecionar a
+    // página de cima). Também evita que um erro daquele site derrube o LifeOS.
+    wrap.innerHTML = `<iframe src="${escapeHtml(src)}" title="Fluência"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <p class="empty-state" style="margin-top:8px; font-size:12.5px;">
+        Se a Fluência não carregar aqui, <a href="${escapeHtml(src)}" target="_blank" rel="noopener">abra em uma nova aba</a>.
+      </p>`;
   }
 
   /* ---------- BOOT ---------- */
+  // Antes, se QUALQUER seção falhasse ao buscar dados no Firebase (token expirado,
+  // rede instável, regra de segurança negando, etc.), o Promise.all simplesmente
+  // deixava aquela seção travada no "Carregando..." para sempre — sem nenhum erro
+  // visível, causando a sensação de "loading infinito" após o login. Cada seção
+  // agora é isolada: se uma falhar, só ela mostra um erro com botão de retry, e
+  // o restante do app carrega normalmente.
+  function renderErrorState(containerIds, label, retryFn){
+    const ids = Array.isArray(containerIds) ? containerIds : [containerIds];
+    ids.forEach(id => {
+      if(!id) return;
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.innerHTML = `<p class="empty-state" style="color:#c0392b;">
+        Não foi possível carregar ${escapeHtml(label)}.
+        <a href="#" data-retry-section style="text-decoration:underline; cursor:pointer;">Tentar novamente</a>
+      </p>`;
+      const link = el.querySelector('[data-retry-section]');
+      if(link){
+        link.addEventListener('click', (e) => { e.preventDefault(); guardRender(retryFn, label, containerIds); });
+      }
+    });
+  }
+  async function guardRender(fn, label, containerIds){
+    try{
+      await fn();
+    }catch(err){
+      console.error('Falha ao carregar "' + label + '":', err);
+      renderErrorState(containerIds, label, fn);
+    }
+  }
   async function bootApp(){
     renderHojeHeader();
-    await Promise.all([
-      renderHojeQueue(), renderHojeEvents(), renderHojeAvisos(), renderFluenciaToday(),
-      renderInbox(), renderRevisao(), renderStorage(), renderStorageRevisao(),
-      renderAgenda(), renderTasks(), renderFluencia()
+    await Promise.allSettled([
+      guardRender(renderHojeQueue, 'a fila de hoje', []),
+      guardRender(renderHojeEvents, 'os eventos de hoje', 'hojeEventsList'),
+      guardRender(renderHojeAvisos, 'os avisos', 'hojeAvisosList'),
+      guardRender(renderHojeAcademia, 'a academia de hoje', 'hojeAcademiaList'),
+      guardRender(renderHojeHidratacao, 'água & creatina', 'hojeHidratacaoList'),
+      guardRender(renderFluenciaToday, 'o Fluência de hoje', []),
+      guardRender(renderInbox, 'a Inbox', 'inboxList'),
+      guardRender(renderRevisao, 'a Revisão', 'revisaoList'),
+      guardRender(renderStorage, 'as Gavetas', 'gavetaList'),
+      guardRender(renderStorageRevisao, 'a Revisão de Gavetas', 'storageRevisaoList'),
+      guardRender(renderAgenda, 'a Agenda', 'agendaList'),
+      guardRender(renderTasks, 'as Tarefas', 'tarefasHojeList'),
+      guardRender(renderAcademia, 'a Academia', 'academiaDaysGrid'),
+      guardRender(renderFluencia, 'o Fluência', [])
     ]);
+    // Trava de segurança: garante que o overlay global de loading nunca fique
+    // travado após o boot, independentemente de qualquer erro acima.
+    loadingDepth = 0;
+    globalLoadingEl.classList.remove('active');
   }
 
   (async function init(){
