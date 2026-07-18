@@ -123,26 +123,7 @@
   .main{ flex:1; min-width:0; padding: 34px 44px 60px; margin-left:250px; }
   .view{ display:none; animation: fadein 0.32s ease; }
   .view.active{ display:block; }
-  #view-hoje.view.active{
-    display:flex; flex-direction:column; height:calc(100vh - 94px); min-height:0; overflow:hidden;
-  }
-  #view-hoje .view-head, #view-hoje .hero-card{ flex:0 0 auto; }
-  #view-hoje .grid-2{ flex:1 1 auto; min-height:0; overflow:hidden; margin-top:18px; }
-  #view-hoje .grid-2 > .panel{ height:100%; min-height:0; display:flex; flex-direction:column; }
-  #view-hoje .grid-2 > .panel #flowList{ flex:1 1 auto; min-height:0; overflow-y:auto; }
-  #view-hoje .grid-2 > div[style*="flex-direction:column"]{ height:100%; min-height:0; overflow:hidden; display:flex; }
-  #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:first-child{ flex:0 0 auto; }
-  #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child){ flex:1 1 0; min-height:0; display:flex; flex-direction:column; }
-  #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child) > div:last-child{ flex:1 1 auto; min-height:0; overflow-y:auto; }
-  @media (max-width:880px){
-    #view-hoje.view.active{ height:auto; overflow:visible; }
-    #view-hoje .grid-2{ overflow:visible; }
-    #view-hoje .grid-2 > .panel{ height:auto; }
-    #view-hoje .grid-2 > .panel #flowList{ overflow-y:visible; }
-    #view-hoje .grid-2 > div[style*="flex-direction:column"]{ height:auto; overflow:visible; display:block; }
-    #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child){ flex:none; }
-    #view-hoje .grid-2 > div[style*="flex-direction:column"] > .panel:not(:first-child) > div:last-child{ overflow-y:visible; }
-  }
+  #view-hoje .grid-2{ margin-top:18px; align-items:start; }
   @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
 
   .view-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: 30px; gap:20px; flex-wrap:wrap;}
@@ -289,31 +270,6 @@
     margin-top:10px; line-height:1.4;
   }
   .insight-note:first-child{ margin-top:0; }
-
-  .quick-capture-fab{
-    position:fixed; right:92px; bottom:28px; width:52px; height:52px; border-radius:50%;
-    background: var(--surface-hi); color:var(--text); border:1px solid var(--line-strong);
-    font-size:22px; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,0.4); z-index:60;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .quick-capture-fab:hover{ border-color:var(--sage-line); color:var(--sage); }
-  .quick-capture-modal{
-    display:none; position:fixed; inset:0; background:rgba(10,12,15,0.6); z-index:70;
-    align-items:flex-end; justify-content:center; padding-bottom:110px;
-  }
-  .quick-capture-modal.active{ display:flex; }
-  .quick-capture-panel{
-    width:100%; max-width:480px; background:var(--surface-hi); border:1px solid var(--line-strong);
-    border-radius:16px; padding:16px; box-shadow:0 20px 60px rgba(0,0,0,0.45);
-  }
-  .quick-capture-title{ font-family:var(--mono); font-size:11px; letter-spacing:1.1px; text-transform:uppercase; color:var(--sage); margin:0 0 10px; }
-  .quick-capture-panel textarea{
-    width:100%; min-height:64px; background:transparent; border:1px solid var(--line); border-radius:10px;
-    padding:10px 12px; color:var(--text); font-family:var(--sans); font-size:13.5px; resize:none; outline:none;
-    box-sizing:border-box;
-  }
-  .quick-capture-panel textarea:focus{ border-color:var(--sage-line); }
-  .quick-capture-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
 
   /* ---------- Organizar / Inbox ---------- */
   .capture-bar{
@@ -600,41 +556,6 @@
   }
   .search-modal-empty{ padding:22px 14px; color:var(--text-dim); font-size:12.5px; text-align:center; }
 
-  /* ---------- Assistente IA ---------- */
-  .ai-fab{
-    position:fixed; right:28px; bottom:28px; width:52px; height:52px; border-radius:50%;
-    background: linear-gradient(135deg, var(--sage) 0%, #4f6d4c 100%); color:#0f1410; border:none;
-    font-size:19px; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,0.4); z-index:60;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .ai-fab:hover{ background:#8fb389; }
-  .ai-drawer{
-    position:fixed; right:24px; bottom:92px; width:340px; max-width:calc(100vw - 48px);
-    background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:16px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.45); z-index:61; display:none; flex-direction:column;
-    max-height:min(520px, 70vh); overflow:hidden;
-  }
-  .ai-drawer.active{ display:flex; }
-  .ai-drawer-head{ display:flex; justify-content:space-between; align-items:flex-start; padding:16px 16px 12px; border-bottom:1px solid var(--line); }
-  .ai-drawer-eyebrow{ font-family:var(--mono); font-size:10.5px; letter-spacing:1.2px; text-transform:uppercase; color:var(--sage); margin:0 0 4px; }
-  .ai-drawer-title{ font-family:var(--serif); font-size:16px; margin:0; }
-  .ai-drawer-close{ background:transparent; border:none; color:var(--text-dim); font-size:13px; cursor:pointer; padding:2px; }
-  .ai-drawer-close:hover{ color:var(--text); }
-  .ai-drawer-body{ padding:14px 16px; overflow-y:auto; }
-  .ai-drawer-hint{ font-size:12px; color:var(--text-mut); line-height:1.5; margin:0 0 12px; }
-  .ai-suggest-list{ display:flex; flex-direction:column; gap:7px; }
-  .ai-suggest-chip{
-    text-align:left; background:var(--surface); border:1px solid var(--line); color:var(--text-mut);
-    font-family:var(--sans); font-size:12.5px; padding:9px 12px; border-radius:9px; cursor:pointer;
-  }
-  .ai-suggest-chip:hover{ border-color:var(--sage-line); color:var(--sage); }
-  .ai-drawer-foot{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--line); }
-  .ai-drawer-input{
-    flex:1; background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:8px 11px;
-    color:var(--text); font-size:12.5px; font-family:var(--sans); outline:none;
-  }
-  .ai-drawer-input:focus{ border-color:var(--sage-line); }
-
   /* ---------- Loading global (IA / operações assíncronas) ---------- */
   .global-loading-overlay{
     position:fixed; inset:0; z-index:200;
@@ -662,6 +583,23 @@
     border:2px solid rgba(255,255,255,0.35); border-top-color:currentColor;
     animation: gl-spin .7s linear infinite; margin-right:2px;
   }
+
+  /* ---------- Notificações da aplicação (substituem alert()/confirm() do navegador) ---------- */
+  .app-toast-wrap{
+    position:fixed; top:22px; left:50%; transform:translateX(-50%); z-index:300;
+    display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none;
+  }
+  .app-toast{
+    background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:12px;
+    padding:11px 18px; font-size:12.5px; color:var(--text); box-shadow:0 14px 34px rgba(0,0,0,0.4);
+    max-width:440px; text-align:center; line-height:1.4;
+    opacity:0; transform:translateY(-10px); transition:opacity .22s ease, transform .22s ease;
+    pointer-events:auto;
+  }
+  .app-toast.show{ opacity:1; transform:translateY(0); }
+  .app-toast.info{ border-color:var(--sage-line); }
+  .app-toast.success{ border-color:var(--sage-line); color:var(--sage); }
+  .app-toast.error{ border-color:rgba(180,106,92,0.55); color:var(--coral); }
 
   /* ---------- Login ---------- */
   .login-screen{
@@ -740,6 +678,74 @@
   .academia-meta-input-row input{ flex:1; min-width:0; width:100%; background:var(--surface); border:1px solid var(--line-strong); border-radius:7px; padding:8px 10px; color:var(--text); font-size:14px; font-family:var(--sans); outline:none; }
   .academia-meta-input-row span{ font-family:var(--mono); font-size:12px; color:var(--text-dim); flex-shrink:0; }
 
+  /* ---------- Plano Alimentar ---------- */
+  .pa-days-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(270px, 1fr)); gap:14px; }
+  .pa-day-card{ background:var(--surface-hi); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; display:flex; flex-direction:column; gap:12px; min-width:0; }
+  .pa-day-card.today{ border-color:var(--sage-line); }
+  .pa-day-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .pa-day-name{ font-family:var(--serif); font-size:15px; font-weight:600; }
+  .pa-meal-list{ display:flex; flex-direction:column; gap:10px; }
+  .pa-meal-card{ background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:10px 11px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+  .pa-meal-head{ display:flex; align-items:center; gap:6px; min-width:0; }
+  .pa-meal-name-input{ flex:1; min-width:0; background:transparent; border:none; border-bottom:1px dashed var(--line-strong); color:var(--text); font-family:var(--serif); font-size:13.5px; padding:2px 2px; outline:none; }
+  .pa-meal-name-input:focus{ border-bottom-color:var(--sage); }
+  .pa-meal-time-input{ width:74px; flex-shrink:0; background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:6px; color:var(--text-mut); font-family:var(--mono); font-size:11px; padding:4px 5px; outline:none; }
+  .pa-meal-del-btn{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:12px; flex-shrink:0; }
+  .pa-meal-del-btn:hover{ color:var(--coral); }
+  .pa-food-list{ display:flex; flex-direction:column; gap:5px; min-height:6px; }
+  .pa-food-row{ display:flex; align-items:center; gap:6px; font-size:12px; padding:5px 7px; background:var(--surface-hi); border-radius:7px; border:1px solid var(--line); }
+  .pa-food-row .pa-food-name{ flex:1; min-width:0; word-break:break-word; }
+  .pa-food-row .pa-food-qty{ color:var(--text-mut); font-family:var(--mono); font-size:10.5px; flex-shrink:0; }
+  .pa-food-row button{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:11px; flex-shrink:0; }
+  .pa-food-row button:hover{ color:var(--coral); }
+  .pa-food-add-row{ display:flex; gap:5px; min-width:0; }
+  .pa-food-add-row input{ min-width:0; background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:7px; padding:6px 7px; color:var(--text); font-size:11.5px; font-family:var(--sans); outline:none; }
+  .pa-food-add-row input[data-food-name-input]{ flex:1.6; }
+  .pa-food-add-row input[data-food-qty-input]{ flex:1; }
+  .pa-food-add-row button{ background:transparent; border:1px solid var(--line-strong); color:var(--text-mut); border-radius:7px; padding:0 10px; cursor:pointer; font-size:13px; flex-shrink:0; }
+  .pa-food-add-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
+  .pa-add-meal-row button{ width:100%; background:transparent; border:1px dashed var(--line-strong); color:var(--text-mut); border-radius:7px; padding:7px 10px; cursor:pointer; font-size:12px; }
+  .pa-add-meal-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
+  @media (max-width:640px){
+    .pa-days-grid{ grid-template-columns:1fr; }
+    .pa-food-add-row{ flex-wrap:wrap; }
+    .pa-food-add-row input{ flex-basis:100%; }
+    .pa-food-add-row button{ flex:1; padding:6px 10px; }
+  }
+
+  /* ---------- Rotina ---------- */
+  .rot-days-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+  .rot-day-card{ background:var(--surface-hi); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+  .rot-day-card.today{ border-color:var(--sage-line); }
+  .rot-day-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .rot-day-name{ font-family:var(--serif); font-size:15px; font-weight:600; }
+  .rot-block-list{ display:flex; flex-direction:column; gap:7px; }
+  .rot-block-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:8px 9px; min-width:0; }
+  .rot-block-times{ display:flex; align-items:center; gap:5px; flex:0 0 auto; }
+  .rot-block-time-input{ width:88px; min-width:88px; flex-shrink:0; background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:6px; color:var(--text-mut); font-family:var(--mono); font-size:11.5px; padding:5px 6px; outline:none; box-sizing:border-box; }
+  .rot-block-sep{ color:var(--text-dim); font-size:11px; flex-shrink:0; }
+  .rot-block-name-input{ flex:1 1 140px; min-width:120px; background:transparent; border:none; border-bottom:1px dashed var(--line-strong); color:var(--text); font-family:var(--sans); font-size:12.5px; padding:4px 2px; outline:none; }
+  .rot-block-name-input:focus{ border-bottom-color:var(--sage); }
+  .rot-block-del-btn{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:12px; flex-shrink:0; margin-left:auto; }
+  .rot-block-del-btn:hover{ color:var(--coral); }
+  .rot-add-block-row button{ width:100%; background:transparent; border:1px dashed var(--line-strong); color:var(--text-mut); border-radius:7px; padding:7px 10px; cursor:pointer; font-size:12px; }
+  .rot-add-block-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
+
+  /* ---------- Rotina de hoje (painel na Hoje) ---------- */
+  .rot-hoje-stats{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:14px; }
+  .rot-hoje-stat{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:11px 12px; }
+  .rot-hoje-stat-label{ font-family:var(--mono); font-size:10px; letter-spacing:0.6px; text-transform:uppercase; color:var(--text-dim); margin-bottom:5px; }
+  .rot-hoje-stat-value{ font-family:var(--serif); font-size:18px; font-weight:600; color:var(--text); }
+  .rot-hoje-now-row{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-mut); margin-bottom:10px; }
+  .rot-hoje-upcoming{ display:flex; flex-direction:column; gap:6px; }
+  .rot-hoje-upcoming-row{ display:flex; align-items:center; gap:9px; font-size:12.5px; padding:6px 0; border-bottom:1px solid var(--line); }
+  .rot-hoje-upcoming-row:last-child{ border-bottom:none; }
+  .rot-hoje-upcoming-time{ font-family:var(--mono); font-size:11px; color:var(--sage); flex-shrink:0; width:44px; }
+  @media (max-width:640px){
+    .rot-days-grid{ grid-template-columns:1fr; }
+    .rot-hoje-stats{ grid-template-columns:1fr; }
+  }
+
   /* ---------- Hoje: água & creatina ---------- */
   .hidra-row{ padding:10px 0; border-bottom:1px solid var(--line); }
   .hidra-row:last-child{ border-bottom:none; padding-bottom:0; }
@@ -755,6 +761,10 @@
   .gaveta-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:12px; overflow:hidden; }
   .gaveta-head{ display:flex; align-items:center; gap:10px; padding:13px 16px; cursor:pointer; }
   .gaveta-head:hover{ background:rgba(255,255,255,0.02); }
+  .gaveta-chevron{ display:inline-block; font-size:10px; color:var(--text-dim); transition:transform .18s ease; transform:rotate(0deg); flex-shrink:0; }
+  .gaveta-card.collapsed .gaveta-chevron{ transform:rotate(-90deg); }
+  .gaveta-state-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-dim); border:1px solid var(--line); border-radius:20px; padding:2px 7px; flex-shrink:0; }
+  .gaveta-card.collapsed .gaveta-state-tag{ color:var(--gold); border-color:var(--gold); }
   .gaveta-name{ font-family:var(--serif); font-size:15px; font-weight:600; flex:1; }
   .gaveta-count{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
   .gaveta-actions{ display:flex; gap:4px; align-items:center; }
@@ -894,6 +904,7 @@
     <div class="nav-item" data-view="storage"><span class="dot"></span> Storage</div>
     <div class="nav-item" data-view="tarefas"><span class="dot"></span> Tarefas</div>
     <div class="nav-item" data-view="agenda"><span class="dot"></span> Agenda</div>
+    <div class="nav-item" data-view="rotina"><span class="dot"></span> Rotina</div>
   </nav>
 
   <nav class="nav-level">
@@ -916,49 +927,6 @@
     <div class="nav-item" id="logoutBtn"><span class="dot"></span> Sair</div>
   </div>
 </aside>
-
-<!-- BOTÃO FLUTUANTE — ASSISTENTE IA -->
-<button class="ai-fab" id="aiFabBtn" aria-label="Abrir assistente IA" title="Assistente IA">✦</button>
-
-<!-- PAINEL — ASSISTENTE IA -->
-<div class="ai-drawer" id="aiDrawer">
-  <div class="ai-drawer-head">
-    <div>
-      <p class="ai-drawer-eyebrow">Assistente</p>
-      <p class="ai-drawer-title">Pergunte ao seu Life OS</p>
-    </div>
-    <button class="ai-drawer-close" id="aiDrawerClose" aria-label="Fechar">✕</button>
-  </div>
-  <div class="ai-drawer-body">
-    <p class="ai-drawer-hint">Em breve a IA responde diretamente aqui. Por enquanto, veja o que ela vai saber fazer:</p>
-    <div class="ai-suggest-list">
-      <button class="ai-suggest-chip">O que devo fazer hoje?</button>
-      <button class="ai-suggest-chip">Como está meu inglês?</button>
-      <button class="ai-suggest-chip">Quais projetos estão parados?</button>
-      <button class="ai-suggest-chip">O que ficou pendente?</button>
-      <button class="ai-suggest-chip">O que devo estudar agora?</button>
-    </div>
-  </div>
-  <div class="ai-drawer-foot">
-    <input type="text" class="ai-drawer-input" placeholder="Escreva uma pergunta...">
-    <button class="btn btn-primary btn-sm">Enviar</button>
-  </div>
-</div>
-
-<!-- BOTÃO FLUTUANTE — CAPTURA RÁPIDA -->
-<button class="quick-capture-fab" id="quickCaptureFab" aria-label="Nova captura" title="Nova captura">+</button>
-
-<!-- MODAL — CAPTURA RÁPIDA -->
-<div class="quick-capture-modal" id="quickCaptureModal">
-  <div class="quick-capture-panel">
-    <p class="quick-capture-title">Nova captura</p>
-    <textarea id="quickCaptureInput" placeholder="Digite qualquer ideia, tarefa ou lembrete..." autofocus></textarea>
-    <div class="quick-capture-actions">
-      <button class="btn btn-ghost btn-sm" id="quickCaptureCancel">Cancelar</button>
-      <button class="btn btn-primary btn-sm" id="quickCaptureSave">Capturar</button>
-    </div>
-  </div>
-</div>
 
 <!-- MODAL — PESQUISA GLOBAL -->
 <div class="search-modal" id="searchModal">
@@ -987,6 +955,9 @@
     <span class="global-loading-text" id="globalLoadingText">Carregando...</span>
   </div>
 </div>
+
+<!-- NOTIFICAÇÕES DA APLICAÇÃO (substituem alert()/confirm() do navegador) -->
+<div class="app-toast-wrap" id="appToastWrap" aria-live="polite"></div>
 
 <main class="main">
 
@@ -1021,11 +992,45 @@
       </div>
     </div>
 
+    <div class="panel" style="margin-bottom:18px;">
+      <p class="panel-title">Minha rotina hoje <span class="tag tag-sage" data-view-link="rotina">configurar →</span></p>
+      <div class="rot-hoje-now-row" id="rotinaHojeNowRow">Carregando...</div>
+      <div class="rot-hoje-stats">
+        <div class="rot-hoje-stat">
+          <div class="rot-hoje-stat-label">Agora</div>
+          <div class="rot-hoje-stat-value" id="rotinaHojeAgora">—</div>
+        </div>
+        <div class="rot-hoje-stat">
+          <div class="rot-hoje-stat-label">Livres hoje (total)</div>
+          <div class="rot-hoje-stat-value" id="rotinaHojeLivresTotal">—</div>
+        </div>
+        <div class="rot-hoje-stat">
+          <div class="rot-hoje-stat-label">Livres a partir de agora</div>
+          <div class="rot-hoje-stat-value" id="rotinaHojeLivresRestante">—</div>
+        </div>
+      </div>
+      <p class="panel-title" style="font-size:11.5px; margin-bottom:8px;">O que falta hoje</p>
+      <div class="rot-hoje-upcoming" id="rotinaHojeUpcoming"><p class="empty-state">Carregando...</p></div>
+    </div>
+
     <div class="grid-2">
-      <div class="panel">
-        <p class="panel-title">Sequência de execução (tarefas, estudos e treino) <span class="tag tag-sage" id="seqCountTag">0 hoje</span></p>
-        <div class="flow-list" id="flowList">
-          <p class="empty-state">Carregando...</p>
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div class="panel">
+          <p class="panel-title">Sequência de execução (tarefas, estudos e treino) <span class="tag tag-sage" id="seqCountTag">0 hoje</span></p>
+          <div class="flow-list" id="flowList">
+            <p class="empty-state">Carregando...</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p class="panel-title">Diário hoje <span class="tag tag-sage" data-view-link="diario">escrever →</span></p>
+          <div id="hojeDiarioStatus"><p class="empty-state">Carregando...</p></div>
+        </div>
+
+        <div class="panel">
+          <p class="panel-title">Avisos &amp; eventos</p>
+          <div id="hojeEventsList"></div>
+          <div id="hojeAvisosList"><p class="empty-state">Carregando...</p></div>
         </div>
       </div>
 
@@ -1067,9 +1072,8 @@
         </div>
 
         <div class="panel">
-          <p class="panel-title">Avisos &amp; eventos</p>
-          <div id="hojeEventsList"></div>
-          <div id="hojeAvisosList"><p class="empty-state">Carregando...</p></div>
+          <p class="panel-title">Plano alimentar hoje <span class="tag tag-sage" data-view-link="planoalimentar">ver plano →</span></p>
+          <div id="hojePlanoAlimentarList"><p class="empty-state">Carregando...</p></div>
         </div>
       </div>
     </div>
@@ -1228,6 +1232,25 @@
       <button class="btn btn-primary btn-sm" id="addEventBtn">Adicionar</button>
     </div>
     <div id="agendaList">
+      <p class="empty-state">Carregando...</p>
+    </div>
+  </section>
+
+  <!-- ROTINA -->
+  <section class="view" id="view-rotina">
+    <div class="view-head">
+      <div>
+        <p class="eyebrow">Organizar</p>
+        <h1 class="view-title">Rotina</h1>
+        <p class="view-desc">Configure o que você faz em cada horário do seu dia. O TODAY usa essa rotina para saber em que momento do dia você está e quantas horas livres restam.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span id="rotinaSaveStatus" style="font-family:var(--mono); font-size:11px; color:var(--text-dim);">Tudo salvo</span>
+        <button class="btn btn-ghost btn-sm" id="rotinaCancelBtn">Cancelar</button>
+        <button class="btn btn-primary btn-sm" id="rotinaSaveBtn" disabled>Salvar alterações</button>
+      </div>
+    </div>
+    <div class="rot-days-grid" id="rotinaDaysGrid">
       <p class="empty-state">Carregando...</p>
     </div>
   </section>
@@ -1558,6 +1581,14 @@
 
   <!-- FLUÊNCIA -->
   <section class="view" id="view-fluencia">
+    <div class="view-head" style="margin-bottom:12px;">
+      <div>
+        <p class="eyebrow">Evoluir</p>
+        <h1 class="view-title">Fluência</h1>
+        <p class="view-desc" id="fluenciaEmbedNote">Carregando...</p>
+      </div>
+      <a class="btn btn-primary btn-sm" id="fluenciaOpenTabBtn" href="#" target="_blank" rel="noopener">Abrir em nova aba ↗</a>
+    </div>
     <div class="fluencia-frame-wrap" id="fluenciaFrameWrap">
       <p class="empty-state">Carregando...</p>
     </div>
@@ -1647,6 +1678,24 @@
       </div>
     </div>
   </section>
+
+  <section class="view" id="view-planoalimentar">
+    <div class="view-head">
+      <div>
+        <p class="eyebrow">Evoluir</p>
+        <h1 class="view-title">Plano Alimentar</h1>
+        <p class="view-desc">Monte suas refeições de cada dia da semana — nome, horário e os alimentos com as quantidades.</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:18px;">
+      <p class="panel-title">Semana</p>
+      <div class="pa-days-grid" id="paDaysGrid">
+        <p class="empty-state">Carregando...</p>
+      </div>
+    </div>
+  </section>
+
   <section class="view" id="view-estatisticas">
     <div class="view-head">
       <div>
@@ -1970,20 +2019,6 @@
     }
   });
 
-  /* ---------- Assistente IA ---------- */
-  const aiDrawer = document.getElementById('aiDrawer');
-  const aiFabBtn = document.getElementById('aiFabBtn');
-  const aiDrawerCloseBtn = document.getElementById('aiDrawerClose');
-  if(aiFabBtn && aiDrawer){ aiFabBtn.addEventListener('click', () => aiDrawer.classList.toggle('active')); }
-  if(aiDrawerCloseBtn && aiDrawer){ aiDrawerCloseBtn.addEventListener('click', () => aiDrawer.classList.remove('active')); }
-  document.querySelectorAll('.ai-suggest-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const input = document.querySelector('.ai-drawer-input');
-      input.value = chip.textContent;
-      input.focus();
-    });
-  });
-
   /* ---------- Fila de hoje (sem modo foco: só concluir, nunca "iniciar") ---------- */
   // `activities` é preenchido dinamicamente por renderHojeQueue() com objetos:
   // { obj, name, time, done, onComplete: async ()=>{} }
@@ -2099,33 +2134,6 @@
   updateDayProgress();
   updateFlowUI();
 
-  /* ---------- Captura rápida (botão flutuante) ---------- */
-  const quickCaptureFab = document.getElementById('quickCaptureFab');
-  const quickCaptureModal = document.getElementById('quickCaptureModal');
-  const quickCaptureInput = document.getElementById('quickCaptureInput');
-  const quickCaptureCancel = document.getElementById('quickCaptureCancel');
-  const quickCaptureSave = document.getElementById('quickCaptureSave');
-
-  function openQuickCapture(){
-    quickCaptureModal.classList.add('active');
-    setTimeout(() => quickCaptureInput.focus(), 30);
-  }
-  function closeQuickCapture(){
-    quickCaptureModal.classList.remove('active');
-    quickCaptureInput.value = '';
-  }
-  quickCaptureFab.addEventListener('click', openQuickCapture);
-  quickCaptureCancel.addEventListener('click', closeQuickCapture);
-  quickCaptureModal.addEventListener('click', (e) => { if(e.target === quickCaptureModal){ closeQuickCapture(); } });
-  quickCaptureSave.addEventListener('click', async () => {
-    const text = quickCaptureInput.value.trim();
-    closeQuickCapture();
-    if(text){ await addInboxItem(text, 'captura rápida'); }
-  });
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && quickCaptureModal.classList.contains('active')){ closeQuickCapture(); }
-  });
-
   /* ---------- Diário: seletor de humor + captura ---------- */
   document.querySelectorAll('.mood-row').forEach(row => {
     row.querySelectorAll('.mood-chip').forEach(chip => {
@@ -2208,6 +2216,21 @@
     if(loadingDepth === 0) globalLoadingEl.classList.remove('active');
   }
 
+  /* Notificação estilizada da própria aplicação — substitui alert() do navegador. */
+  function showAppMessage(text, type){
+    const wrap = document.getElementById('appToastWrap');
+    if(!wrap){ return; }
+    const el = document.createElement('div');
+    el.className = 'app-toast' + (type ? ' ' + type : ' info');
+    el.textContent = text;
+    wrap.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 260);
+    }, 4400);
+  }
+
   /* ---------- Firebase Realtime Database (REST) ---------- */
   // fetch() pode ficar pendurado para sempre (nunca resolve, nunca rejeita) em
   // certas condições de rede/navegador — por exemplo, ao abrir este arquivo
@@ -2257,6 +2280,14 @@
       if(!res.ok) throw new Error('Erro ao atualizar ' + path);
       return await res.json();
     } finally { hideLoading(); }
+  }
+  // Mesma coisa que dbPatch, mas sem acionar o overlay de loading global — para
+  // ajustes instantâneos de UI (ex: minimizar/maximizar um card) que não devem
+  // travar a tela esperando a rede.
+  async function dbPatchSilent(path, data){
+    const res = await fetchWithTimeout(buildUrl(path), { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    if(!res.ok) throw new Error('Erro ao atualizar ' + path);
+    return await res.json();
   }
   async function dbDelete(path){
     showLoading('Removendo...');
@@ -2587,9 +2618,21 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
     el.querySelectorAll('[data-reanalyze-pr]').forEach(btn => btn.addEventListener('click', () => reanalyzeRevisao(btn.getAttribute('data-reanalyze-pr'))));
   }
 
+  function ensureBulletLine(line){
+    if(line == null) return line;
+    const trimmed = line.trim();
+    if(!trimmed) return line;
+    // já tem marcador de lista (•, -, *, ou numerado "1." / "1)") — não duplica
+    if(/^(•|-|\*|\d+[.)])\s+/.test(trimmed)) return trimmed.replace(/^[\*\-]\s+/, '• ');
+    return '• ' + trimmed;
+  }
   function normalizeBullets(text){
     if(!text) return text;
-    return text.split('\n').map(l => l.replace(/^\s*[\*\-]\s+/, '• ')).join('\n');
+    const lines = text.split('\n');
+    // Só força bullet quando o texto tem mais de uma linha (é de fato uma lista).
+    // Um texto de uma linha só (frase/parágrafo) fica como está.
+    if(lines.length <= 1) return text.replace(/^\s*[\*\-]\s+/, '• ');
+    return lines.map(l => (l.trim() ? ensureBulletLine(l) : l)).join('\n');
   }
   async function approveRevisao(id){
     const r = await dbGet(userPath('/Revisao/' + id));
@@ -2680,12 +2723,12 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
   document.getElementById('runStorageAiOrganizeBtn').addEventListener('click', async () => {
     const btn = document.getElementById('runStorageAiOrganizeBtn');
     if(!openaiApiKey){ await loadOpenAiKey(); }
-    if(!openaiApiKey){ alert('Não foi possível carregar a chave da OpenAI do Firebase.'); return; }
+    if(!openaiApiKey){ showAppMessage('Não foi possível carregar a chave da OpenAI do Firebase.', 'error'); return; }
     btn.disabled = true; btn.textContent = '✦ Analisando...';
     showLoading('Analisando suas Gavetas com IA...');
     try{
       const gavetas = await dbGet(userPath('/Gavetas')) || {};
-      if(!Object.keys(gavetas).length){ alert('Você ainda não tem gavetas para analisar.'); return; }
+      if(!Object.keys(gavetas).length){ showAppMessage('Você ainda não tem gavetas para analisar.', 'info'); return; }
       const dump = Object.entries(gavetas).map(([gid,g]) => ({
         gavetaId: gid, nome: g.name,
         itens: Object.entries(g.items||{}).map(([iid,it]) => ({ itemId: iid, texto: it.text }))
@@ -2719,7 +2762,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       if(!res.ok) throw new Error((data.error && data.error.message) || 'Erro na chamada à OpenAI');
       const proposal = extractJson(data.choices[0].message.content);
       const acoes = Array.isArray(proposal.acoes) ? proposal.acoes : [];
-      if(!acoes.length){ alert('A IA não encontrou mudanças relevantes a propor — sua organização já está boa.'); return; }
+      if(!acoes.length){ showAppMessage('A IA não encontrou mudanças relevantes a propor — sua organização já está boa.', 'success'); return; }
 
       const revId = newId();
       await dbPut(userPath('/StorageRevisao/' + revId), {
@@ -2728,7 +2771,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       });
       await renderStorageRevisao();
     }catch(err){
-      alert('Erro ao analisar organização com IA: ' + err.message);
+      showAppMessage('Erro ao analisar organização com IA: ' + err.message, 'error');
     }finally{
       hideLoading();
       btn.disabled = false; btn.textContent = '✦ Analisar organização com IA';
@@ -2850,7 +2893,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       await renderStorage();
       await renderStorageRevisao();
     }catch(err){
-      alert('Erro ao aplicar a reorganização: ' + err.message);
+      showAppMessage('Erro ao aplicar a reorganização: ' + err.message, 'error');
       if(btn){ btn.disabled = false; btn.textContent = '✓ Aprovar'; }
     }
   }
@@ -2864,12 +2907,15 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     el.innerHTML = gavetas.map(([id, g], idx) => {
       const items = Object.entries(g.items || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
       const isEditing = editingGavetas.has(id);
-      const joinedText = items.map(([,it]) => it.text).join('\n');
+      const isMulti = items.length > 1;
+      const joinedText = items.map(([,it]) => (isMulti ? ensureBulletLine(it.text) : it.text)).join('\n');
       return `
       <div class="gaveta-card ${g.collapsed && !isEditing ? 'collapsed' : ''}" data-gid="${id}">
         <div class="gaveta-head" data-toggle-collapse="${id}">
+          <span class="gaveta-chevron">▾</span>
           <span class="gaveta-name">${escapeHtml(g.name)}</span>
           <span class="gaveta-count">${items.length} ${items.length===1 ? 'item' : 'itens'}</span>
+          <span class="gaveta-state-tag">${g.collapsed && !isEditing ? 'minimizada' : 'maximizada'}</span>
           <div class="gaveta-actions">
             ${isEditing ? '' : `<button data-move-up="${id}" ${idx===0?'disabled':''}>↑</button>
             <button data-move-down="${id}" ${idx===gavetas.length-1?'disabled':''}>↓</button>
@@ -2890,13 +2936,19 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }).join('');
 
     el.querySelectorAll('[data-toggle-collapse]').forEach(headEl => {
-      headEl.addEventListener('click', async (e) => {
+      headEl.addEventListener('click', (e) => {
         if(e.target.closest('.gaveta-actions')) return;
         const gid = headEl.getAttribute('data-toggle-collapse');
         if(editingGavetas.has(gid)) return;
         const g = data[gid];
-        await dbPatch(userPath('/Gavetas/' + gid), { collapsed: !g.collapsed });
-        await renderStorage();
+        const newCollapsed = !g.collapsed;
+        g.collapsed = newCollapsed;
+        const card = headEl.closest('.gaveta-card');
+        if(card) card.classList.toggle('collapsed', newCollapsed);
+        const stateTag = headEl.querySelector('.gaveta-state-tag');
+        if(stateTag) stateTag.textContent = newCollapsed ? 'minimizada' : 'maximizada';
+        dbPatchSilent(userPath('/Gavetas/' + gid), { collapsed: newCollapsed })
+          .catch(err => console.error('Erro ao salvar estado da gaveta', err));
       });
     });
     el.querySelectorAll('[data-move-up]').forEach(btn => btn.addEventListener('click', () => swapGavetaOrder(gavetas, btn.getAttribute('data-move-up'), -1)));
@@ -2923,8 +2975,8 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       e.stopPropagation();
       const gid = btn.getAttribute('data-save-gaveta');
       const ta = el.querySelector(`[data-gid-edit="${gid}"]`);
-      const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean)
-        .map(l => normalizeBullets(l));
+      const rawLines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
+      const lines = rawLines.length > 1 ? rawLines.map(ensureBulletLine) : rawLines.map(l => normalizeBullets(l));
       const newItems = {};
       lines.forEach((text, i) => { newItems['it' + i] = { text, order: i, addedAt: new Date().toISOString() }; });
       await dbPut(userPath('/Gavetas/' + gid + '/items'), newItems);
@@ -3003,6 +3055,43 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       ${entries.length >= 3 ? `<div class="insight-note">✦ Ao todo, ${entries.length} entradas registradas no Diário.</div>` : ''}
     `;
     moodSummaryEl.innerHTML = predominant ? `<span>humor predominante: ${escapeHtml(predominant[0])}</span>` : '<span>sem entradas ainda</span>';
+  }
+
+  /* ---------- HOJE — painel "Plano alimentar hoje" ---------- */
+  async function renderHojePlanoAlimentar(){
+    const el = document.getElementById('hojePlanoAlimentarList');
+    const dow = new Date().getDay();
+    const diaData = await dbGet(userPath('/PlanoAlimentar/' + dow)) || {};
+    const refeicoes = Object.entries(diaData.refeicoes || {})
+      .sort((a,b) => (a[1].horario||'').localeCompare(b[1].horario||''));
+
+    if(!refeicoes.length){
+      el.innerHTML = '<p class="empty-state">Nenhuma refeição configurada para hoje ainda.</p>';
+      return;
+    }
+    const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
+    el.innerHTML = refeicoes.map(([mid, r]) => {
+      const rMin = rotToMinutes(r.horario);
+      const passed = rMin != null && rMin < nowMin;
+      const qtdAlimentos = Object.keys(r.alimentos || {}).length;
+      return `<div class="queue-item ${passed ? 'done' : ''}">
+        <div class="queue-text">${escapeHtml(r.nome || 'Refeição')}${qtdAlimentos ? ' <span style="color:var(--text-dim); font-size:11.5px;">(' + qtdAlimentos + ' item' + (qtdAlimentos===1?'':'ns') + ')</span>' : ''}</div>
+        <span class="queue-time">${escapeHtml(r.horario || '—')}</span>
+      </div>`;
+    }).join('');
+  }
+
+  /* ---------- HOJE — painel "Diário hoje" ---------- */
+  async function renderHojeDiarioStatus(){
+    const el = document.getElementById('hojeDiarioStatus');
+    const data = await dbGet(userPath('/DiarioEntradas')) || {};
+    const today = todayStr();
+    const entriesHoje = Object.values(data).filter(e => e.createdAt && dateKey(new Date(e.createdAt)) === today);
+    if(entriesHoje.length){
+      el.innerHTML = `<p class="empty-state" style="color:var(--sage);">✓ Você já escreveu ${entriesHoje.length} entrada${entriesHoje.length===1?'':'s'} no Diário hoje.</p>`;
+    } else {
+      el.innerHTML = '<p class="empty-state">Você ainda não escreveu no Diário hoje.</p>';
+    }
   }
 
   /* ---------- ACADEMIA (cronograma semanal + hábitos diários) ---------- */
@@ -3096,6 +3185,325 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     await dbPatch(userPath('/AcademiaMetas'), { creatinaG: val });
     await renderHojeHidratacao();
   });
+
+  /* ---------- PLANO ALIMENTAR (refeições + alimentos por dia da semana) ---------- */
+  const PA_DEFAULT_MEALS = [
+    { nome:'Café da manhã',   horario:'08:00' },
+    { nome:'Almoço',          horario:'12:00' },
+    { nome:'Lanche da tarde', horario:'15:00' },
+    { nome:'Jantar',          horario:'18:00' },
+    { nome:'Ceia',            horario:'22:00' }
+  ];
+  function buildDefaultPlanoAlimentar(){
+    const dias = {};
+    for(let dow = 0; dow < 7; dow++){
+      const refeicoes = {};
+      PA_DEFAULT_MEALS.forEach((m, idx) => {
+        refeicoes[newId()] = { nome:m.nome, horario:m.horario, order: idx, alimentos:{} };
+      });
+      dias[dow] = { refeicoes };
+    }
+    return dias;
+  }
+  function paMealCardHtml(dow, mid, m){
+    const alimentos = Object.entries(m.alimentos || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+    return `
+      <div class="pa-meal-card" data-meal="${dow}|${mid}">
+        <div class="pa-meal-head">
+          <input type="text" class="pa-meal-name-input" data-meal-name="${dow}|${mid}" value="${escapeHtml(m.nome||'')}" placeholder="Nome da refeição">
+          <input type="time" class="pa-meal-time-input" data-meal-time="${dow}|${mid}" value="${escapeHtml(m.horario||'')}">
+          <button class="pa-meal-del-btn" data-del-meal="${dow}|${mid}" title="Excluir refeição">✕</button>
+        </div>
+        <div class="pa-food-list" data-food-list="${dow}|${mid}">
+          ${alimentos.length ? alimentos.map(([fid,f]) => `
+            <div class="pa-food-row">
+              ${f.quantidade ? '<span class="pa-food-qty">' + escapeHtml(f.quantidade) + '</span>' : ''}
+              <span class="pa-food-name">${escapeHtml(f.nome)}</span>
+              <button data-del-food="${dow}|${mid}|${fid}">✕</button>
+            </div>`).join('') : '<p class="academia-ex-empty">Nenhum alimento ainda.</p>'}
+        </div>
+        <div class="pa-food-add-row">
+          <input type="text" placeholder="Qtd (ex: 150g)" data-food-qty-input="${dow}|${mid}">
+          <input type="text" placeholder="Alimento..." data-food-name-input="${dow}|${mid}">
+          <button data-add-food="${dow}|${mid}">+</button>
+        </div>
+      </div>`;
+  }
+  async function renderPlanoAlimentar(){
+    const grid = document.getElementById('paDaysGrid');
+    let planoData = await dbGet(userPath('/PlanoAlimentar'));
+    if(!planoData){
+      planoData = buildDefaultPlanoAlimentar();
+      await dbPut(userPath('/PlanoAlimentar'), planoData);
+    }
+    const todayDow = new Date().getDay();
+
+    grid.innerHTML = ACADEMIA_DAY_NAMES.map((nome, dow) => {
+      const dia = planoData[dow] || {};
+      const refeicoes = Object.entries(dia.refeicoes || {}).sort((a,b) => (a[1].horario||'').localeCompare(b[1].horario||'') || (a[1].order||0) - (b[1].order||0));
+      return `
+      <div class="pa-day-card ${dow === todayDow ? 'today' : ''}" data-dow="${dow}">
+        <div class="pa-day-head">
+          <span class="pa-day-name">${nome}${dow === todayDow ? ' <span class="academia-day-today-tag">hoje</span>' : ''}</span>
+        </div>
+        <div class="pa-meal-list" data-meal-list="${dow}">
+          ${refeicoes.length ? refeicoes.map(([mid,m]) => paMealCardHtml(dow, mid, m)).join('') : '<p class="academia-ex-empty">Nenhuma refeição ainda.</p>'}
+        </div>
+        <div class="pa-add-meal-row"><button data-add-meal="${dow}">+ Adicionar refeição</button></div>
+      </div>`;
+    }).join('');
+
+    grid.querySelectorAll('[data-meal-name]').forEach(input => {
+      input.addEventListener('change', async () => {
+        const [dow, mid] = input.getAttribute('data-meal-name').split('|');
+        await dbPatch(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid), { nome: input.value.trim() || 'Refeição' });
+        await renderPlanoAlimentar();
+      });
+    });
+    grid.querySelectorAll('[data-meal-time]').forEach(input => {
+      input.addEventListener('change', async () => {
+        const [dow, mid] = input.getAttribute('data-meal-time').split('|');
+        await dbPatch(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid), { horario: input.value });
+        await renderPlanoAlimentar();
+      });
+    });
+    grid.querySelectorAll('[data-del-meal]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const [dow, mid] = btn.getAttribute('data-del-meal').split('|');
+        await dbDelete(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid));
+        await renderPlanoAlimentar();
+      });
+    });
+    grid.querySelectorAll('[data-add-meal]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const dow = btn.getAttribute('data-add-meal');
+        const dia = planoData[dow] || {};
+        const existing = dia.refeicoes || {};
+        const mid = newId();
+        await dbPut(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid), { nome:'Nova refeição', horario:'12:00', order: Object.keys(existing).length, alimentos:{} });
+        await renderPlanoAlimentar();
+      });
+    });
+    grid.querySelectorAll('[data-add-food]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const [dow, mid] = btn.getAttribute('data-add-food').split('|');
+        const nameInput = grid.querySelector(`[data-food-name-input="${dow}|${mid}"]`);
+        const qtyInput = grid.querySelector(`[data-food-qty-input="${dow}|${mid}"]`);
+        const nome = nameInput.value.trim();
+        if(!nome) return;
+        const quantidade = qtyInput.value.trim();
+        const existing = ((planoData[dow] || {}).refeicoes || {})[mid];
+        const existingFoods = (existing && existing.alimentos) || {};
+        const fid = newId();
+        await dbPut(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid + '/alimentos/' + fid), { nome, quantidade, order: Object.keys(existingFoods).length });
+        await renderPlanoAlimentar();
+      });
+    });
+    grid.querySelectorAll('[data-food-name-input],[data-food-qty-input]').forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          const key = input.getAttribute('data-food-name-input') || input.getAttribute('data-food-qty-input');
+          grid.querySelector(`[data-add-food="${key}"]`).click();
+        }
+      });
+    });
+    grid.querySelectorAll('[data-del-food]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const [dow, mid, fid] = btn.getAttribute('data-del-food').split('|');
+        await dbDelete(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid + '/alimentos/' + fid));
+        await renderPlanoAlimentar();
+      });
+    });
+  }
+
+  /* ---------- ROTINA (blocos de horário configuráveis por dia da semana) ----------
+     As edições ficam num rascunho em memória (rotinaDraft) e só vão pro Firebase
+     quando a pessoa clica em "Salvar alterações". "Cancelar" descarta o rascunho
+     e recarrega o que estava salvo. */
+  let rotinaDraft = null;
+  let rotinaDirty = false;
+
+  function cloneRotina(data){ return JSON.parse(JSON.stringify(data || {})); }
+
+  function setRotinaDirty(dirty){
+    rotinaDirty = dirty;
+    const status = document.getElementById('rotinaSaveStatus');
+    const saveBtn = document.getElementById('rotinaSaveBtn');
+    if(status) status.textContent = dirty ? 'Alterações não salvas' : 'Tudo salvo';
+    if(status) status.style.color = dirty ? 'var(--gold)' : 'var(--text-dim)';
+    if(saveBtn) saveBtn.disabled = !dirty;
+  }
+
+  function ensureRotinaBlock(dow, bid){
+    if(!rotinaDraft[dow]) rotinaDraft[dow] = { blocos:{} };
+    if(!rotinaDraft[dow].blocos) rotinaDraft[dow].blocos = {};
+    if(!rotinaDraft[dow].blocos[bid]) rotinaDraft[dow].blocos[bid] = {};
+    return rotinaDraft[dow].blocos[bid];
+  }
+
+  function rotBlockRowHtml(dow, bid, b){
+    return `
+      <div class="rot-block-row" data-block="${dow}|${bid}">
+        <div class="rot-block-times">
+          <input type="time" class="rot-block-time-input" data-block-inicio="${dow}|${bid}" value="${escapeHtml(b.inicio||'')}">
+          <span class="rot-block-sep">–</span>
+          <input type="time" class="rot-block-time-input" data-block-fim="${dow}|${bid}" value="${escapeHtml(b.fim||'')}">
+        </div>
+        <input type="text" class="rot-block-name-input" data-block-name="${dow}|${bid}" value="${escapeHtml(b.nome||'')}" placeholder="O que você faz nesse horário...">
+        <button class="rot-block-del-btn" data-del-block="${dow}|${bid}" title="Excluir horário">✕</button>
+      </div>`;
+  }
+
+  function renderRotinaGrid(){
+    const grid = document.getElementById('rotinaDaysGrid');
+    const todayDow = new Date().getDay();
+
+    grid.innerHTML = ACADEMIA_DAY_NAMES.map((nome, dow) => {
+      const dia = rotinaDraft[dow] || {};
+      const blocos = Object.entries(dia.blocos || {}).sort((a,b) => (a[1].inicio||'').localeCompare(b[1].inicio||''));
+      return `
+      <div class="rot-day-card ${dow === todayDow ? 'today' : ''}" data-dow="${dow}">
+        <div class="rot-day-head">
+          <span class="rot-day-name">${nome}${dow === todayDow ? ' <span class="academia-day-today-tag">hoje</span>' : ''}</span>
+        </div>
+        <div class="rot-block-list" data-block-list="${dow}">
+          ${blocos.length ? blocos.map(([bid,b]) => rotBlockRowHtml(dow, bid, b)).join('') : '<p class="academia-ex-empty">Nenhum horário configurado ainda.</p>'}
+        </div>
+        <div class="rot-add-block-row"><button data-add-block="${dow}">+ Adicionar horário</button></div>
+      </div>`;
+    }).join('');
+
+    grid.querySelectorAll('[data-block-inicio]').forEach(input => {
+      input.addEventListener('input', () => {
+        const [dow, bid] = input.getAttribute('data-block-inicio').split('|');
+        ensureRotinaBlock(dow, bid).inicio = input.value;
+        setRotinaDirty(true);
+      });
+    });
+    grid.querySelectorAll('[data-block-fim]').forEach(input => {
+      input.addEventListener('input', () => {
+        const [dow, bid] = input.getAttribute('data-block-fim').split('|');
+        ensureRotinaBlock(dow, bid).fim = input.value;
+        setRotinaDirty(true);
+      });
+    });
+    grid.querySelectorAll('[data-block-name]').forEach(input => {
+      input.addEventListener('input', () => {
+        const [dow, bid] = input.getAttribute('data-block-name').split('|');
+        ensureRotinaBlock(dow, bid).nome = input.value;
+        setRotinaDirty(true);
+      });
+    });
+    grid.querySelectorAll('[data-del-block]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const [dow, bid] = btn.getAttribute('data-del-block').split('|');
+        if(rotinaDraft[dow] && rotinaDraft[dow].blocos) delete rotinaDraft[dow].blocos[bid];
+        setRotinaDirty(true);
+        renderRotinaGrid();
+      });
+    });
+    grid.querySelectorAll('[data-add-block]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dow = btn.getAttribute('data-add-block');
+        if(!rotinaDraft[dow]) rotinaDraft[dow] = { blocos:{} };
+        if(!rotinaDraft[dow].blocos) rotinaDraft[dow].blocos = {};
+        const bid = newId();
+        rotinaDraft[dow].blocos[bid] = { nome:'', inicio:'09:00', fim:'10:00' };
+        setRotinaDirty(true);
+        renderRotinaGrid();
+      });
+    });
+  }
+
+  async function renderRotina(){
+    const saved = await dbGet(userPath('/Rotina')) || {};
+    rotinaDraft = cloneRotina(saved);
+    renderRotinaGrid();
+    setRotinaDirty(false);
+  }
+
+  document.getElementById('rotinaSaveBtn').addEventListener('click', async () => {
+    if(!rotinaDraft) return;
+    Object.values(rotinaDraft).forEach(dia => {
+      Object.values((dia && dia.blocos) || {}).forEach(b => { if(typeof b.nome === 'string') b.nome = b.nome.trim(); });
+    });
+    await dbPut(userPath('/Rotina'), rotinaDraft);
+    setRotinaDirty(false);
+    await renderRotinaHoje();
+  });
+  document.getElementById('rotinaCancelBtn').addEventListener('click', async () => {
+    await renderRotina();
+  });
+
+  /* ---------- Rotina hoje (comparação no TODAY: onde estou, o que falta, horas livres) ---------- */
+  function rotToMinutes(t){
+    if(!t) return null;
+    const parts = t.split(':');
+    const h = parseInt(parts[0], 10), m = parseInt(parts[1], 10);
+    if(isNaN(h) || isNaN(m)) return null;
+    return h * 60 + m;
+  }
+  function rotFmtHours(mins){
+    mins = Math.round(mins);
+    const h = Math.floor(mins / 60), m = mins % 60;
+    if(h <= 0) return m + 'min';
+    return h + 'h' + (m ? ' ' + m + 'min' : '');
+  }
+  async function renderRotinaHoje(){
+    const nowRow = document.getElementById('rotinaHojeNowRow');
+    const agoraEl = document.getElementById('rotinaHojeAgora');
+    const livresTotalEl = document.getElementById('rotinaHojeLivresTotal');
+    const livresRestanteEl = document.getElementById('rotinaHojeLivresRestante');
+    const upcomingEl = document.getElementById('rotinaHojeUpcoming');
+
+    const now = new Date();
+    const dow = now.getDay();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    agoraEl.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+
+    const diaData = await dbGet(userPath('/Rotina/' + dow)) || {};
+    const blocos = Object.entries(diaData.blocos || {})
+      .map(([id, b]) => ({ id, nome: (b.nome || '').trim() || 'Sem nome', inicio: rotToMinutes(b.inicio), fim: rotToMinutes(b.fim) }))
+      .filter(b => b.inicio != null && b.fim != null && b.fim > b.inicio)
+      .sort((a,b) => a.inicio - b.inicio);
+
+    if(!blocos.length){
+      nowRow.textContent = 'Nenhum horário configurado para hoje ainda — configure na Rotina.';
+      livresTotalEl.textContent = '24h';
+      livresRestanteEl.textContent = rotFmtHours(Math.max(0, 24*60 - nowMin));
+      upcomingEl.innerHTML = '<p class="empty-state">Configure sua rotina para ver o que falta hoje.</p>';
+      return;
+    }
+
+    let current = null;
+    let totalBusyMin = 0;
+    blocos.forEach(b => {
+      totalBusyMin += (b.fim - b.inicio);
+      if(nowMin >= b.inicio && nowMin < b.fim) current = b;
+    });
+
+    const upcoming = blocos.filter(b => b.fim > nowMin);
+    let remainingBusyMin = 0;
+    upcoming.forEach(b => { remainingBusyMin += Math.max(0, b.fim - Math.max(b.inicio, nowMin)); });
+
+    const totalFreeMin = Math.max(0, 24 * 60 - totalBusyMin);
+    const remainingDayMin = Math.max(0, 24 * 60 - nowMin);
+    const remainingFreeMin = Math.max(0, remainingDayMin - remainingBusyMin);
+
+    nowRow.textContent = current ? ('Agora você está em: ' + current.nome) : 'Nenhum bloco da rotina agora — hora livre.';
+    livresTotalEl.textContent = rotFmtHours(totalFreeMin);
+    livresRestanteEl.textContent = rotFmtHours(remainingFreeMin);
+
+    if(!upcoming.length){
+      upcomingEl.innerHTML = '<p class="empty-state">Rotina de hoje concluída — nada mais planejado.</p>';
+    } else {
+      upcomingEl.innerHTML = upcoming.map(b => {
+        const h1 = String(Math.floor(b.inicio / 60)).padStart(2,'0'), m1 = String(b.inicio % 60).padStart(2,'0');
+        return `<div class="rot-hoje-upcoming-row"><span class="rot-hoje-upcoming-time">${h1}:${m1}</span><span>${escapeHtml(b.nome)}</span></div>`;
+      }).join('');
+    }
+  }
 
   /* ---------- AGENDA (eventos + importação .ics) ---------- */
   document.getElementById('addEventBtn').addEventListener('click', async () => {
@@ -3585,6 +3993,8 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   const FLUENCIA_URL = 'https://fluencia.guilherme-oliveira.com';
   function renderFluencia(){
     const wrap = document.getElementById('fluenciaFrameWrap');
+    const note = document.getElementById('fluenciaEmbedNote');
+    const openBtn = document.getElementById('fluenciaOpenTabBtn');
     // Tenta repassar o e-mail da sessão do Life OS para o Fluência via querystring,
     // como atalho de login caso o app suporte esse parâmetro. Como são domínios
     // diferentes, não é possível autenticar de fato por aqui — mas como o iframe
@@ -3593,16 +4003,29 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     // nas próximas visitas.
     const email = session && session.email ? session.email : '';
     const src = FLUENCIA_URL + (email ? ('?email=' + encodeURIComponent(email)) : '');
-    // sandbox sem 'allow-top-navigation': impede que o site embutido tente
-    // navegar a aba principal (isso é o que gerava o aviso "Unsafe attempt to
-    // load URL ... file://" no console — o Fluência tentando redirecionar a
-    // página de cima). Também evita que um erro daquele site derrube o LifeOS.
-    wrap.innerHTML = `<iframe src="${escapeHtml(src)}" title="Fluência"
-      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <p class="empty-state" style="margin-top:8px; font-size:12.5px;">
-        Se a Fluência não carregar aqui, <a href="${escapeHtml(src)}" target="_blank" rel="noopener">abra em uma nova aba</a>.
-      </p>`;
+    openBtn.href = src;
+    note.textContent = 'Tentando carregar aqui dentro — se não aparecer, use "Abrir em nova aba".';
+
+    // sandbox sem 'allow-top-navigation' irrestrito: impede que o site embutido
+    // navegue a aba principal inteira, mas libera navegação por ação do próprio
+    // usuário (ex: um redirect de login) e popups de login (ex: OAuth), que são
+    // causas comuns de um iframe parecer "não abrir".
+    wrap.innerHTML = `<iframe id="fluenciaIframe" src="${escapeHtml(src)}" title="Fluência"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+
+    // Se o site embutido bloquear o próprio carregamento em iframe (por exemplo,
+    // via cabeçalho X-Frame-Options / Content-Security-Policy: frame-ancestors —
+    // uma configuração do servidor da Fluência, fora do alcance deste arquivo),
+    // o navegador não emite um erro que dá para capturar de forma confiável.
+    // Por isso, após alguns segundos, reforçamos a opção de abrir em nova aba
+    // com uma mensagem mais clara, para não deixar a pessoa presa a uma tela em branco.
+    clearTimeout(renderFluencia._fallbackTimer);
+    renderFluencia._fallbackTimer = setTimeout(() => {
+      if(document.getElementById('fluenciaIframe')){
+        note.textContent = 'Se a tela acima estiver em branco, é porque a Fluência não permite ser exibida dentro de outro site — abra em nova aba.';
+      }
+    }, 4000);
   }
 
   /* ---------- BOOT ---------- */
@@ -3644,6 +4067,9 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       guardRender(renderHojeAvisos, 'os avisos', 'hojeAvisosList'),
       guardRender(renderHojeAcademia, 'a academia de hoje', 'hojeAcademiaList'),
       guardRender(renderHojeHidratacao, 'água & creatina', 'hojeHidratacaoList'),
+      guardRender(renderHojePlanoAlimentar, 'o plano alimentar de hoje', 'hojePlanoAlimentarList'),
+      guardRender(renderHojeDiarioStatus, 'o status do diário hoje', 'hojeDiarioStatus'),
+      guardRender(renderRotinaHoje, 'a rotina de hoje', 'rotinaHojeUpcoming'),
       guardRender(renderFluenciaToday, 'o Fluência de hoje', []),
       guardRender(renderInbox, 'a Inbox', 'inboxList'),
       guardRender(renderRevisao, 'a Revisão', 'revisaoList'),
@@ -3654,6 +4080,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       guardRender(renderAcademia, 'a Academia', 'academiaDaysGrid'),
       guardRender(renderDiario, 'o Diário', 'diarioEntriesList'),
       guardRender(renderPlanoAlimentar, 'o Plano Alimentar', 'paDaysGrid'),
+      guardRender(renderRotina, 'a Rotina', 'rotinaDaysGrid'),
       guardRender(renderFluencia, 'o Fluência', [])
     ]);
     // Trava de segurança: garante que o overlay global de loading nunca fique
