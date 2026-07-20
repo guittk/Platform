@@ -212,6 +212,30 @@
   .event-time{ font-family:var(--mono); font-size:12px; color:var(--sage); width:60px; flex-shrink:0; white-space:nowrap; }
   .event-title{ font-size:13.5px; }
 
+  /* ---------- Agenda: bloco de dia estilo calendário (data em destaque, horário secundário) ---------- */
+  .agenda-today-banner{
+    display:flex; align-items:baseline; gap:8px; background:var(--sage-soft); border:1px solid var(--sage-line);
+    border-radius:10px; padding:10px 16px; margin-bottom:14px; font-family:var(--sans); font-size:13px; color:var(--sage);
+  }
+  .agenda-today-banner strong{ font-family:var(--serif); font-size:14.5px; font-weight:600; }
+  .cal-day-block{ display:flex; gap:16px; padding:14px 4px; border-bottom:1px solid var(--line); }
+  .cal-day-block:last-child{ border-bottom:none; }
+  .cal-day-datebox{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    width:66px; flex-shrink:0; background:var(--surface-hi); border:1px solid var(--line);
+    border-radius:12px; padding:9px 4px;
+  }
+  .cal-day-block.today .cal-day-datebox{ background:var(--sage-soft); border-color:var(--sage-line); }
+  .cal-day-weekday{ font-family:var(--mono); font-size:10px; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-dim); }
+  .cal-day-block.today .cal-day-weekday{ color:var(--sage); font-weight:600; }
+  .cal-day-num{ font-family:var(--serif); font-size:25px; font-weight:700; line-height:1.15; color:var(--text); }
+  .cal-day-month{ font-family:var(--mono); font-size:10px; color:var(--text-dim); text-transform:uppercase; }
+  .cal-day-events{ flex:1; min-width:0; display:flex; flex-direction:column; gap:9px; justify-content:center; }
+  .cal-event-row{ display:flex; align-items:baseline; gap:11px; }
+  .cal-event-time{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); flex-shrink:0; width:52px; }
+  .cal-day-block.today .cal-event-time{ color:var(--sage); }
+  .cal-event-title{ font-size:14px; color:var(--text); }
+
   .notice{
     display:flex; gap:10px; align-items:flex-start; padding:11px 12px; border-radius:10px;
     background: var(--gold-soft); border:1px solid var(--gold-line); font-size:12.5px; color:#e2c869;
@@ -337,16 +361,6 @@
   .health-atencao{ background:var(--gold-soft); color:var(--gold); }
   .health-risco{ background:rgba(180,106,92,0.14); color:var(--coral); }
 
-  .study-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:18px; }
-  @media (max-width:880px){ .study-grid{ grid-template-columns:repeat(2,1fr); } }
-  .study-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 16px; }
-  .study-card-icon{ font-size:17px; margin-bottom:9px; }
-  .study-card-title{ font-family:var(--serif); font-size:15px; font-weight:600; margin-bottom:4px; }
-  .study-card-meta{ font-size:11.5px; color:var(--text-mut); line-height:1.4; }
-  .study-card.placeholder{ border-style:dashed; border-color:var(--line-strong); }
-  .study-card.placeholder .study-card-title{ color:var(--text-mut); }
-  .study-card.placeholder .study-card-meta{ color:var(--text-dim); }
-
   .wellbeing-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:18px; }
   @media (max-width:880px){ .wellbeing-grid{ grid-template-columns:repeat(2,1fr); } }
   .wellbeing-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 14px; text-align:center; }
@@ -435,28 +449,6 @@
   .config-section .config-row:first-of-type{ border-top:none; padding-top:0; }
   .config-row-label{ font-size:13.5px; }
   .config-row-desc{ font-size:11.5px; color:var(--text-dim); margin-top:2px; }
-  .config-input{
-    background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:9px; padding:8px 12px;
-    color:var(--text); font-family:var(--sans); font-size:13px; outline:none; min-width:200px;
-  }
-  .config-input:focus{ border-color:var(--sage-line); }
-  .switch{ position:relative; width:40px; height:23px; flex-shrink:0; }
-  .switch input{ opacity:0; width:0; height:0; }
-  .switch-track{
-    position:absolute; inset:0; background:var(--surface-hi); border:1px solid var(--line-strong);
-    border-radius:20px; cursor:pointer; transition:background .2s ease;
-  }
-  .switch-track::before{
-    content:""; position:absolute; width:15px; height:15px; left:3px; top:3px; background:var(--text-mut);
-    border-radius:50%; transition:transform .2s ease, background .2s ease;
-  }
-  .switch input:checked + .switch-track{ background:var(--sage-soft); border-color:var(--sage-line); }
-  .switch input:checked + .switch-track::before{ transform:translateX(17px); background:var(--sage); }
-  .integration-row{ display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--line); }
-  .integration-row:first-of-type{ border-top:none; padding-top:0; }
-  .integration-icon{ width:32px; height:32px; border-radius:9px; background:var(--surface-hi); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
-  .integration-name{ font-size:13.5px; flex:1; }
-  .integration-status{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
 
   .flow-strip{ display:flex; align-items:center; gap:0; margin: 4px 0 26px; }
   .flow-node{ font-family:var(--mono); font-size:11.5px; color:var(--text-mut); border:1px solid var(--line); padding:6px 14px; border-radius:20px; background:var(--surface); }
@@ -482,28 +474,28 @@
   .status-fazer{ background:rgba(255,255,255,0.05); color:var(--text-mut); }
   .status-andamento{ background:var(--gold-soft); color:var(--gold); }
   .status-concluido{ background:var(--sage-soft); color:var(--sage); }
-  .prio-alta{ color:var(--coral); }
-  .prio-media{ color:var(--gold); }
-  .prio-baixa{ color:var(--text-mut); }
+  .nodate-toggle{
+    background:var(--surface-hi); border:1px solid var(--line-strong); color:var(--text-mut);
+    font-family:var(--sans); font-size:12px; padding:8px 14px; border-radius:9px; cursor:pointer;
+    white-space:nowrap;
+  }
+  .nodate-toggle:hover{ border-color:var(--sage-line); color:var(--sage); }
+  .nodate-toggle.active{ background:var(--sage-soft); border-color:var(--sage-line); color:var(--sage); }
 
-  .kanban{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start; }
-  @media (max-width:880px){ .kanban{ grid-template-columns:1fr; } }
-  .kanban-col{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px; }
-  .kanban-col-title{ font-size:11.5px; text-transform:uppercase; letter-spacing:1px; color:var(--text-mut); font-weight:600; margin-bottom:12px; display:flex; justify-content:space-between; }
-  .kanban-card{ background:var(--surface-hi); border:1px solid var(--line); border-radius:10px; padding:11px 12px; margin-bottom:9px; }
-  .kanban-card:last-child{ margin-bottom:0; }
-  .kanban-card-title{ font-size:13px; margin-bottom:8px; line-height:1.4; }
-  .kanban-card-meta{ display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
+  .prazo-pill{
+    font-family:var(--mono); font-size:10.5px; padding:3px 9px; border-radius:20px; white-space:nowrap;
+    border:1px solid var(--line-strong); color:var(--text-mut); display:inline-block;
+  }
+  .prazo-hoje{ background:var(--sage-soft); border-color:var(--sage-line); color:var(--sage); }
+  .prazo-datado{ background:var(--surface-hi); }
+  .prazo-futuro{ background:var(--surface-hi); color:var(--text-dim); }
+  .prazo-indefinido{ background:transparent; border-style:dashed; color:var(--text-dim); }
 
   .task-table{ width:100%; border-collapse:collapse; }
   .task-table th{ text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-dim); font-weight:600; padding:0 10px 10px; border-bottom:1px solid var(--line-strong); }
   .task-table td{ padding:11px 10px; border-bottom:1px solid var(--line); font-size:13px; vertical-align:top; }
   .task-table tr:last-child td{ border-bottom:none; }
   .task-table td.mono{ font-family:var(--mono); font-size:11.5px; color:var(--text-mut); }
-
-  .week-day{ margin-bottom:16px; }
-  .week-day:last-child{ margin-bottom:0; }
-  .week-day-label{ font-family:var(--mono); font-size:11px; color:var(--sage); letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
 
   .month-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
   .month-dow{ font-family:var(--mono); font-size:10px; color:var(--text-dim); text-align:center; padding-bottom:4px; }
@@ -601,6 +593,19 @@
   .app-toast.success{ border-color:var(--sage-line); color:var(--sage); }
   .app-toast.error{ border-color:rgba(180,106,92,0.55); color:var(--coral); }
 
+  /* ---------- Modal de confirmação (substitui window.confirm do navegador) ---------- */
+  .confirm-modal{
+    display:none; position:fixed; inset:0; z-index:250; background:rgba(10,12,15,0.6);
+    align-items:center; justify-content:center; padding:24px;
+  }
+  .confirm-modal.active{ display:flex; }
+  .confirm-modal-panel{
+    width:100%; max-width:420px; background:var(--surface-hi); border:1px solid var(--line-strong);
+    border-radius:16px; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,0.45);
+  }
+  .confirm-modal-text{ font-size:14px; color:var(--text); line-height:1.5; margin:0 0 20px; }
+  .confirm-modal-actions{ display:flex; justify-content:flex-end; gap:10px; }
+
   /* ---------- Login ---------- */
   .login-screen{
     position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
@@ -647,7 +652,8 @@
   .academia-toggle input:checked + .academia-toggle-track::before{ transform:translateX(15px); }
   .academia-ex-list{ display:flex; flex-direction:column; gap:5px; min-height:8px; }
   .academia-ex-row{ display:flex; align-items:center; gap:6px; font-size:12.5px; padding:5px 7px; background:var(--surface); border-radius:7px; border:1px solid var(--line); }
-  .academia-ex-row span{ flex:1; line-height:1.4; min-width:0; word-break:break-word; }
+  .academia-ex-name-input{ flex:1; min-width:0; background:transparent; border:none; border-bottom:1px dashed var(--line-strong); color:var(--text); font-family:var(--sans); font-size:12.5px; padding:3px 2px; outline:none; }
+  .academia-ex-name-input:focus{ border-bottom-color:var(--sage); }
   .academia-ex-row button{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:11px; flex-shrink:0; }
   .academia-ex-row button:hover{ color:var(--coral); }
   .academia-ex-empty{ font-size:11.5px; color:var(--text-dim); padding:3px 2px; }
@@ -678,6 +684,13 @@
   .academia-meta-input-row input{ flex:1; min-width:0; width:100%; background:var(--surface); border:1px solid var(--line-strong); border-radius:7px; padding:8px 10px; color:var(--text); font-size:14px; font-family:var(--sans); outline:none; }
   .academia-meta-input-row span{ font-family:var(--mono); font-size:12px; color:var(--text-dim); flex-shrink:0; }
 
+  /* ---------- Copiar dia (Rotina, Academia, Plano Alimentar) ---------- */
+  .day-copy-select{
+    width:100%; background:var(--surface); border:1px dashed var(--line-strong); border-radius:7px;
+    padding:6px 8px; color:var(--text-mut); font-family:var(--sans); font-size:11.5px; outline:none; cursor:pointer;
+  }
+  .day-copy-select:hover{ border-color:var(--sage-line); color:var(--sage); }
+
   /* ---------- Plano Alimentar ---------- */
   .pa-days-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(270px, 1fr)); gap:14px; }
   .pa-day-card{ background:var(--surface-hi); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; display:flex; flex-direction:column; gap:12px; min-width:0; }
@@ -694,8 +707,10 @@
   .pa-meal-del-btn:hover{ color:var(--coral); }
   .pa-food-list{ display:flex; flex-direction:column; gap:5px; min-height:6px; }
   .pa-food-row{ display:flex; align-items:center; gap:6px; font-size:12px; padding:5px 7px; background:var(--surface-hi); border-radius:7px; border:1px solid var(--line); }
-  .pa-food-row .pa-food-name{ flex:1; min-width:0; word-break:break-word; }
-  .pa-food-row .pa-food-qty{ color:var(--text-mut); font-family:var(--mono); font-size:10.5px; flex-shrink:0; }
+  .pa-food-qty-edit{ width:64px; flex-shrink:0; background:transparent; border:none; border-bottom:1px dashed var(--line-strong); color:var(--text-mut); font-family:var(--mono); font-size:10.5px; padding:3px 2px; outline:none; }
+  .pa-food-qty-edit:focus{ border-bottom-color:var(--sage); }
+  .pa-food-name-edit{ flex:1; min-width:0; background:transparent; border:none; border-bottom:1px dashed var(--line-strong); color:var(--text); font-family:var(--sans); font-size:12px; padding:3px 2px; outline:none; }
+  .pa-food-name-edit:focus{ border-bottom-color:var(--sage); }
   .pa-food-row button{ background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:11px; flex-shrink:0; }
   .pa-food-row button:hover{ color:var(--coral); }
   .pa-food-add-row{ display:flex; gap:5px; min-width:0; }
@@ -721,6 +736,28 @@
   .rot-day-name{ font-family:var(--serif); font-size:15px; font-weight:600; }
   .rot-block-list{ display:flex; flex-direction:column; gap:7px; }
   .rot-block-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:8px 9px; min-width:0; }
+  .rot-block-order-btns{ display:flex; flex-direction:column; gap:2px; flex-shrink:0; }
+  .rot-block-order-btns button{
+    background:transparent; border:1px solid var(--line); color:var(--text-mut); border-radius:4px;
+    font-size:9px; line-height:1; padding:2px 4px; cursor:pointer;
+  }
+  .rot-block-order-btns button:hover:not(:disabled){ color:var(--sage); border-color:var(--sage-line); }
+  .rot-block-order-btns button:disabled{ opacity:0.3; cursor:default; }
+  .rot-color-picker{ position:relative; flex-shrink:0; }
+  .rot-color-dot{
+    width:22px; height:22px; border-radius:50%; border:2px solid var(--line-strong);
+    cursor:pointer; padding:0; flex-shrink:0;
+  }
+  .rot-color-dot:hover{ border-color:var(--text-mut); }
+  .rot-color-popover{
+    display:none; position:absolute; top:28px; left:50%; transform:translateX(-50%); z-index:30; background:var(--surface-hi);
+    border:1px solid var(--line-strong); border-radius:10px; padding:8px; box-shadow:0 10px 26px rgba(0,0,0,0.4);
+    grid-template-columns:repeat(4, 20px); gap:6px; width:max-content; max-width:calc(100vw - 40px);
+  }
+  .rot-color-popover.open{ display:grid; }
+  .rot-color-swatch{ width:20px; height:20px; border-radius:50%; border:2px solid transparent; cursor:pointer; padding:0; }
+  .rot-color-swatch:hover{ transform:scale(1.1); }
+  .rot-color-swatch.selected{ border-color:var(--text); }
   .rot-block-times{ display:flex; align-items:center; gap:5px; flex:0 0 auto; }
   .rot-block-time-input{ width:88px; min-width:88px; flex-shrink:0; background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:6px; color:var(--text-mut); font-family:var(--mono); font-size:11.5px; padding:5px 6px; outline:none; box-sizing:border-box; }
   .rot-block-sep{ color:var(--text-dim); font-size:11px; flex-shrink:0; }
@@ -730,6 +767,30 @@
   .rot-block-del-btn:hover{ color:var(--coral); }
   .rot-add-block-row button{ width:100%; background:transparent; border:1px dashed var(--line-strong); color:var(--text-mut); border-radius:7px; padding:7px 10px; cursor:pointer; font-size:12px; }
   .rot-add-block-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
+
+  /* ---------- Timeline 24h (Hoje): compromissos do dia vindos da Rotina + linha do agora ---------- */
+  .timeline-24h{ margin-bottom:16px; }
+  .timeline-24h-track{
+    position:relative; height:58px; background:var(--surface); border:1px solid var(--line);
+    border-radius:10px; overflow:hidden;
+  }
+  .timeline-24h-tick{ position:absolute; top:0; bottom:0; width:1px; background:var(--line); }
+  .timeline-24h-block{
+    position:absolute; top:8px; bottom:8px; background:var(--sage-soft); border:1px solid var(--sage-line);
+    border-radius:6px; overflow:hidden; display:flex; align-items:center; padding:0 6px; min-width:3px;
+  }
+  .timeline-24h-block-label{
+    font-size:10px; color:var(--sage); font-family:var(--sans); white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; font-weight:600;
+  }
+  .timeline-24h-now{ position:absolute; top:0; bottom:0; width:2px; background:var(--coral); z-index:5; }
+  .timeline-24h-now::before{
+    content:""; position:absolute; top:-3px; left:-3px; width:8px; height:8px; border-radius:50%; background:var(--coral);
+  }
+  .timeline-24h-hours{
+    display:flex; justify-content:space-between; font-family:var(--mono); font-size:9.5px;
+    color:var(--text-dim); margin-top:5px; padding:0 1px;
+  }
 
   /* ---------- Rotina de hoje (painel na Hoje) ---------- */
   .rot-hoje-stats{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:14px; }
@@ -917,7 +978,6 @@
     <div class="nav-item" data-view="dashboard"><span class="dot"></span> Dashboard</div>
     <div class="nav-item" data-view="objetivos"><span class="dot"></span> Objetivos</div>
     <div class="nav-item" data-view="projetos"><span class="dot"></span> Projetos</div>
-    <div class="nav-item" data-view="estudos"><span class="dot"></span> Estudos</div>
     <div class="nav-item" data-view="estatisticas"><span class="dot"></span> Estatísticas</div>
     <div class="nav-item" data-view="revisao-semanal"><span class="dot"></span> Revisão Semanal</div>
   </nav>
@@ -933,7 +993,7 @@
   <div class="search-modal-panel">
     <div class="search-modal-bar">
       <span class="search-trigger-icon">⌕</span>
-      <input type="text" class="search-modal-input" id="searchModalInput" placeholder="Pesquisar objetivos, projetos, tarefas, notas, diário, estudos..." autocomplete="off">
+      <input type="text" class="search-modal-input" id="searchModalInput" placeholder="Pesquisar objetivos, projetos, tarefas, notas, diário..." autocomplete="off">
       <span class="search-trigger-kbd">esc</span>
     </div>
     <div class="search-modal-scopes">
@@ -942,7 +1002,6 @@
       <span class="search-scope">Tarefas</span>
       <span class="search-scope">Notas</span>
       <span class="search-scope">Diário</span>
-      <span class="search-scope">Estudos</span>
     </div>
     <div class="search-modal-empty">Comece a digitar para pesquisar em toda a plataforma.</div>
   </div>
@@ -959,6 +1018,17 @@
 <!-- NOTIFICAÇÕES DA APLICAÇÃO (substituem alert()/confirm() do navegador) -->
 <div class="app-toast-wrap" id="appToastWrap" aria-live="polite"></div>
 
+<!-- MODAL — CONFIRMAÇÃO (substitui window.confirm do navegador) -->
+<div class="confirm-modal" id="confirmModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" id="confirmModalText"></p>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="confirmModalCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="confirmModalOkBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
 <main class="main">
 
   <!-- HOJE -->
@@ -967,7 +1037,7 @@
       <div>
         <p class="eyebrow" id="hojeEyebrow">Bom dia</p>
         <h1 class="view-title">Hoje</h1>
-        <p class="view-desc">Só o necessário: tarefas, estudos e treino de hoje — eventos e avisos à parte.</p>
+        <p class="view-desc">Só o necessário: tarefas e treino de hoje — eventos e avisos à parte.</p>
       </div>
       <div style="display:flex; flex-direction:column; align-items:flex-end; gap:9px;">
         <div class="date-pill" id="hojeDatePill">—</div>
@@ -994,6 +1064,12 @@
 
     <div class="panel" style="margin-bottom:18px;">
       <p class="panel-title">Minha rotina hoje <span class="tag tag-sage" data-view-link="rotina">configurar →</span></p>
+
+      <div class="timeline-24h" id="hojeTimeline24h">
+        <div class="timeline-24h-track" id="hojeTimeline24hTrack"></div>
+        <div class="timeline-24h-hours"><span>00h</span><span>03h</span><span>06h</span><span>09h</span><span>12h</span><span>15h</span><span>18h</span><span>21h</span><span>24h</span></div>
+      </div>
+
       <div class="rot-hoje-now-row" id="rotinaHojeNowRow">Carregando...</div>
       <div class="rot-hoje-stats">
         <div class="rot-hoje-stat">
@@ -1016,7 +1092,7 @@
     <div class="grid-2">
       <div style="display:flex; flex-direction:column; gap:18px;">
         <div class="panel">
-          <p class="panel-title">Sequência de execução (tarefas, estudos e treino) <span class="tag tag-sage" id="seqCountTag">0 hoje</span></p>
+          <p class="panel-title">Sequência de execução (tarefas e treino) <span class="tag tag-sage" id="seqCountTag">0 hoje</span></p>
           <div class="flow-list" id="flowList">
             <p class="empty-state">Carregando...</p>
           </div>
@@ -1059,11 +1135,6 @@
           </div>
 
           <p class="empty-state fluencia-note" id="fluenciaTodayNote">Carregando...</p>
-        </div>
-
-        <div class="panel">
-          <p class="panel-title">Academia hoje</p>
-          <div id="hojeAcademiaList"><p class="empty-state">Carregando...</p></div>
         </div>
 
         <div class="panel">
@@ -1146,38 +1217,18 @@
     </div>
 
     <div class="subtabs">
-      <button class="subtab" data-sub="tarefas" data-target="tarefas-hoje">Hoje</button>
-      <button class="subtab" data-sub="tarefas" data-target="tarefas-semana">Semana</button>
       <button class="subtab active" data-sub="tarefas" data-target="tarefas-lista">Lista</button>
-      <button class="subtab" data-sub="tarefas" data-target="tarefas-kanban">Kanban</button>
+      <button class="subtab" data-sub="tarefas" data-target="tarefas-grupos">Grupos</button>
     </div>
 
     <div class="quick-form">
       <input type="text" id="taskNameInput" placeholder="Nova tarefa...">
       <input type="date" id="taskDateInput">
-      <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-mut);"><input type="checkbox" id="taskNoDateInput"> data indefinida</label>
-      <select id="taskPrioInput">
-        <option value="baixa">baixa</option>
-        <option value="media" selected>média</option>
-        <option value="alta">alta</option>
+      <button type="button" class="nodate-toggle" id="taskNoDateToggle">Sem data</button>
+      <select id="taskGroupInput" style="max-width:150px;">
+        <option value="">Sem grupo</option>
       </select>
-      <input type="text" id="taskProjInput" placeholder="Projeto (opcional)" style="max-width:150px;">
       <button class="btn btn-primary btn-sm" id="addTaskBtn">Adicionar</button>
-    </div>
-
-    <!-- Hoje -->
-    <div class="subview" id="tarefas-hoje">
-      <div class="panel">
-        <p class="panel-title">Hoje · <span id="tarefasHojeCount">0 tarefas</span></p>
-        <div id="tarefasHojeList"><p class="empty-state">Carregando...</p></div>
-      </div>
-    </div>
-
-    <!-- Semana -->
-    <div class="subview" id="tarefas-semana">
-      <div class="panel" id="tarefasSemanaPanel">
-        <p class="empty-state">Carregando...</p>
-      </div>
     </div>
 
     <!-- Lista -->
@@ -1185,31 +1236,22 @@
       <div class="panel">
         <table class="task-table">
           <thead>
-            <tr><th>Tarefa</th><th>Projeto</th><th>Prioridade</th><th>Status</th><th>Prazo</th><th></th></tr>
+            <tr><th>Prazo</th><th>Tarefa</th><th>Grupo</th><th>Status</th><th></th></tr>
           </thead>
           <tbody id="tarefasListaBody">
-            <tr><td colspan="6">Carregando...</td></tr>
+            <tr><td colspan="5">Carregando...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Kanban -->
-    <div class="subview" id="tarefas-kanban">
-      <div class="kanban">
-        <div class="kanban-col">
-          <div class="kanban-col-title">A fazer <span id="kanbanFazerCount">0</span></div>
-          <div id="kanbanFazerList"></div>
-        </div>
-        <div class="kanban-col">
-          <div class="kanban-col-title">Em andamento <span id="kanbanAndamentoCount">0</span></div>
-          <div id="kanbanAndamentoList"></div>
-        </div>
-        <div class="kanban-col">
-          <div class="kanban-col-title">Concluído <span id="kanbanConcluidoCount">0</span></div>
-          <div id="kanbanConcluidoList"></div>
-        </div>
+    <!-- Grupos (como o Storage: containers nomeados que você cria) -->
+    <div class="subview" id="tarefas-grupos">
+      <div class="quick-form" style="margin-bottom:16px;">
+        <input type="text" id="newTaskGroupInput" placeholder="Nome do novo grupo (ex: Pessoais, Profissionais, Casa)...">
+        <button class="btn btn-primary btn-sm" id="addTaskGroupBtn">+ Grupo</button>
       </div>
+      <div id="taskGroupsList"><p class="empty-state">Carregando...</p></div>
     </div>
   </section>
 
@@ -1224,11 +1266,12 @@
       <button class="btn btn-ghost btn-sm" id="importIcsBtn">📅 Importar .ics</button>
       <input type="file" id="importIcsInput" class="import-ics-input" accept=".ics">
     </div>
+    <div class="agenda-today-banner" id="agendaTodayBanner">Carregando...</div>
     <div class="quick-form">
       <input type="text" id="eventTitleInput" placeholder="Novo evento...">
       <input type="date" id="eventDateInput">
       <input type="time" id="eventTimeInput">
-      <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-mut);"><input type="checkbox" id="eventAllDayInput"> dia inteiro</label>
+      <button type="button" class="nodate-toggle" id="eventAllDayToggle">Dia inteiro</button>
       <button class="btn btn-primary btn-sm" id="addEventBtn">Adicionar</button>
     </div>
     <div id="agendaList">
@@ -1306,21 +1349,12 @@
       </div>
     </div>
 
-    <div class="dash-cols-2">
-      <div class="panel">
-        <p class="panel-title">Estudos <span class="tag tag-sage" data-view-link="estudos" style="cursor:pointer;">abrir →</span></p>
-        <div class="card-metrics" style="margin:0 0 10px;">
-          <span>47h este mês</span><span>128 flashcards revisados</span><span>sequência de 6 dias</span>
-        </div>
-        <p style="font-size:12.5px; color:var(--text-mut); margin:0;">Inglês concentra 80% do tempo estudado. Nenhuma sessão de leitura nos últimos 9 dias.</p>
+    <div class="panel">
+      <p class="panel-title">Estatísticas <span class="badge">F7</span></p>
+      <div class="card-metrics" style="margin:0 0 10px;">
+        <span>128 tarefas concluídas</span><span>18 esta semana</span><span>+12% vs. semana passada</span>
       </div>
-      <div class="panel">
-        <p class="panel-title">Estatísticas <span class="badge">F7</span></p>
-        <div class="card-metrics" style="margin:0 0 10px;">
-          <span>128 tarefas concluídas</span><span>18 esta semana</span><span>+12% vs. semana passada</span>
-        </div>
-        <p style="font-size:12.5px; color:var(--text-mut); margin:0;">Terças e quintas são seus dias mais produtivos nas últimas 4 semanas.</p>
-      </div>
+      <p style="font-size:12.5px; color:var(--text-mut); margin:0;">Terças e quintas são seus dias mais produtivos nas últimas 4 semanas.</p>
     </div>
 
     <div class="panel" style="margin-top:16px;">
@@ -1513,72 +1547,6 @@
     </div>
   </section>
 
-  <!-- ESTUDOS -->
-  <section class="view" id="view-estudos">
-    <div class="view-head">
-      <div>
-        <p class="eyebrow">Evoluir</p>
-        <h1 class="view-title">Estudos</h1>
-        <p class="view-desc">Sua evolução acadêmica, centralizada. A IA recomenda o próximo estudo com base no seu progresso.</p>
-      </div>
-    </div>
-
-    <div class="stat-grid">
-      <div class="stat-card"><div class="stat-num">47h</div><div class="stat-label">Tempo estudado este mês</div></div>
-      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Sequência de dias</div></div>
-      <div class="stat-card"><div class="stat-num">80%</div><div class="stat-label">Tempo dedicado a Inglês</div></div>
-    </div>
-
-    <div class="study-grid">
-      <div class="study-card">
-        <div class="study-card-icon">🗣</div>
-        <div class="study-card-title">Inglês</div>
-        <div class="study-card-meta">80% do tempo estudado este mês</div>
-      </div>
-      <div class="study-card">
-        <div class="study-card-icon">🎧</div>
-        <div class="study-card-title">Listening</div>
-        <div class="study-card-meta">6 episódios ouvidos esta semana</div>
-      </div>
-      <div class="study-card">
-        <div class="study-card-icon">🗂</div>
-        <div class="study-card-title">Flashcards</div>
-        <div class="study-card-meta">128 revisados · 12 pendentes</div>
-      </div>
-      <div class="study-card">
-        <div class="study-card-icon">🔤</div>
-        <div class="study-card-title">Vocabulary</div>
-        <div class="study-card-meta">340 palavras salvas</div>
-      </div>
-      <div class="study-card placeholder">
-        <div class="study-card-icon">🎓</div>
-        <div class="study-card-title">Cursos</div>
-        <div class="study-card-meta">em breve</div>
-      </div>
-      <div class="study-card placeholder">
-        <div class="study-card-icon">🔁</div>
-        <div class="study-card-title">Repetição espaçada</div>
-        <div class="study-card-meta">em breve</div>
-      </div>
-      <div class="study-card placeholder">
-        <div class="study-card-icon">📖</div>
-        <div class="study-card-title">Leituras</div>
-        <div class="study-card-meta">nenhuma leitura há 9 dias</div>
-      </div>
-      <div class="study-card placeholder">
-        <div class="study-card-icon">❓</div>
-        <div class="study-card-title">Quiz</div>
-        <div class="study-card-meta">em breve</div>
-      </div>
-    </div>
-
-    <div class="panel" style="margin-top:16px;">
-      <p class="panel-title">Sugestões da IA</p>
-      <div class="notice">✳ Nenhuma sessão de listening hoje — sua sequência de 6 dias está em risco.</div>
-      <div class="notice">✳ Você não lê há 9 dias. Que tal 10 minutos de leitura em inglês?</div>
-    </div>
-  </section>
-
   <!-- FLUÊNCIA -->
   <section class="view" id="view-fluencia">
     <div class="view-head" style="margin-bottom:12px;">
@@ -1600,6 +1568,11 @@
         <p class="eyebrow">Evoluir</p>
         <h1 class="view-title">Academia</h1>
         <p class="view-desc">Monte seu cronograma semanal de treino. O que estiver marcado para hoje entra na sua % de conclusão em "Hoje".</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span id="academiaSaveStatus" style="font-family:var(--mono); font-size:11px; color:var(--text-dim);">Tudo salvo</span>
+        <button class="btn btn-ghost btn-sm" id="academiaCancelBtn">Cancelar</button>
+        <button class="btn btn-primary btn-sm" id="academiaSaveBtn" disabled>Salvar alterações</button>
       </div>
     </div>
 
@@ -1685,6 +1658,11 @@
         <p class="eyebrow">Evoluir</p>
         <h1 class="view-title">Plano Alimentar</h1>
         <p class="view-desc">Monte suas refeições de cada dia da semana — nome, horário e os alimentos com as quantidades.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span id="paSaveStatus" style="font-family:var(--mono); font-size:11px; color:var(--text-dim);">Tudo salvo</span>
+        <button class="btn btn-ghost btn-sm" id="paCancelBtn">Cancelar</button>
+        <button class="btn btn-primary btn-sm" id="paSaveBtn" disabled>Salvar alterações</button>
       </div>
     </div>
 
@@ -1834,124 +1812,16 @@
       <div>
         <p class="eyebrow">Sistema</p>
         <h1 class="view-title">Configurações</h1>
-        <p class="view-desc">Ajuste como a IA se comporta e o que ela tem permissão para decidir sozinha.</p>
+        <p class="view-desc">Só o que existe de verdade aqui — sem opções decorativas que não fazem nada.</p>
       </div>
     </div>
 
-    <div class="config-section">
-      <p class="config-section-title">Perfil</p>
-      <p class="config-section-desc">Suas informações básicas.</p>
-      <div class="config-row">
-        <div><div class="config-row-label">Nome</div></div>
-        <input class="config-input" type="text" value="Guilherme">
-      </div>
+    <div class="config-section" style="margin-bottom:0;">
+      <p class="config-section-title">Conta</p>
+      <p class="config-section-desc">Você está logado com esta conta.</p>
       <div class="config-row">
         <div><div class="config-row-label">E-mail</div></div>
-        <input class="config-input" type="text" value="guilherme@email.com">
-      </div>
-      <div class="config-row">
-        <div><div class="config-row-label">Fuso horário</div></div>
-        <input class="config-input" type="text" value="América/São Paulo (GMT-3)">
-      </div>
-    </div>
-
-    <div class="config-section">
-      <p class="config-section-title">Autonomia da IA</p>
-      <p class="config-section-desc">O que o Life OS pode decidir sozinho, e o que precisa da sua aprovação.</p>
-      <div class="config-row">
-        <div>
-          <div class="config-row-label">Organizar a Inbox automaticamente</div>
-          <div class="config-row-desc">Categorizar capturas antes de irem para a Revisão IA.</div>
-        </div>
-        <label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label>
-      </div>
-      <div class="config-row">
-        <div>
-          <div class="config-row-label">Sugerir a Missão do Dia</div>
-          <div class="config-row-desc">Escolher automaticamente a próxima atividade em "Hoje".</div>
-        </div>
-        <label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label>
-      </div>
-      <div class="config-row">
-        <div>
-          <div class="config-row-label">Criar tarefas sem aprovação</div>
-          <div class="config-row-desc">Permitir que a IA adicione tarefas diretamente, sem passar pela Revisão.</div>
-        </div>
-        <label class="switch"><input type="checkbox"><span class="switch-track"></span></label>
-      </div>
-      <div class="config-row">
-        <div>
-          <div class="config-row-label">Editar o que você escreve no Diário</div>
-          <div class="config-row-desc">Sempre desligado — a IA nunca altera suas entradas pessoais.</div>
-        </div>
-        <label class="switch"><input type="checkbox" disabled><span class="switch-track"></span></label>
-      </div>
-    </div>
-
-    <div class="dash-cols-2">
-      <div class="config-section" style="margin-bottom:0;">
-        <p class="config-section-title">Tema</p>
-        <p class="config-section-desc">Aparência da interface.</p>
-        <div class="config-row">
-          <div><div class="config-row-label">Modo escuro</div></div>
-          <label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label>
-        </div>
-        <div class="config-row">
-          <div><div class="config-row-label">Reduzir animações</div></div>
-          <label class="switch"><input type="checkbox"><span class="switch-track"></span></label>
-        </div>
-      </div>
-
-      <div class="config-section" style="margin-bottom:0;">
-        <p class="config-section-title">Notificações</p>
-        <p class="config-section-desc">Quando o Life OS pode te avisar.</p>
-        <div class="config-row">
-          <div><div class="config-row-label">Lembretes de hábitos</div></div>
-          <label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label>
-        </div>
-        <div class="config-row">
-          <div><div class="config-row-label">Prazos e eventos</div></div>
-          <label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label>
-        </div>
-        <div class="config-row">
-          <div><div class="config-row-label">Resumo semanal por e-mail</div></div>
-          <label class="switch"><input type="checkbox"><span class="switch-track"></span></label>
-        </div>
-      </div>
-    </div>
-
-    <div class="config-section" style="margin-top:16px;">
-      <p class="config-section-title">Integrações</p>
-      <p class="config-section-desc">Conecte outras ferramentas ao seu Life OS.</p>
-      <div class="integration-row">
-        <div class="integration-icon">📅</div>
-        <div class="integration-name">Google Agenda</div>
-        <span class="integration-status" style="color:var(--sage);">conectado</span>
-      </div>
-      <div class="integration-row">
-        <div class="integration-icon">✉</div>
-        <div class="integration-name">E-mail</div>
-        <span class="integration-status" style="color:var(--sage);">conectado</span>
-      </div>
-      <div class="integration-row">
-        <div class="integration-icon">📝</div>
-        <div class="integration-name">Notion</div>
-        <span class="integration-status">não conectado</span>
-      </div>
-    </div>
-
-    <div class="config-section" style="border-color:rgba(180,106,92,0.35); margin-bottom:0;">
-      <p class="config-section-title">Privacidade</p>
-      <p class="config-section-desc">Seus dados são seus. A IA só usa o que está aqui dentro para te ajudar.</p>
-      <div class="config-row">
-        <div>
-          <div class="config-row-label">Usar meus dados para melhorar sugestões</div>
-          <div class="config-row-desc">Aplica-se apenas à sua conta — nada é compartilhado.</div>
-        </div>
-        <label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label>
-      </div>
-      <div class="config-row">
-        <button class="btn btn-reject btn-sm">Exportar todos os meus dados</button>
+        <span id="configAccountEmail" style="font-family:var(--mono); font-size:12.5px; color:var(--text-mut);">carregando...</span>
       </div>
     </div>
   </section>
@@ -2051,7 +1921,7 @@
   function updateHeroCard(){
     const nextIdx = getNextIndex();
     if(!activities.length){
-      hojeHeroMotivation.textContent = 'Nada planejado para hoje ainda. Adicione tarefas ou estudos de hoje.';
+      hojeHeroMotivation.textContent = 'Nada planejado para hoje ainda. Adicione tarefas de hoje.';
       hojeActivityName.textContent = 'Sem missão definida para hoje.';
       hojeActivityTime.textContent = '—';
       hojeActivityObj.textContent = '—';
@@ -2079,13 +1949,12 @@
 
   const FLOW_KIND_META = {
     tarefa:  { label:'Tarefa',  cls:'tag-gold' },
-    estudo:  { label:'Estudo',  cls:'tag-sage' },
     treino:  { label:'Treino',  cls:'tag-sage' }
   };
   function renderFlowList(){
     const nextIdx = getNextIndex();
     if(!activities.length){
-      flowListEl.innerHTML = '<p class="empty-state">Nenhuma tarefa, estudo ou treino para hoje.</p>';
+      flowListEl.innerHTML = '<p class="empty-state">Nenhuma tarefa ou treino para hoje.</p>';
       return;
     }
     flowListEl.innerHTML = activities.map((a, idx) => {
@@ -2229,6 +2098,32 @@
       el.classList.remove('show');
       setTimeout(() => el.remove(), 260);
     }, 4400);
+  }
+
+  /* Confirmação estilizada da própria aplicação — substitui window.confirm() do navegador.
+     Retorna uma Promise<boolean>: true se a pessoa confirmou, false se cancelou. */
+  function showConfirm(text){
+    return new Promise((resolve) => {
+      const modal = document.getElementById('confirmModal');
+      const textEl = document.getElementById('confirmModalText');
+      const okBtn = document.getElementById('confirmModalOkBtn');
+      const cancelBtn = document.getElementById('confirmModalCancelBtn');
+      textEl.textContent = text;
+      modal.classList.add('active');
+      function cleanup(result){
+        modal.classList.remove('active');
+        okBtn.removeEventListener('click', onOk);
+        cancelBtn.removeEventListener('click', onCancel);
+        modal.removeEventListener('click', onBackdrop);
+        resolve(result);
+      }
+      function onOk(){ cleanup(true); }
+      function onCancel(){ cleanup(false); }
+      function onBackdrop(e){ if(e.target === modal) cleanup(false); }
+      okBtn.addEventListener('click', onOk);
+      cancelBtn.addEventListener('click', onCancel);
+      modal.addEventListener('click', onBackdrop);
+    });
   }
 
   /* ---------- Firebase Realtime Database (REST) ---------- */
@@ -3094,26 +2989,41 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }
   }
 
-  /* ---------- ACADEMIA (cronograma semanal + hábitos diários) ---------- */
+  /* ---------- ACADEMIA (cronograma semanal) ----------
+     Mesmo padrão da Rotina: edições ficam num rascunho em memória e só vão
+     pro Firebase ao clicar "Salvar alterações". "Cancelar" descarta e recarrega. */
   const ACADEMIA_DAY_NAMES = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 
-  async function renderAcademia(){
+  let academiaDraft = null;
+  let academiaDirty = false;
+  function cloneAcademia(data){ return JSON.parse(JSON.stringify(data || {})); }
+  function setAcademiaDirty(dirty){
+    academiaDirty = dirty;
+    const status = document.getElementById('academiaSaveStatus');
+    const saveBtn = document.getElementById('academiaSaveBtn');
+    if(status) status.textContent = dirty ? 'Alterações não salvas' : 'Tudo salvo';
+    if(status) status.style.color = dirty ? 'var(--gold)' : 'var(--text-dim)';
+    if(saveBtn) saveBtn.disabled = !dirty;
+  }
+  function ensureAcademiaDay(dow){
+    if(!academiaDraft[dow]) academiaDraft[dow] = { ativo:false, exercicios:{} };
+    if(!academiaDraft[dow].exercicios) academiaDraft[dow].exercicios = {};
+    return academiaDraft[dow];
+  }
+  function dayCopySelectHtml(dow){
+    return `
+      <select class="day-copy-select" data-copy-source="${dow}">
+        <option value="">⧉ copiar para...</option>
+        ${ACADEMIA_DAY_NAMES.map((n,i) => i === dow ? '' : `<option value="${i}">${n}</option>`).join('')}
+      </select>`;
+  }
+
+  function renderAcademiaGrid(){
     const grid = document.getElementById('academiaDaysGrid');
-    const [dias, metas] = await Promise.all([
-      dbGet(userPath('/AcademiaDias')) || {},
-      dbGet(userPath('/AcademiaMetas')) || {}
-    ]);
-    const diasData = dias || {};
-    const metasData = metas || {};
     const todayDow = new Date().getDay();
 
-    const aguaMetaInput = document.getElementById('academiaAguaMetaInput');
-    const creatinaMetaInput = document.getElementById('academiaCreatinaMetaInput');
-    if(document.activeElement !== aguaMetaInput) aguaMetaInput.value = metasData.aguaMl || '';
-    if(document.activeElement !== creatinaMetaInput) creatinaMetaInput.value = metasData.creatinaG || '';
-
     grid.innerHTML = ACADEMIA_DAY_NAMES.map((nome, dow) => {
-      const dia = diasData[dow] || {};
+      const dia = academiaDraft[dow] || {};
       const ativo = !!dia.ativo;
       const exercicios = Object.entries(dia.exercicios || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
       return `
@@ -3125,10 +3035,11 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
             <span class="academia-toggle-track"></span>
           </label>
         </div>
+        ${dayCopySelectHtml(dow)}
         <div class="academia-ex-list" data-ex-list="${dow}">
           ${exercicios.length ? exercicios.map(([eid,e]) => `
             <div class="academia-ex-row">
-              <span>${escapeHtml(e.nome)}</span>
+              <input type="text" class="academia-ex-name-input" data-ex-name="${dow}|${eid}" value="${escapeHtml(e.nome||'')}" placeholder="Nome do exercício">
               <button data-del-ex="${dow}|${eid}">✕</button>
             </div>`).join('') : '<p class="academia-ex-empty">Nenhum exercício ainda.</p>'}
         </div>
@@ -3140,24 +3051,33 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }).join('');
 
     grid.querySelectorAll('[data-day-toggle]').forEach(input => {
-      input.addEventListener('change', async () => {
+      input.addEventListener('change', () => {
         const dow = input.getAttribute('data-day-toggle');
-        await dbPatch(userPath('/AcademiaDias/' + dow), { ativo: input.checked });
-        await renderAcademia(); await renderHojeQueue();
+        ensureAcademiaDay(dow).ativo = input.checked;
+        setAcademiaDirty(true);
       });
     });
-
+    grid.querySelectorAll('[data-ex-name]').forEach(input => {
+      input.addEventListener('input', () => {
+        const [dow, eid] = input.getAttribute('data-ex-name').split('|');
+        const dia = ensureAcademiaDay(dow);
+        if(!dia.exercicios[eid]) dia.exercicios[eid] = { order:0 };
+        dia.exercicios[eid].nome = input.value;
+        setAcademiaDirty(true);
+      });
+    });
     grid.querySelectorAll('[data-add-ex]').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const dow = btn.getAttribute('data-add-ex');
         const input = grid.querySelector(`[data-ex-input="${dow}"]`);
         const nome = input.value.trim();
         if(!nome) return;
-        input.value = '';
-        const existing = (diasData[dow] && diasData[dow].exercicios) || {};
+        const dia = ensureAcademiaDay(dow);
+        const maxOrder = Object.values(dia.exercicios).reduce((max,e) => Math.max(max, Number.isFinite(e.order) ? e.order : 0), -1);
         const eid = newId();
-        await dbPut(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid), { nome, order: Object.keys(existing).length });
-        await renderAcademia(); await renderHojeQueue();
+        dia.exercicios[eid] = { nome, order: maxOrder + 1 };
+        setAcademiaDirty(true);
+        renderAcademiaGrid();
       });
     });
     grid.querySelectorAll('[data-ex-input]').forEach(input => {
@@ -3166,14 +3086,58 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       });
     });
     grid.querySelectorAll('[data-del-ex]').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const [dow, eid] = btn.getAttribute('data-del-ex').split('|');
-        await dbDelete(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid));
-        await renderAcademia(); await renderHojeQueue();
+        if(academiaDraft[dow] && academiaDraft[dow].exercicios) delete academiaDraft[dow].exercicios[eid];
+        setAcademiaDirty(true);
+        renderAcademiaGrid();
       });
     });
-
+    grid.querySelectorAll('[data-copy-source]').forEach(sel => {
+      sel.addEventListener('change', async () => {
+        const sourceDow = sel.getAttribute('data-copy-source');
+        const targetDow = sel.value;
+        sel.value = '';
+        if(targetDow === '') return;
+        const sourceName = ACADEMIA_DAY_NAMES[sourceDow], targetName = ACADEMIA_DAY_NAMES[targetDow];
+        if(!(await showConfirm(`Copiar o treino de ${sourceName} para ${targetName}? Isso substitui o que já existe em ${targetName}.`))) return;
+        const sourceDia = academiaDraft[sourceDow] || { ativo:false, exercicios:{} };
+        const newExercicios = {};
+        Object.values(sourceDia.exercicios || {}).forEach(e => { newExercicios[newId()] = { nome: e.nome, order: e.order || 0 }; });
+        academiaDraft[targetDow] = { ativo: !!sourceDia.ativo, exercicios: newExercicios };
+        setAcademiaDirty(true);
+        renderAcademiaGrid();
+      });
+    });
   }
+
+  async function renderAcademia(){
+    const [dias, metas] = await Promise.all([
+      dbGet(userPath('/AcademiaDias')) || {},
+      dbGet(userPath('/AcademiaMetas')) || {}
+    ]);
+    academiaDraft = cloneAcademia(dias);
+    const metasData = metas || {};
+    const aguaMetaInput = document.getElementById('academiaAguaMetaInput');
+    const creatinaMetaInput = document.getElementById('academiaCreatinaMetaInput');
+    if(document.activeElement !== aguaMetaInput) aguaMetaInput.value = metasData.aguaMl || '';
+    if(document.activeElement !== creatinaMetaInput) creatinaMetaInput.value = metasData.creatinaG || '';
+    renderAcademiaGrid();
+    setAcademiaDirty(false);
+  }
+
+  document.getElementById('academiaSaveBtn').addEventListener('click', async () => {
+    if(!academiaDraft) return;
+    Object.values(academiaDraft).forEach(dia => {
+      Object.values((dia && dia.exercicios) || {}).forEach(e => { if(typeof e.nome === 'string') e.nome = e.nome.trim(); });
+    });
+    await dbPut(userPath('/AcademiaDias'), academiaDraft);
+    setAcademiaDirty(false);
+    await renderHojeQueue();
+  });
+  document.getElementById('academiaCancelBtn').addEventListener('click', async () => {
+    await renderAcademia();
+  });
 
   document.getElementById('academiaAguaMetaInput').addEventListener('change', async (e) => {
     const val = Math.max(0, Number(e.target.value) || 0);
@@ -3186,7 +3150,9 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     await renderHojeHidratacao();
   });
 
-  /* ---------- PLANO ALIMENTAR (refeições + alimentos por dia da semana) ---------- */
+  /* ---------- PLANO ALIMENTAR (refeições + alimentos por dia da semana) ----------
+     Mesmo padrão da Rotina: edições ficam num rascunho em memória e só vão pro
+     Firebase ao clicar "Salvar alterações". "Cancelar" descarta e recarrega. */
   const PA_DEFAULT_MEALS = [
     { nome:'Café da manhã',   horario:'08:00' },
     { nome:'Almoço',          horario:'12:00' },
@@ -3205,6 +3171,35 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }
     return dias;
   }
+
+  let paDraft = null;
+  let paDirty = false;
+  function clonePa(data){ return JSON.parse(JSON.stringify(data || {})); }
+  function setPaDirty(dirty){
+    paDirty = dirty;
+    const status = document.getElementById('paSaveStatus');
+    const saveBtn = document.getElementById('paSaveBtn');
+    if(status) status.textContent = dirty ? 'Alterações não salvas' : 'Tudo salvo';
+    if(status) status.style.color = dirty ? 'var(--gold)' : 'var(--text-dim)';
+    if(saveBtn) saveBtn.disabled = !dirty;
+  }
+  function ensurePaDay(dow){
+    if(!paDraft[dow]) paDraft[dow] = { refeicoes:{} };
+    if(!paDraft[dow].refeicoes) paDraft[dow].refeicoes = {};
+    return paDraft[dow];
+  }
+  function ensurePaMeal(dow, mid){
+    const dia = ensurePaDay(dow);
+    if(!dia.refeicoes[mid]) dia.refeicoes[mid] = { alimentos:{} };
+    if(!dia.refeicoes[mid].alimentos) dia.refeicoes[mid].alimentos = {};
+    return dia.refeicoes[mid];
+  }
+  function ensurePaFood(dow, mid, fid){
+    const meal = ensurePaMeal(dow, mid);
+    if(!meal.alimentos[fid]) meal.alimentos[fid] = { order:0 };
+    return meal.alimentos[fid];
+  }
+
   function paMealCardHtml(dow, mid, m){
     const alimentos = Object.entries(m.alimentos || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
     return `
@@ -3217,8 +3212,8 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
         <div class="pa-food-list" data-food-list="${dow}|${mid}">
           ${alimentos.length ? alimentos.map(([fid,f]) => `
             <div class="pa-food-row">
-              ${f.quantidade ? '<span class="pa-food-qty">' + escapeHtml(f.quantidade) + '</span>' : ''}
-              <span class="pa-food-name">${escapeHtml(f.nome)}</span>
+              <input type="text" class="pa-food-qty-edit" data-food-qty-edit="${dow}|${mid}|${fid}" value="${escapeHtml(f.quantidade||'')}" placeholder="Qtd">
+              <input type="text" class="pa-food-name-edit" data-food-name-edit="${dow}|${mid}|${fid}" value="${escapeHtml(f.nome||'')}" placeholder="Alimento">
               <button data-del-food="${dow}|${mid}|${fid}">✕</button>
             </div>`).join('') : '<p class="academia-ex-empty">Nenhum alimento ainda.</p>'}
         </div>
@@ -3229,23 +3224,20 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
         </div>
       </div>`;
   }
-  async function renderPlanoAlimentar(){
+
+  function renderPlanoAlimentarGrid(){
     const grid = document.getElementById('paDaysGrid');
-    let planoData = await dbGet(userPath('/PlanoAlimentar'));
-    if(!planoData){
-      planoData = buildDefaultPlanoAlimentar();
-      await dbPut(userPath('/PlanoAlimentar'), planoData);
-    }
     const todayDow = new Date().getDay();
 
     grid.innerHTML = ACADEMIA_DAY_NAMES.map((nome, dow) => {
-      const dia = planoData[dow] || {};
+      const dia = paDraft[dow] || {};
       const refeicoes = Object.entries(dia.refeicoes || {}).sort((a,b) => (a[1].horario||'').localeCompare(b[1].horario||'') || (a[1].order||0) - (b[1].order||0));
       return `
       <div class="pa-day-card ${dow === todayDow ? 'today' : ''}" data-dow="${dow}">
         <div class="pa-day-head">
           <span class="pa-day-name">${nome}${dow === todayDow ? ' <span class="academia-day-today-tag">hoje</span>' : ''}</span>
         </div>
+        ${dayCopySelectHtml(dow)}
         <div class="pa-meal-list" data-meal-list="${dow}">
           ${refeicoes.length ? refeicoes.map(([mid,m]) => paMealCardHtml(dow, mid, m)).join('') : '<p class="academia-ex-empty">Nenhuma refeição ainda.</p>'}
         </div>
@@ -3254,49 +3246,65 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }).join('');
 
     grid.querySelectorAll('[data-meal-name]').forEach(input => {
-      input.addEventListener('change', async () => {
+      input.addEventListener('input', () => {
         const [dow, mid] = input.getAttribute('data-meal-name').split('|');
-        await dbPatch(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid), { nome: input.value.trim() || 'Refeição' });
-        await renderPlanoAlimentar();
+        ensurePaMeal(dow, mid).nome = input.value;
+        setPaDirty(true);
       });
     });
     grid.querySelectorAll('[data-meal-time]').forEach(input => {
-      input.addEventListener('change', async () => {
+      input.addEventListener('input', () => {
         const [dow, mid] = input.getAttribute('data-meal-time').split('|');
-        await dbPatch(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid), { horario: input.value });
-        await renderPlanoAlimentar();
+        ensurePaMeal(dow, mid).horario = input.value;
+        setPaDirty(true);
       });
+      input.addEventListener('change', () => { renderPlanoAlimentarGrid(); });
     });
     grid.querySelectorAll('[data-del-meal]').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const [dow, mid] = btn.getAttribute('data-del-meal').split('|');
-        await dbDelete(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid));
-        await renderPlanoAlimentar();
+        if(paDraft[dow] && paDraft[dow].refeicoes) delete paDraft[dow].refeicoes[mid];
+        setPaDirty(true);
+        renderPlanoAlimentarGrid();
       });
     });
     grid.querySelectorAll('[data-add-meal]').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const dow = btn.getAttribute('data-add-meal');
-        const dia = planoData[dow] || {};
-        const existing = dia.refeicoes || {};
+        const dia = ensurePaDay(dow);
         const mid = newId();
-        await dbPut(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid), { nome:'Nova refeição', horario:'12:00', order: Object.keys(existing).length, alimentos:{} });
-        await renderPlanoAlimentar();
+        dia.refeicoes[mid] = { nome:'Nova refeição', horario:'12:00', order: Object.keys(dia.refeicoes).length, alimentos:{} };
+        setPaDirty(true);
+        renderPlanoAlimentarGrid();
+      });
+    });
+    grid.querySelectorAll('[data-food-name-edit]').forEach(input => {
+      input.addEventListener('input', () => {
+        const [dow, mid, fid] = input.getAttribute('data-food-name-edit').split('|');
+        ensurePaFood(dow, mid, fid).nome = input.value;
+        setPaDirty(true);
+      });
+    });
+    grid.querySelectorAll('[data-food-qty-edit]').forEach(input => {
+      input.addEventListener('input', () => {
+        const [dow, mid, fid] = input.getAttribute('data-food-qty-edit').split('|');
+        ensurePaFood(dow, mid, fid).quantidade = input.value;
+        setPaDirty(true);
       });
     });
     grid.querySelectorAll('[data-add-food]').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const [dow, mid] = btn.getAttribute('data-add-food').split('|');
         const nameInput = grid.querySelector(`[data-food-name-input="${dow}|${mid}"]`);
         const qtyInput = grid.querySelector(`[data-food-qty-input="${dow}|${mid}"]`);
         const nome = nameInput.value.trim();
         if(!nome) return;
         const quantidade = qtyInput.value.trim();
-        const existing = ((planoData[dow] || {}).refeicoes || {})[mid];
-        const existingFoods = (existing && existing.alimentos) || {};
+        const meal = ensurePaMeal(dow, mid);
         const fid = newId();
-        await dbPut(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid + '/alimentos/' + fid), { nome, quantidade, order: Object.keys(existingFoods).length });
-        await renderPlanoAlimentar();
+        meal.alimentos[fid] = { nome, quantidade, order: Object.keys(meal.alimentos).length };
+        setPaDirty(true);
+        renderPlanoAlimentarGrid();
       });
     });
     grid.querySelectorAll('[data-food-name-input],[data-food-qty-input]').forEach(input => {
@@ -3309,13 +3317,62 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       });
     });
     grid.querySelectorAll('[data-del-food]').forEach(btn => {
-      btn.addEventListener('click', async () => {
+      btn.addEventListener('click', () => {
         const [dow, mid, fid] = btn.getAttribute('data-del-food').split('|');
-        await dbDelete(userPath('/PlanoAlimentar/' + dow + '/refeicoes/' + mid + '/alimentos/' + fid));
-        await renderPlanoAlimentar();
+        const meal = paDraft[dow] && paDraft[dow].refeicoes && paDraft[dow].refeicoes[mid];
+        if(meal && meal.alimentos) delete meal.alimentos[fid];
+        setPaDirty(true);
+        renderPlanoAlimentarGrid();
+      });
+    });
+    grid.querySelectorAll('[data-copy-source]').forEach(sel => {
+      sel.addEventListener('change', async () => {
+        const sourceDow = sel.getAttribute('data-copy-source');
+        const targetDow = sel.value;
+        sel.value = '';
+        if(targetDow === '') return;
+        const sourceName = ACADEMIA_DAY_NAMES[sourceDow], targetName = ACADEMIA_DAY_NAMES[targetDow];
+        if(!(await showConfirm(`Copiar as refeições de ${sourceName} para ${targetName}? Isso substitui o que já existe em ${targetName}.`))) return;
+        const sourceDia = paDraft[sourceDow] || { refeicoes:{} };
+        const newRefeicoes = {};
+        Object.values(sourceDia.refeicoes || {}).forEach(m => {
+          const newAlimentos = {};
+          Object.values(m.alimentos || {}).forEach(f => { newAlimentos[newId()] = { nome:f.nome, quantidade:f.quantidade, order:f.order||0 }; });
+          newRefeicoes[newId()] = { nome:m.nome, horario:m.horario, order:m.order||0, alimentos:newAlimentos };
+        });
+        paDraft[targetDow] = { refeicoes:newRefeicoes };
+        setPaDirty(true);
+        renderPlanoAlimentarGrid();
       });
     });
   }
+
+  async function renderPlanoAlimentar(){
+    let planoData = await dbGet(userPath('/PlanoAlimentar'));
+    if(!planoData){
+      planoData = buildDefaultPlanoAlimentar();
+      await dbPut(userPath('/PlanoAlimentar'), planoData);
+    }
+    paDraft = clonePa(planoData);
+    renderPlanoAlimentarGrid();
+    setPaDirty(false);
+  }
+
+  document.getElementById('paSaveBtn').addEventListener('click', async () => {
+    if(!paDraft) return;
+    Object.values(paDraft).forEach(dia => {
+      Object.values((dia && dia.refeicoes) || {}).forEach(m => {
+        if(typeof m.nome === 'string') m.nome = m.nome.trim() || 'Refeição';
+        Object.values(m.alimentos || {}).forEach(f => { if(typeof f.nome === 'string') f.nome = f.nome.trim(); });
+      });
+    });
+    await dbPut(userPath('/PlanoAlimentar'), paDraft);
+    setPaDirty(false);
+    await renderHojePlanoAlimentar();
+  });
+  document.getElementById('paCancelBtn').addEventListener('click', async () => {
+    await renderPlanoAlimentar();
+  });
 
   /* ---------- ROTINA (blocos de horário configuráveis por dia da semana) ----------
      As edições ficam num rascunho em memória (rotinaDraft) e só vão pro Firebase
@@ -3342,17 +3399,53 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     return rotinaDraft[dow].blocos[bid];
   }
 
-  function rotBlockRowHtml(dow, bid, b){
+  const ROTINA_COLORS = ['#7fa37a', '#c9a227', '#b46a5c', '#6a8caf', '#9482b0', '#b0768f', '#5fa39a', '#8b93a1'];
+  const ROTINA_DEFAULT_COLOR = '#7fa37a';
+
+  function rotBlockRowHtml(dow, bid, b, isFirst, isLast){
+    const cor = b.cor || ROTINA_DEFAULT_COLOR;
+    const key = dow + '|' + bid;
     return `
-      <div class="rot-block-row" data-block="${dow}|${bid}">
-        <div class="rot-block-times">
-          <input type="time" class="rot-block-time-input" data-block-inicio="${dow}|${bid}" value="${escapeHtml(b.inicio||'')}">
-          <span class="rot-block-sep">–</span>
-          <input type="time" class="rot-block-time-input" data-block-fim="${dow}|${bid}" value="${escapeHtml(b.fim||'')}">
+      <div class="rot-block-row" data-block="${key}">
+        <div class="rot-block-order-btns">
+          <button data-move-block-up="${key}" ${isFirst ? 'disabled' : ''} title="Mover para cima">↑</button>
+          <button data-move-block-down="${key}" ${isLast ? 'disabled' : ''} title="Mover para baixo">↓</button>
         </div>
-        <input type="text" class="rot-block-name-input" data-block-name="${dow}|${bid}" value="${escapeHtml(b.nome||'')}" placeholder="O que você faz nesse horário...">
-        <button class="rot-block-del-btn" data-del-block="${dow}|${bid}" title="Excluir horário">✕</button>
+        <div class="rot-color-picker">
+          <button type="button" class="rot-color-dot" data-color-toggle="${key}" style="background:${cor};" title="Cor deste horário"></button>
+          <div class="rot-color-popover" data-color-popover="${key}">
+            ${ROTINA_COLORS.map(c => `<button type="button" class="rot-color-swatch ${cor === c ? 'selected' : ''}" data-color-pick="${key}|${c}" style="background:${c};" title="${c}"></button>`).join('')}
+          </div>
+        </div>
+        <div class="rot-block-times">
+          <input type="time" class="rot-block-time-input" data-block-inicio="${key}" value="${escapeHtml(b.inicio||'')}">
+          <span class="rot-block-sep">–</span>
+          <input type="time" class="rot-block-time-input" data-block-fim="${key}" value="${escapeHtml(b.fim||'')}">
+        </div>
+        <input type="text" class="rot-block-name-input" data-block-name="${key}" value="${escapeHtml(b.nome||'')}" placeholder="O que você faz nesse horário...">
+        <button class="rot-block-del-btn" data-del-block="${key}" title="Excluir horário">✕</button>
       </div>`;
+  }
+
+  // Ordena por "order" (posição manual definida pela pessoa), não pelo horário —
+  // assim adicionar/mover um horário não embaralha os outros automaticamente.
+  function sortedRotinaBlocks(dow){
+    const dia = rotinaDraft[dow] || {};
+    return Object.entries(dia.blocos || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+  }
+
+  function moveRotinaBlock(dow, bid, direction){
+    const sorted = sortedRotinaBlocks(dow);
+    const idx = sorted.findIndex(([id]) => id === bid);
+    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if(idx === -1 || swapIdx < 0 || swapIdx >= sorted.length) return;
+    // Renumera tudo em sequência antes de trocar, garantindo que a troca sempre funcione
+    // mesmo com dados antigos que não tinham "order" definido.
+    sorted.forEach(([id, b], i) => { b.order = i; });
+    const a = sorted[idx][1], b2 = sorted[swapIdx][1];
+    const tmp = a.order; a.order = b2.order; b2.order = tmp;
+    setRotinaDirty(true);
+    renderRotinaGrid();
   }
 
   function renderRotinaGrid(){
@@ -3360,15 +3453,15 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     const todayDow = new Date().getDay();
 
     grid.innerHTML = ACADEMIA_DAY_NAMES.map((nome, dow) => {
-      const dia = rotinaDraft[dow] || {};
-      const blocos = Object.entries(dia.blocos || {}).sort((a,b) => (a[1].inicio||'').localeCompare(b[1].inicio||''));
+      const blocos = sortedRotinaBlocks(dow);
       return `
       <div class="rot-day-card ${dow === todayDow ? 'today' : ''}" data-dow="${dow}">
         <div class="rot-day-head">
           <span class="rot-day-name">${nome}${dow === todayDow ? ' <span class="academia-day-today-tag">hoje</span>' : ''}</span>
         </div>
+        ${dayCopySelectHtml(dow)}
         <div class="rot-block-list" data-block-list="${dow}">
-          ${blocos.length ? blocos.map(([bid,b]) => rotBlockRowHtml(dow, bid, b)).join('') : '<p class="academia-ex-empty">Nenhum horário configurado ainda.</p>'}
+          ${blocos.length ? blocos.map(([bid,b], idx) => rotBlockRowHtml(dow, bid, b, idx === 0, idx === blocos.length - 1)).join('') : '<p class="academia-ex-empty">Nenhum horário configurado ainda.</p>'}
         </div>
         <div class="rot-add-block-row"><button data-add-block="${dow}">+ Adicionar horário</button></div>
       </div>`;
@@ -3403,18 +3496,76 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
         renderRotinaGrid();
       });
     });
+    grid.querySelectorAll('[data-move-block-up]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const [dow, bid] = btn.getAttribute('data-move-block-up').split('|');
+        moveRotinaBlock(dow, bid, 'up');
+      });
+    });
+    grid.querySelectorAll('[data-move-block-down]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const [dow, bid] = btn.getAttribute('data-move-block-down').split('|');
+        moveRotinaBlock(dow, bid, 'down');
+      });
+    });
+    grid.querySelectorAll('[data-color-toggle]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const key = btn.getAttribute('data-color-toggle');
+        grid.querySelectorAll('.rot-color-popover.open').forEach(p => {
+          if(p.getAttribute('data-color-popover') !== key) p.classList.remove('open');
+        });
+        const pop = grid.querySelector(`[data-color-popover="${key}"]`);
+        if(pop) pop.classList.toggle('open');
+      });
+    });
+    grid.querySelectorAll('[data-color-pick]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const [dow, bid, color] = btn.getAttribute('data-color-pick').split('|');
+        ensureRotinaBlock(dow, bid).cor = color;
+        setRotinaDirty(true);
+        renderRotinaGrid();
+      });
+    });
     grid.querySelectorAll('[data-add-block]').forEach(btn => {
       btn.addEventListener('click', () => {
         const dow = btn.getAttribute('data-add-block');
         if(!rotinaDraft[dow]) rotinaDraft[dow] = { blocos:{} };
         if(!rotinaDraft[dow].blocos) rotinaDraft[dow].blocos = {};
+        // Garante que o novo horário sempre fica por último, mesmo que os
+        // horários existentes ainda não tenham "order" definido.
+        const maxOrder = Object.values(rotinaDraft[dow].blocos).reduce(
+          (max, b) => Math.max(max, Number.isFinite(b.order) ? b.order : 0), -1
+        );
         const bid = newId();
-        rotinaDraft[dow].blocos[bid] = { nome:'', inicio:'09:00', fim:'10:00' };
+        rotinaDraft[dow].blocos[bid] = { nome:'', inicio:'09:00', fim:'10:00', order: maxOrder + 1, cor: ROTINA_DEFAULT_COLOR };
+        setRotinaDirty(true);
+        renderRotinaGrid();
+      });
+    });
+    grid.querySelectorAll('[data-copy-source]').forEach(sel => {
+      sel.addEventListener('change', async () => {
+        const sourceDow = sel.getAttribute('data-copy-source');
+        const targetDow = sel.value;
+        sel.value = '';
+        if(targetDow === '') return;
+        const sourceName = ACADEMIA_DAY_NAMES[sourceDow], targetName = ACADEMIA_DAY_NAMES[targetDow];
+        if(!(await showConfirm(`Copiar a rotina de ${sourceName} para ${targetName}? Isso substitui o que já existe em ${targetName}.`))) return;
+        const sourceDia = rotinaDraft[sourceDow] || { blocos:{} };
+        const newBlocos = {};
+        Object.values(sourceDia.blocos || {}).forEach(b => {
+          newBlocos[newId()] = { nome:b.nome, inicio:b.inicio, fim:b.fim, order:b.order||0, cor:b.cor || ROTINA_DEFAULT_COLOR };
+        });
+        rotinaDraft[targetDow] = { blocos:newBlocos };
         setRotinaDirty(true);
         renderRotinaGrid();
       });
     });
   }
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.rot-color-popover.open').forEach(p => p.classList.remove('open'));
+  });
 
   async function renderRotina(){
     const saved = await dbGet(userPath('/Rotina')) || {};
@@ -3431,6 +3582,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     await dbPut(userPath('/Rotina'), rotinaDraft);
     setRotinaDirty(false);
     await renderRotinaHoje();
+    await renderHojeTimeline();
   });
   document.getElementById('rotinaCancelBtn').addEventListener('click', async () => {
     await renderRotina();
@@ -3450,6 +3602,36 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     if(h <= 0) return m + 'min';
     return h + 'h' + (m ? ' ' + m + 'min' : '');
   }
+
+  /* ---------- Timeline 24h da Hoje: blocos da Rotina de hoje + linha do momento atual ---------- */
+  async function renderHojeTimeline(){
+    const track = document.getElementById('hojeTimeline24hTrack');
+    if(!track) return;
+    const now = new Date();
+    const dow = now.getDay();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+
+    const diaData = await dbGet(userPath('/Rotina/' + dow)) || {};
+    const blocos = Object.entries(diaData.blocos || {})
+      .map(([id, b]) => ({ id, nome: (b.nome || '').trim() || 'Sem nome', inicio: rotToMinutes(b.inicio), fim: rotToMinutes(b.fim), cor: b.cor || ROTINA_DEFAULT_COLOR }))
+      .filter(b => b.inicio != null && b.fim != null && b.fim > b.inicio);
+
+    const dayMin = 24 * 60;
+    const pct = (min) => (Math.min(dayMin, Math.max(0, min)) / dayMin) * 100;
+
+    let html = '';
+    for(let h = 0; h <= 24; h += 3){
+      html += `<div class="timeline-24h-tick" style="left:${pct(h * 60)}%;"></div>`;
+    }
+    blocos.forEach(b => {
+      const left = pct(b.inicio);
+      const width = Math.max(0.6, pct(b.fim) - pct(b.inicio));
+      html += `<div class="timeline-24h-block" style="left:${left}%; width:${width}%; background:${b.cor}2e; border-color:${b.cor};" title="${escapeHtml(b.nome + ' · ' + (diaData.blocos[b.id].inicio||'') + '–' + (diaData.blocos[b.id].fim||''))}"><span class="timeline-24h-block-label" style="color:${b.cor};">${escapeHtml(b.nome)}</span></div>`;
+    });
+    html += `<div class="timeline-24h-now" style="left:${pct(nowMin)}%;" title="Agora"></div>`;
+    track.innerHTML = html;
+  }
+
   async function renderRotinaHoje(){
     const nowRow = document.getElementById('rotinaHojeNowRow');
     const agoraEl = document.getElementById('rotinaHojeAgora');
@@ -3506,15 +3688,21 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   }
 
   /* ---------- AGENDA (eventos + importação .ics) ---------- */
+  const eventAllDayToggle = document.getElementById('eventAllDayToggle');
+  eventAllDayToggle.addEventListener('click', () => {
+    eventAllDayToggle.classList.toggle('active');
+  });
+
   document.getElementById('addEventBtn').addEventListener('click', async () => {
     const title = document.getElementById('eventTitleInput').value.trim();
     const date = document.getElementById('eventDateInput').value;
     const time = document.getElementById('eventTimeInput').value;
-    const allDay = document.getElementById('eventAllDayInput').checked;
+    const allDay = eventAllDayToggle.classList.contains('active');
     if(!title || !date) return;
     const id = newId();
     await dbPut(userPath('/Events/' + id), { title, date, time: allDay ? '' : time, allDay, createdAt: new Date().toISOString() });
     document.getElementById('eventTitleInput').value = '';
+    eventAllDayToggle.classList.remove('active');
     await renderAgenda(); await renderHojeEvents();
   });
 
@@ -3635,40 +3823,82 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     const el = document.getElementById('agendaList');
     const data = await dbGet(userPath('/Events')) || {};
     const today = todayStr();
+    const now = new Date();
+
+    const bannerEl = document.getElementById('agendaTodayBanner');
+    if(bannerEl){
+      const weekdayFull = WEEKDAYS_PT[now.getDay()];
+      const weekdayCap = weekdayFull.charAt(0).toUpperCase() + weekdayFull.slice(1);
+      bannerEl.innerHTML = `Hoje é <strong>${weekdayCap}, ${now.getDate()} de ${MONTHS_FULL_PT[now.getMonth()]} de ${now.getFullYear()}</strong>`;
+    }
+
     const events = Object.values(data).filter(ev => ev.date >= today).sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
     if(!events.length){ el.innerHTML = '<p class="empty-state">Nenhum evento futuro. Adicione um acima ou importe seu .ics.</p>'; return; }
 
-    const now = new Date();
     const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay());
     const endOfWeek = new Date(startOfWeek); endOfWeek.setDate(startOfWeek.getDate() + 6);
     function toDate(dstr){ const [y,m,d] = dstr.split('-').map(Number); return new Date(y, m-1, d); }
 
+    // Agrupa por data exata — cada dia vira um bloco de calendário (data em
+    // destaque à esquerda), com os horários como detalhe menor de cada evento.
+    const byDate = {};
+    const order = [];
+    events.forEach(ev => {
+      if(!byDate[ev.date]){ byDate[ev.date] = []; order.push(ev.date); }
+      byDate[ev.date].push(ev);
+    });
+
     let html = '';
     let currentMonthLabel = null;
     let weekPrinted = false;
-    for(const ev of events){
-      const evDate = toDate(ev.date);
+    for(const dateKey of order){
+      const evDate = toDate(dateKey);
       const inThisWeek = evDate >= startOfWeek && evDate <= endOfWeek;
       const monthLabel = MONTHS_FULL_PT[evDate.getMonth()] + ' de ' + evDate.getFullYear();
       if(inThisWeek && !weekPrinted){ html += '<div class="cal-week-label">Esta semana</div>'; weekPrinted = true; currentMonthLabel = null; }
       else if(!inThisWeek && monthLabel !== currentMonthLabel){ html += '<div class="cal-week-label">' + monthLabel + '</div>'; currentMonthLabel = monthLabel; }
-      html += `<div class="event-row"><div class="event-time">${ev.allDay ? 'dia todo' : (ev.time||'—')}</div><div><div class="event-title">${escapeHtml(ev.title)}${ev.recurring ? ' <span style="color:var(--text-dim); font-size:11px;">↻ recorrente</span>' : ''}</div><div class="item-meta" style="margin-top:2px;">${fmtShortDate(ev.date)}</div></div></div>`;
+
+      const isToday = dateKey === today;
+      const weekdayAbbr = WEEKDAYS_PT[evDate.getDay()].slice(0,3).toUpperCase();
+      const monthAbbr = MONTHS_PT[evDate.getMonth()];
+      const dayEvents = byDate[dateKey];
+
+      html += `<div class="cal-day-block ${isToday ? 'today' : ''}">
+        <div class="cal-day-datebox">
+          <span class="cal-day-weekday">${isToday ? 'hoje' : weekdayAbbr}</span>
+          <span class="cal-day-num">${evDate.getDate()}</span>
+          <span class="cal-day-month">${monthAbbr}</span>
+        </div>
+        <div class="cal-day-events">
+          ${dayEvents.map(ev => `<div class="cal-event-row">
+            <span class="cal-event-time">${ev.allDay ? 'dia todo' : (ev.time || '—')}</span>
+            <span class="cal-event-title">${escapeHtml(ev.title)}${ev.recurring ? ' <span style="color:var(--text-dim); font-size:11px;">↻ recorrente</span>' : ''}</span>
+          </div>`).join('')}
+        </div>
+      </div>`;
     }
     el.innerHTML = '<div class="panel">' + html + '</div>';
   }
 
   /* ---------- TAREFAS ---------- */
+  const taskNoDateToggle = document.getElementById('taskNoDateToggle');
+  const taskDateInput = document.getElementById('taskDateInput');
+  taskNoDateToggle.addEventListener('click', () => {
+    const nowActive = !taskNoDateToggle.classList.contains('active');
+    taskNoDateToggle.classList.toggle('active', nowActive);
+    taskDateInput.disabled = nowActive;
+    if(nowActive) taskDateInput.value = '';
+  });
+
   document.getElementById('addTaskBtn').addEventListener('click', async () => {
     const name = document.getElementById('taskNameInput').value.trim();
     if(!name) return;
-    const noDate = document.getElementById('taskNoDateInput').checked;
-    const date = noDate ? '' : document.getElementById('taskDateInput').value;
-    const priority = document.getElementById('taskPrioInput').value;
-    const project = document.getElementById('taskProjInput').value.trim();
+    const noDate = taskNoDateToggle.classList.contains('active');
+    const date = noDate ? '' : taskDateInput.value;
+    const group = document.getElementById('taskGroupInput').value;
     const id = newId();
-    await dbPut(userPath('/Tasks/' + id), { name, date, priority, project, done:false, createdAt: new Date().toISOString() });
+    await dbPut(userPath('/Tasks/' + id), { name, date, group, done:false, createdAt: new Date().toISOString() });
     document.getElementById('taskNameInput').value = '';
-    document.getElementById('taskProjInput').value = '';
     await renderTasks(); await renderHojeQueue();
   });
 
@@ -3681,59 +3911,176 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     await renderTasks(); await renderHojeQueue();
   }
 
-  function prioLabel(p){ return p === 'alta' ? 'alta' : p === 'baixa' ? 'baixa' : 'média'; }
-  function taskRowHtml(id, t){
-    return `
-      <div class="task-row">
-        <div class="queue-check ${t.done?'done':''}" data-toggle-task="${id}" style="${t.done?'background:var(--sage);border-color:var(--sage);':''}"></div>
-        <div class="queue-text" style="${t.done?'text-decoration:line-through;color:var(--text-dim);':''}">${escapeHtml(t.name)}</div>
-        ${t.project ? '<span class="tag tag-sage">'+escapeHtml(t.project)+'</span>' : ''}
-        <span class="status-pill ${t.done?'status-concluido':'status-fazer'}">${t.done?'concluído':'a fazer'}</span>
-        <span class="prio-${t.priority||'media'}" style="font-family:var(--mono); font-size:11px;">${prioLabel(t.priority)}</span>
-        <span class="queue-time">prazo: ${t.date ? fmtShortDate(t.date) : 'indefinida'}</span>
-        <button class="btn btn-reject btn-sm" data-del-task="${id}">excluir</button>
+  // Classifica o prazo de uma tarefa em: Hoje, Dia DD/MM (próximos 6 dias ou
+  // atrasada), Futuro (mais de 6 dias), ou Indefinido (sem data) — sempre com
+  // o dia da semana quando existe data.
+  function prazoInfo(dateStr){
+    if(!dateStr) return { label:'Indefinido', cls:'prazo-indefinido' };
+    const today = todayStr();
+    const [y,m,d] = dateStr.split('-').map(Number);
+    const dateObj = new Date(y, m-1, d);
+    const weekdayAbbr = WEEKDAYS_PT[dateObj.getDay()].slice(0,3);
+    if(dateStr === today) return { label:'Hoje', cls:'prazo-hoje', weekday: weekdayAbbr };
+    const dd = String(d).padStart(2,'0'), mm = String(m).padStart(2,'0');
+    return { label:'Dia ' + dd + '/' + mm, cls:'prazo-datado', weekday: weekdayAbbr };
+  }
+  function prazoPillHtml(dateStr){
+    const info = prazoInfo(dateStr);
+    return `<span class="prazo-pill ${info.cls}">${info.label}${info.weekday ? ' · ' + info.weekday : ''}</span>`;
+  }
+
+  /* ---------- GRUPOS DE TAREFAS (containers nomeados, no mesmo espírito do Storage) ---------- */
+  const TASK_GROUP_DEFAULTS = ['Pessoais', 'Profissionais', 'Casa'];
+  async function ensureTaskGroupDefaults(){
+    const existing = await dbGet(userPath('/TaskGroups'));
+    if(existing) return existing;
+    const seeded = {};
+    TASK_GROUP_DEFAULTS.forEach((name, idx) => { seeded[newId()] = { name, order: idx, collapsed:false }; });
+    await dbPut(userPath('/TaskGroups'), seeded);
+    return seeded;
+  }
+  async function populateTaskGroupSelect(){
+    const sel = document.getElementById('taskGroupInput');
+    if(!sel) return;
+    const groups = await ensureTaskGroupDefaults();
+    const sorted = Object.entries(groups).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+    const prevValue = sel.value;
+    sel.innerHTML = '<option value="">Sem grupo</option>' + sorted.map(([id,g]) => `<option value="${id}">${escapeHtml(g.name)}</option>`).join('');
+    if(sorted.some(([id]) => id === prevValue)) sel.value = prevValue;
+  }
+
+  document.getElementById('addTaskGroupBtn').addEventListener('click', async () => {
+    const input = document.getElementById('newTaskGroupInput');
+    const name = input.value.trim();
+    if(!name) return;
+    const groups = await dbGet(userPath('/TaskGroups')) || {};
+    const id = newId();
+    await dbPut(userPath('/TaskGroups/' + id), { name, order: Object.keys(groups).length, collapsed:false });
+    input.value = '';
+    await populateTaskGroupSelect();
+    await renderTaskGroups();
+  });
+  document.getElementById('newTaskGroupInput').addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('addTaskGroupBtn').click(); }
+  });
+
+  async function renderTaskGroups(){
+    const el = document.getElementById('taskGroupsList');
+    const [groupsData, tasksData] = await Promise.all([
+      dbGet(userPath('/TaskGroups')) || {},
+      dbGet(userPath('/Tasks')) || {}
+    ]);
+    const groups = groupsData || {};
+    const tasks = tasksData || {};
+    const groupEntries = Object.entries(groups).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+
+    function tasksOfGroup(gid){
+      return Object.entries(tasks).filter(([id,t]) => (t.group || '') === gid);
+    }
+    function groupCardHtml(gid, g, isUngrouped){
+      const groupTasks = tasksOfGroup(gid).sort((a,b) => (a[1].done?1:0) - (b[1].done?1:0));
+      const pending = groupTasks.filter(([id,t]) => !t.done).length;
+      return `
+      <div class="gaveta-card ${g.collapsed ? 'collapsed' : ''}" data-tgid="${gid}">
+        <div class="gaveta-head" data-toggle-tgroup="${gid}">
+          <span class="gaveta-chevron">▾</span>
+          <span class="gaveta-name">${escapeHtml(g.name)}</span>
+          <span class="gaveta-count">${groupTasks.length} ${groupTasks.length===1?'tarefa':'tarefas'} · ${pending} pendente${pending===1?'':'s'}</span>
+          <span class="gaveta-state-tag">${g.collapsed ? 'minimizada' : 'maximizada'}</span>
+          ${isUngrouped ? '' : `<div class="gaveta-actions">
+            <button data-rename-tgroup="${gid}">renomear</button>
+            <button data-del-tgroup="${gid}">excluir</button>
+          </div>`}
+        </div>
+        <div class="gaveta-body">
+          ${groupTasks.length ? groupTasks.map(([id,t]) => `
+            <div class="gaveta-item-row">
+              <div class="queue-check ${t.done?'done':''}" data-toggle-task="${id}" style="${t.done?'background:var(--sage);border-color:var(--sage);':''} flex-shrink:0; margin-top:2px;"></div>
+              <div class="gaveta-item-text" style="${t.done?'text-decoration:line-through;color:var(--text-dim);':''}">${escapeHtml(t.name)}${t.date ? ' ' + prazoPillHtml(t.date) : ''}</div>
+              <button data-del-task="${id}">excluir</button>
+            </div>`).join('') : '<p class="gaveta-empty">Nenhuma tarefa neste grupo ainda.</p>'}
+        </div>
       </div>`;
+    }
+
+    let html = groupEntries.map(([gid,g]) => groupCardHtml(gid, g, false)).join('');
+    const ungroupedCount = tasksOfGroup('').length;
+    html += groupCardHtml('', { name:'Sem grupo', collapsed:false }, true);
+    el.innerHTML = html || '<p class="empty-state">Crie um grupo para organizar suas tarefas.</p>';
+
+    el.querySelectorAll('[data-toggle-tgroup]').forEach(headEl => {
+      headEl.addEventListener('click', (e) => {
+        if(e.target.closest('.gaveta-actions') || e.target.closest('[data-toggle-task]') || e.target.closest('[data-del-task]')) return;
+        const gid = headEl.getAttribute('data-toggle-tgroup');
+        const card = headEl.closest('.gaveta-card');
+        const newCollapsed = !card.classList.contains('collapsed');
+        card.classList.toggle('collapsed', newCollapsed);
+        const stateTag = headEl.querySelector('.gaveta-state-tag');
+        if(stateTag) stateTag.textContent = newCollapsed ? 'minimizada' : 'maximizada';
+        if(gid){ dbPatchSilent(userPath('/TaskGroups/' + gid), { collapsed: newCollapsed }).catch(err => console.error('Erro ao salvar estado do grupo', err)); }
+      });
+    });
+    el.querySelectorAll('[data-rename-tgroup]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const gid = btn.getAttribute('data-rename-tgroup');
+        const current = groups[gid] ? groups[gid].name : '';
+        const novo = window.prompt('Novo nome do grupo:', current);
+        if(novo === null) return;
+        const trimmed = novo.trim();
+        if(!trimmed) return;
+        await dbPatch(userPath('/TaskGroups/' + gid), { name: trimmed });
+        await populateTaskGroupSelect();
+        await renderTaskGroups();
+      });
+    });
+    el.querySelectorAll('[data-del-tgroup]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const gid = btn.getAttribute('data-del-tgroup');
+        const affected = tasksOfGroup(gid);
+        await Promise.all(affected.map(([id]) => dbPatchSilent(userPath('/Tasks/' + id), { group:'' })));
+        await dbDelete(userPath('/TaskGroups/' + gid));
+        await populateTaskGroupSelect();
+        await renderTaskGroups();
+        await renderTasks();
+      });
+    });
+    el.querySelectorAll('[data-toggle-task]').forEach(chk => {
+      chk.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = chk.getAttribute('data-toggle-task');
+        const t = tasks[id];
+        await toggleTaskDone(id, !t.done);
+        await renderTaskGroups();
+      });
+    });
+    el.querySelectorAll('[data-del-task]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await deleteTask(btn.getAttribute('data-del-task'));
+        await renderTaskGroups();
+      });
+    });
   }
 
   async function renderTasks(){
     const data = await dbGet(userPath('/Tasks')) || {};
     const all = Object.entries(data);
-    const today = todayStr();
-    const hoje = all.filter(([id,t]) => t.date === today);
-    document.getElementById('tarefasHojeCount').textContent = hoje.length + (hoje.length===1?' tarefa':' tarefas');
-    document.getElementById('tarefasHojeList').innerHTML = hoje.length ? hoje.map(([id,t]) => taskRowHtml(id,t)).join('') : '<p class="empty-state">Nenhuma tarefa para hoje.</p>';
-
-    // Semana: próximos 7 dias agrupados por data
-    const semanaPanel = document.getElementById('tarefasSemanaPanel');
-    const byDate = {};
-    all.forEach(([id,t]) => { if(t.date){ (byDate[t.date] = byDate[t.date]||[]).push([id,t]); } });
-    const dates = Object.keys(byDate).filter(d => d >= today).sort().slice(0,7);
-    semanaPanel.innerHTML = dates.length ? dates.map(d => `
-      <div class="week-day">
-        <div class="week-day-label">${fmtShortDate(d)}</div>
-        ${byDate[d].map(([id,t]) => `<div class="task-row" style="padding:8px 4px;"><div class="queue-check ${t.done?'done':''}" data-toggle-task="${id}"></div><div class="queue-text">${escapeHtml(t.name)}</div>${t.project?'<span class="tag tag-sage">'+escapeHtml(t.project)+'</span>':''}</div>`).join('')}
-      </div>`).join('') : '<p class="empty-state">Nenhuma tarefa com data nos próximos dias.</p>';
+    const groupsData = await ensureTaskGroupDefaults();
+    const groupName = (gid) => (gid && groupsData[gid]) ? groupsData[gid].name : '—';
+    await populateTaskGroupSelect();
 
     // Lista completa
     const listaBody = document.getElementById('tarefasListaBody');
     listaBody.innerHTML = all.length ? all.sort((a,b)=>(a[1].date||'9999').localeCompare(b[1].date||'9999')).map(([id,t]) => `
       <tr>
-        <td>${escapeHtml(t.name)}</td><td class="mono">${escapeHtml(t.project||'—')}</td>
-        <td class="prio-${t.priority||'media'}">${prioLabel(t.priority)}</td>
+        <td>${prazoPillHtml(t.date)}</td>
+        <td>${escapeHtml(t.name)}</td>
+        <td class="mono">${escapeHtml(groupName(t.group))}</td>
         <td><span class="status-pill ${t.done?'status-concluido':'status-fazer'}">${t.done?'concluído':'a fazer'}</span></td>
-        <td class="mono">${t.date?fmtShortDate(t.date):'indefinida'}</td>
         <td><button class="btn btn-reject btn-sm" data-del-task="${id}">excluir</button></td>
-      </tr>`).join('') : '<tr><td colspan="6">Nenhuma tarefa ainda.</td></tr>';
-
-    // Kanban simplificado: a fazer / concluído (sem "em andamento" dedicado)
-    const fazer = all.filter(([id,t]) => !t.done);
-    const feito = all.filter(([id,t]) => t.done);
-    document.getElementById('kanbanFazerCount').textContent = fazer.length;
-    document.getElementById('kanbanAndamentoCount').textContent = 0;
-    document.getElementById('kanbanConcluidoCount').textContent = feito.length;
-    document.getElementById('kanbanFazerList').innerHTML = fazer.map(([id,t]) => `<div class="kanban-card"><div class="kanban-card-title">${escapeHtml(t.name)}</div><div class="kanban-card-meta"><span>${escapeHtml(t.project||'—')}</span><span class="prio-${t.priority||'media'}">${prioLabel(t.priority)}</span></div></div>`).join('');
-    document.getElementById('kanbanAndamentoList').innerHTML = '';
-    document.getElementById('kanbanConcluidoList').innerHTML = feito.map(([id,t]) => `<div class="kanban-card"><div class="kanban-card-title">${escapeHtml(t.name)}</div><div class="kanban-card-meta"><span>${escapeHtml(t.project||'—')}</span><span class="prio-${t.priority||'media'}">${prioLabel(t.priority)}</span></div></div>`).join('');
+      </tr>`).join('') : '<tr><td colspan="5">Nenhuma tarefa ainda.</td></tr>';
 
     document.querySelectorAll('[data-toggle-task]').forEach(el => el.addEventListener('click', async () => {
       const id = el.getAttribute('data-toggle-task');
@@ -3743,27 +4090,21 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     document.querySelectorAll('[data-del-task]').forEach(btn => btn.addEventListener('click', () => deleteTask(btn.getAttribute('data-del-task'))));
   }
 
-  /* ---------- HOJE (fila combinada: tarefas + estudos + treino/hábitos de hoje) ---------- */
+  /* ---------- HOJE (fila combinada: tarefas + treino/hábitos de hoje) ---------- */
   async function renderHojeQueue(){
     const today = todayStr();
     const dow = new Date().getDay(); // 0=domingo
     const tasksData = await dbGet(userPath('/Tasks')) || {};
-    const estudosData = await dbGet(userPath('/Estudos')) || {};
     const academiaDias = await dbGet(userPath('/AcademiaDias')) || {};
 
     const todaysTasks = Object.entries(tasksData).filter(([id,t]) => t.date === today);
-    const todaysEstudos = Object.entries(estudosData).filter(([id,e]) => !e.days || !e.days.length || e.days.includes(dow));
     const diaHoje = academiaDias[dow] || {};
     const exerciciosHoje = diaHoje.ativo ? Object.entries(diaHoje.exercicios || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0)) : [];
 
     activities = [
       ...todaysTasks.map(([id,t]) => ({
-        kind:'tarefa', obj: t.project || 'Tarefa', name: t.name, time: prioLabel(t.priority), done: !!t.done,
+        kind:'tarefa', obj: 'Tarefa', name: t.name, time: 'hoje', done: !!t.done,
         onComplete: async () => { await dbPatch(userPath('/Tasks/' + id), { done:true }); }
-      })),
-      ...todaysEstudos.map(([id,e]) => ({
-        kind:'estudo', obj: 'Estudo', name: e.name, time: e.days && e.days.length ? 'dia específico' : 'diário', done: e.lastDoneDate === today,
-        onComplete: async () => { await dbPatch(userPath('/Estudos/' + id), { lastDoneDate: today }); }
       })),
       ...exerciciosHoje.map(([eid,e]) => ({
         kind:'treino', obj: 'Academia', name: e.nome, time: 'treino', done: !!(e.doneDates && e.doneDates[today]),
@@ -3771,34 +4112,6 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       }))
     ];
     updateHeroCard(); updateDayProgress(); updateFlowUI();
-  }
-
-  /* ---------- HOJE — painel visual "Academia hoje" ---------- */
-  async function renderHojeAcademia(){
-    const el = document.getElementById('hojeAcademiaList');
-    const today = todayStr();
-    const dow = new Date().getDay();
-    const academiaDias = await dbGet(userPath('/AcademiaDias')) || {};
-    const diaHoje = (academiaDias || {})[dow] || {};
-    const exercicios = diaHoje.ativo ? Object.entries(diaHoje.exercicios || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0)) : [];
-
-    let html = '';
-    html += diaHoje.ativo
-      ? (exercicios.length
-          ? exercicios.map(([eid,e]) => {
-              const done = !!(e.doneDates && e.doneDates[today]);
-              return `<div class="queue-item ${done?'done':''}"><div class="queue-check ${done?'done':''}" data-toggle-ex="${eid}"></div><div class="queue-text">${escapeHtml(e.nome)}</div></div>`;
-            }).join('')
-          : '<p class="empty-state" style="margin:2px 0 10px;">Dia de treino, mas nenhum exercício cadastrado ainda.</p>')
-      : '<p class="empty-state" style="margin:2px 0 10px;">Sem treino hoje.</p>';
-    el.innerHTML = html || '<p class="empty-state">Nada configurado em Academia ainda.</p>';
-
-    el.querySelectorAll('[data-toggle-ex]').forEach(chk => chk.addEventListener('click', async () => {
-      const eid = chk.getAttribute('data-toggle-ex');
-      const nowDone = !chk.classList.contains('done');
-      await dbPatch(userPath('/AcademiaDias/' + dow + '/exercicios/' + eid + '/doneDates'), { [today]: nowDone });
-      await renderHojeAcademia(); await renderHojeQueue();
-    }));
   }
 
   /* ---------- HOJE — painel "Água & creatina" ---------- */
@@ -4061,22 +4374,25 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   }
   async function bootApp(){
     renderHojeHeader();
+    const configEmailEl = document.getElementById('configAccountEmail');
+    if(configEmailEl) configEmailEl.textContent = (session && session.email) || '—';
     await Promise.allSettled([
       guardRender(renderHojeQueue, 'a fila de hoje', []),
       guardRender(renderHojeEvents, 'os eventos de hoje', 'hojeEventsList'),
       guardRender(renderHojeAvisos, 'os avisos', 'hojeAvisosList'),
-      guardRender(renderHojeAcademia, 'a academia de hoje', 'hojeAcademiaList'),
       guardRender(renderHojeHidratacao, 'água & creatina', 'hojeHidratacaoList'),
       guardRender(renderHojePlanoAlimentar, 'o plano alimentar de hoje', 'hojePlanoAlimentarList'),
       guardRender(renderHojeDiarioStatus, 'o status do diário hoje', 'hojeDiarioStatus'),
       guardRender(renderRotinaHoje, 'a rotina de hoje', 'rotinaHojeUpcoming'),
+      guardRender(renderHojeTimeline, 'a linha do tempo de hoje', 'hojeTimeline24hTrack'),
       guardRender(renderFluenciaToday, 'o Fluência de hoje', []),
       guardRender(renderInbox, 'a Inbox', 'inboxList'),
       guardRender(renderRevisao, 'a Revisão', 'revisaoList'),
       guardRender(renderStorage, 'as Gavetas', 'gavetaList'),
       guardRender(renderStorageRevisao, 'a Revisão de Gavetas', 'storageRevisaoList'),
       guardRender(renderAgenda, 'a Agenda', 'agendaList'),
-      guardRender(renderTasks, 'as Tarefas', 'tarefasHojeList'),
+      guardRender(renderTasks, 'as Tarefas', 'tarefasListaBody'),
+      guardRender(renderTaskGroups, 'os grupos de tarefas', 'taskGroupsList'),
       guardRender(renderAcademia, 'a Academia', 'academiaDaysGrid'),
       guardRender(renderDiario, 'o Diário', 'diarioEntriesList'),
       guardRender(renderPlanoAlimentar, 'o Plano Alimentar', 'paDaysGrid'),
