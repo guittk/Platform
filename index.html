@@ -84,6 +84,8 @@
   }
   .brand-name{ font-family:var(--serif); font-size:17px; font-weight:600; letter-spacing:0.2px; }
   .brand-sub{ font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1.2px; margin-top:1px; }
+  .sidebar-date{ font-family:var(--sans); font-size:11.5px; color:var(--text-mut); padding:0 6px; }
+  .sidebar-date strong{ color:var(--text); font-family:var(--serif); font-weight:600; }
 
   .nav-level{ display:flex; flex-direction:column; gap:2px; }
   .nav-level-label{
@@ -496,6 +498,9 @@
   .task-table td{ padding:11px 10px; border-bottom:1px solid var(--line); font-size:13px; vertical-align:top; }
   .task-table tr:last-child td{ border-bottom:none; }
   .task-table td.mono{ font-family:var(--mono); font-size:11.5px; color:var(--text-mut); }
+  .task-table td:last-child{ width:1%; white-space:nowrap; text-align:right; }
+  .task-del-btn{ background:transparent; border:1px solid var(--line); color:var(--text-dim); border-radius:7px; font-size:11px; padding:4px 8px; cursor:pointer; }
+  .task-del-btn:hover{ color:var(--coral); border-color:rgba(180,106,92,0.4); }
 
   .month-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
   .month-dow{ font-family:var(--mono); font-size:10px; color:var(--text-dim); text-align:center; padding-bottom:4px; }
@@ -605,6 +610,12 @@
   }
   .confirm-modal-text{ font-size:14px; color:var(--text); line-height:1.5; margin:0 0 20px; }
   .confirm-modal-actions{ display:flex; justify-content:flex-end; gap:10px; }
+  .modal-text-input{ width:100%; background:var(--surface); border:1px solid var(--line-strong); border-radius:9px; padding:10px 12px; color:var(--text); font-size:13px; font-family:var(--sans); outline:none; margin-bottom:20px; box-sizing:border-box; }
+  .modal-field-label{ display:block; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:5px; }
+  .modal-field-row{ display:flex; gap:10px; align-items:flex-end; margin-bottom:20px; }
+  .modal-field-row > div{ flex:1; min-width:0; }
+  .modal-field-row .modal-text-input{ margin-bottom:0; }
+  .modal-field-row .nodate-toggle{ margin-bottom:0; flex-shrink:0; }
 
   /* ---------- Login ---------- */
   .login-screen{
@@ -721,6 +732,12 @@
   .pa-food-add-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
   .pa-add-meal-row button{ width:100%; background:transparent; border:1px dashed var(--line-strong); color:var(--text-mut); border-radius:7px; padding:7px 10px; cursor:pointer; font-size:12px; }
   .pa-add-meal-row button:hover{ color:var(--sage); border-color:var(--sage-line); }
+  .pa-hoje-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:10px; }
+  .pa-hoje-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .pa-hoje-name{ font-family:var(--serif); font-size:14.5px; font-weight:600; }
+  .pa-hoje-foods{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:4px; font-size:12.5px; color:var(--text-mut); }
+  .pa-hoje-actions{ display:flex; gap:8px; margin-top:2px; }
+  .pa-hoje-actions .btn{ flex:1; }
   @media (max-width:640px){
     .pa-days-grid{ grid-template-columns:1fr; }
     .pa-food-add-row{ flex-wrap:wrap; }
@@ -827,6 +844,7 @@
   .gaveta-state-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-dim); border:1px solid var(--line); border-radius:20px; padding:2px 7px; flex-shrink:0; }
   .gaveta-card.collapsed .gaveta-state-tag{ color:var(--gold); border-color:var(--gold); }
   .gaveta-name{ font-family:var(--serif); font-size:15px; font-weight:600; flex:1; }
+  .gaveta-name-edit{ font-family:var(--serif); font-size:15px; font-weight:600; flex:1; background:var(--surface); border:1px solid var(--line-strong); border-radius:7px; padding:4px 8px; color:var(--text); outline:none; }
   .gaveta-count{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
   .gaveta-actions{ display:flex; gap:4px; align-items:center; }
   .gaveta-actions button{ background:transparent; border:1px solid var(--line); color:var(--text-mut); border-radius:7px; font-size:11px; padding:4px 8px; cursor:pointer; }
@@ -846,6 +864,8 @@
   }
   .gaveta-edit-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:10px; }
   .new-gaveta-row{ display:flex; gap:8px; margin-bottom:16px; }
+  .subview-toolbar{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .subview-toolbar-label{ font-size:12.5px; color:var(--text-mut); margin:0; }
   .new-gaveta-row input{ flex:1; background:var(--surface); border:1px solid var(--line-strong); border-radius:9px; padding:9px 12px; color:var(--text); font-size:13px; font-family:var(--sans); outline:none; }
 
   /* ---------- Add Task / Add Event forms ---------- */
@@ -951,6 +971,7 @@
       <div class="brand-sub">Evolução assistida</div>
     </div>
   </div>
+  <div class="sidebar-date" id="sidebarDate">—</div>
 
   <nav class="nav-level">
     <div class="nav-level-label">Executar</div>
@@ -961,8 +982,7 @@
 
   <nav class="nav-level">
     <div class="nav-level-label">Organizar</div>
-    <div class="nav-item" data-view="inbox"><span class="dot"></span> Inbox <span class="badge" id="navInboxBadge">0</span></div>
-    <div class="nav-item" data-view="storage"><span class="dot"></span> Storage</div>
+    <div class="nav-item" data-view="storage"><span class="dot"></span> Storage <span class="badge" id="navInboxBadge">0</span></div>
     <div class="nav-item" data-view="tarefas"><span class="dot"></span> Tarefas</div>
     <div class="nav-item" data-view="agenda"><span class="dot"></span> Agenda</div>
     <div class="nav-item" data-view="rotina"><span class="dot"></span> Rotina</div>
@@ -1025,6 +1045,90 @@
     <div class="confirm-modal-actions">
       <button class="btn btn-ghost btn-sm" id="confirmModalCancelBtn">Cancelar</button>
       <button class="btn btn-primary btn-sm" id="confirmModalOkBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVO GRUPO DE TAREFAS -->
+<div class="confirm-modal" id="newGroupModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Nome do novo grupo</p>
+    <input type="text" id="newGroupModalInput" class="modal-text-input" placeholder="ex: Pessoais, Profissionais, Casa..." autocomplete="off">
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="newGroupModalCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="newGroupModalOkBtn">Criar grupo</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVO EVENTO (Agenda) -->
+<div class="confirm-modal" id="newEventModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:14px;">Novo evento</p>
+    <label class="modal-field-label">Título</label>
+    <input type="text" id="newEventTitleInput" class="modal-text-input" placeholder="Nome do evento" autocomplete="off">
+    <div class="modal-field-row">
+      <div>
+        <label class="modal-field-label">Data</label>
+        <input type="date" id="newEventDateInput" class="modal-text-input">
+      </div>
+      <div>
+        <label class="modal-field-label">Horário</label>
+        <input type="time" id="newEventTimeInput" class="modal-text-input">
+      </div>
+    </div>
+    <button type="button" class="nodate-toggle" id="newEventAllDayToggle">Dia inteiro</button>
+    <div class="confirm-modal-actions" style="margin-top:18px;">
+      <button class="btn btn-ghost btn-sm" id="newEventCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="newEventCreateBtn">Criar evento</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVA TAREFA -->
+<div class="confirm-modal" id="newTaskModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:14px;">Nova tarefa</p>
+    <label class="modal-field-label">Tarefa</label>
+    <input type="text" id="newTaskNameInput" class="modal-text-input" placeholder="O que precisa ser feito?" autocomplete="off">
+    <div class="modal-field-row">
+      <div>
+        <label class="modal-field-label">Prazo</label>
+        <input type="date" id="newTaskDateInput" class="modal-text-input">
+      </div>
+      <button type="button" class="nodate-toggle" id="newTaskNoDateToggle">Sem data</button>
+    </div>
+    <label class="modal-field-label">Grupo</label>
+    <select id="newTaskGroupSelect" class="modal-text-input">
+      <option value="">Sem grupo</option>
+    </select>
+    <div class="confirm-modal-actions" style="margin-top:18px;">
+      <button class="btn btn-ghost btn-sm" id="newTaskCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="newTaskCreateBtn">Criar tarefa</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVA GAVETA -->
+<div class="confirm-modal" id="newGavetaModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Nome da nova gaveta</p>
+    <input type="text" id="newGavetaModalInput" class="modal-text-input" placeholder="ex: Game Studio, Apartamento..." autocomplete="off">
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="newGavetaModalCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="newGavetaModalOkBtn">Criar gaveta</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVA CAPTURA -->
+<div class="confirm-modal" id="newCaptureModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Nova captura</p>
+    <textarea id="newCaptureModalInput" class="modal-text-input" rows="4" placeholder="Digite, cole um link, ou uma ideia qualquer..." style="resize:vertical;"></textarea>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="newCaptureModalCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="newCaptureModalOkBtn">Capturar</button>
     </div>
   </div>
 </div>
@@ -1105,8 +1209,7 @@
 
         <div class="panel">
           <p class="panel-title">Avisos &amp; eventos</p>
-          <div id="hojeEventsList"></div>
-          <div id="hojeAvisosList"><p class="empty-state">Carregando...</p></div>
+          <div id="hojeAvisosEventosList"><p class="empty-state">Carregando...</p></div>
         </div>
       </div>
 
@@ -1150,27 +1253,45 @@
     </div>
   </section>
 
-  <!-- INBOX + REVISÃO IA (unificado) -->
-  <section class="view" id="view-inbox">
+  <!-- STORAGE (Inbox + Gavetas unificados) -->
+  <section class="view" id="view-storage">
     <div class="view-head">
       <div>
         <p class="eyebrow">Organizar</p>
-        <h1 class="view-title">Inbox</h1>
-        <p class="view-desc">Capture qualquer coisa, sem categorizar. A IA organiza em Gavetas — e toda mudança passa por aprovação, como um Pull Request.</p>
+        <h1 class="view-title">Storage</h1>
+        <p class="view-desc">Capture qualquer coisa, sem categorizar, e organize suas Gavetas — agrupamentos de informação por assunto. Toda organização automática passa por aprovação, como um Pull Request.</p>
       </div>
-      <button class="btn btn-approve btn-sm" id="runAiOrganizeBtn" style="display:none;">✦ Organizar com IA</button>
     </div>
 
     <div class="subtabs">
-      <button class="subtab active" data-sub="inbox" data-target="inbox-captura">Captura <span id="inboxCountTab"></span></button>
-      <button class="subtab" data-sub="inbox" data-target="inbox-revisao">Revisão IA <span id="revisaoCountTab"></span></button>
+      <button class="subtab active" data-sub="storage" data-target="storage-gavetas">Gavetas</button>
+      <button class="subtab" data-sub="storage" data-target="storage-captura">Capturas <span id="inboxCountTab"></span></button>
+      <button class="subtab" data-sub="storage" data-target="storage-revisao">Revisão IA <span id="revisaoCountTab"></span></button>
     </div>
 
-    <!-- Captura -->
-    <div class="subview active" id="inbox-captura">
-      <div class="capture-bar">
-        <textarea id="inboxCaptureInput" rows="1" placeholder="Digite, cole um link, ou uma ideia qualquer..."></textarea>
-        <button class="btn btn-primary btn-sm" id="inboxCaptureBtn">Capturar</button>
+    <!-- Gavetas -->
+    <div class="subview active" id="storage-gavetas">
+      <div class="subview-toolbar">
+        <p class="subview-toolbar-label">Suas Gavetas — reordene, edite, minimize.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" id="newGavetaOpenBtn">+ Nova gaveta</button>
+          <button class="btn btn-approve btn-sm" id="runStorageAiOrganizeBtn">✦ Analisar Gavetas com IA</button>
+        </div>
+      </div>
+      <div id="storageRevisaoList"></div>
+      <div id="gavetaList">
+        <p class="empty-state">Carregando...</p>
+      </div>
+    </div>
+
+    <!-- Capturas -->
+    <div class="subview" id="storage-captura">
+      <div class="subview-toolbar">
+        <p class="subview-toolbar-label">Itens capturados, ainda não organizados em Gavetas.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" id="newCaptureOpenBtn">+ Nova captura</button>
+          <button class="btn btn-approve btn-sm" id="runAiOrganizeBtn" style="display:none;">✦ Organizar Capturas com IA</button>
+        </div>
       </div>
       <div class="inbox-list" id="inboxList">
         <p class="empty-state">Carregando...</p>
@@ -1178,31 +1299,11 @@
     </div>
 
     <!-- Revisão IA -->
-    <div class="subview" id="inbox-revisao">
-      <p class="view-desc" style="margin:-6px 0 16px;">A IA processa os itens da Inbox junto com suas Gavetas já existentes e propõe mudanças. Nada é alterado nas Gavetas até você aprovar.</p>
+    <div class="subview" id="storage-revisao">
+      <p class="view-desc" style="margin:-6px 0 16px;">A IA processa os itens de Capturas junto com suas Gavetas já existentes e propõe mudanças. Nada é alterado nas Gavetas até você aprovar.</p>
       <div id="revisaoList">
-        <p class="empty-state">Nenhuma proposta pendente. Capture algo na Inbox e clique em "Organizar com IA".</p>
+        <p class="empty-state">Nenhuma proposta pendente. Clique em "+ Nova captura" na aba Capturas e depois em "Organizar Capturas com IA".</p>
       </div>
-    </div>
-  </section>
-
-  <!-- STORAGE -->
-  <section class="view" id="view-storage">
-    <div class="view-head">
-      <div>
-        <p class="eyebrow">Organizar</p>
-        <h1 class="view-title">Storage</h1>
-        <p class="view-desc">Suas Gavetas — agrupamentos de informação por assunto. Reordene, edite, minimize.</p>
-      </div>
-      <button class="btn btn-approve btn-sm" id="runStorageAiOrganizeBtn">✦ Analisar organização com IA</button>
-    </div>
-    <div id="storageRevisaoList"></div>
-    <div class="new-gaveta-row">
-      <input type="text" id="newGavetaInput" placeholder="Nome da nova gaveta (ex: Game Studio, Apartamento...)">
-      <button class="btn btn-ghost btn-sm" id="newGavetaBtn">+ Nova gaveta</button>
-    </div>
-    <div id="gavetaList">
-      <p class="empty-state">Carregando...</p>
     </div>
   </section>
 
@@ -1216,43 +1317,16 @@
       </div>
     </div>
 
-    <div class="subtabs">
-      <button class="subtab active" data-sub="tarefas" data-target="tarefas-lista">Lista</button>
-      <button class="subtab" data-sub="tarefas" data-target="tarefas-grupos">Grupos</button>
+    <div style="margin-bottom:16px;">
+      <button class="btn btn-primary btn-sm" id="addTaskOpenBtn">+ Nova tarefa</button>
     </div>
 
-    <div class="quick-form">
-      <input type="text" id="taskNameInput" placeholder="Nova tarefa...">
-      <input type="date" id="taskDateInput">
-      <button type="button" class="nodate-toggle" id="taskNoDateToggle">Sem data</button>
-      <select id="taskGroupInput" style="max-width:150px;">
-        <option value="">Sem grupo</option>
-      </select>
-      <button class="btn btn-primary btn-sm" id="addTaskBtn">Adicionar</button>
+    <!-- Grupos (como o Storage: containers nomeados que você cria), com as tarefas de cada grupo
+         exibidas como em Lista (Prazo, Tarefa, Status, Excluir), ordenadas por data -->
+    <div style="margin-bottom:16px;">
+      <button class="btn btn-primary btn-sm" id="addTaskGroupBtn">+ Novo grupo</button>
     </div>
-
-    <!-- Lista -->
-    <div class="subview active" id="tarefas-lista">
-      <div class="panel">
-        <table class="task-table">
-          <thead>
-            <tr><th>Prazo</th><th>Tarefa</th><th>Grupo</th><th>Status</th><th></th></tr>
-          </thead>
-          <tbody id="tarefasListaBody">
-            <tr><td colspan="5">Carregando...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Grupos (como o Storage: containers nomeados que você cria) -->
-    <div class="subview" id="tarefas-grupos">
-      <div class="quick-form" style="margin-bottom:16px;">
-        <input type="text" id="newTaskGroupInput" placeholder="Nome do novo grupo (ex: Pessoais, Profissionais, Casa)...">
-        <button class="btn btn-primary btn-sm" id="addTaskGroupBtn">+ Grupo</button>
-      </div>
-      <div id="taskGroupsList"><p class="empty-state">Carregando...</p></div>
-    </div>
+    <div id="taskGroupsList"><p class="empty-state">Carregando...</p></div>
   </section>
 
   <!-- AGENDA -->
@@ -1263,16 +1337,11 @@
         <h1 class="view-title">Agenda</h1>
         <p class="view-desc">Seus eventos em ordem cronológica a partir de hoje, divididos por semana e depois por mês. Importe do Google Agenda exportando um arquivo .ics (Configurações → Importar/Exportar, no Google Calendar).</p>
       </div>
-      <button class="btn btn-ghost btn-sm" id="importIcsBtn">📅 Importar .ics</button>
-      <input type="file" id="importIcsInput" class="import-ics-input" accept=".ics">
-    </div>
-    <div class="agenda-today-banner" id="agendaTodayBanner">Carregando...</div>
-    <div class="quick-form">
-      <input type="text" id="eventTitleInput" placeholder="Novo evento...">
-      <input type="date" id="eventDateInput">
-      <input type="time" id="eventTimeInput">
-      <button type="button" class="nodate-toggle" id="eventAllDayToggle">Dia inteiro</button>
-      <button class="btn btn-primary btn-sm" id="addEventBtn">Adicionar</button>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm" id="addEventOpenBtn">+ Novo evento</button>
+        <button class="btn btn-ghost btn-sm" id="importIcsBtn">📅 Importar .ics</button>
+        <input type="file" id="importIcsInput" class="import-ics-input" accept=".ics">
+      </div>
     </div>
     <div id="agendaList">
       <p class="empty-state">Carregando...</p>
@@ -1820,6 +1889,16 @@
       <p class="config-section-title">Conta</p>
       <p class="config-section-desc">Você está logado com esta conta.</p>
       <div class="config-row">
+        <div>
+          <div class="config-row-label">Nome</div>
+          <div class="config-row-desc">Usado nas saudações da tela Hoje (ex: "Bom dia, [nome]").</div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-shrink:0;">
+          <input type="text" id="configDisplayNameInput" placeholder="Seu nome" style="background:var(--surface-hi); border:1px solid var(--line-strong); border-radius:8px; padding:7px 10px; color:var(--text); font-size:12.5px; font-family:var(--sans); outline:none; width:170px;">
+          <button class="btn btn-primary btn-sm" id="configSaveNameBtn">Salvar</button>
+        </div>
+      </div>
+      <div class="config-row">
         <div><div class="config-row-label">E-mail</div></div>
         <span id="configAccountEmail" style="font-family:var(--mono); font-size:12.5px; color:var(--text-mut);">carregando...</span>
       </div>
@@ -2034,6 +2113,7 @@
   const SESSION_KEY = "lifeos_v5_session";
 
   let session = null;      // { idToken, uid, email, expiresAt }
+  let userDisplayName = ''; // nome de exibição, salvo em /Profile/DisplayName
   let openaiApiKey = null; // carregada de /openAiKey após login
 
   function escapeHtml(str){
@@ -2123,6 +2203,40 @@
       okBtn.addEventListener('click', onOk);
       cancelBtn.addEventListener('click', onCancel);
       modal.addEventListener('click', onBackdrop);
+    });
+  }
+
+  /* Prompt estilizado da própria aplicação — substitui window.prompt() do navegador.
+     Retorna uma Promise<string|null>: o texto digitado (trim) se confirmado e não vazio,
+     ou null se cancelado / deixado em branco. */
+  function showPrompt(modalId, inputId, okBtnId, cancelBtnId, defaultValue){
+    return new Promise((resolve) => {
+      const modal = document.getElementById(modalId);
+      const input = document.getElementById(inputId);
+      const okBtn = document.getElementById(okBtnId);
+      const cancelBtn = document.getElementById(cancelBtnId);
+      input.value = defaultValue || '';
+      modal.classList.add('active');
+      setTimeout(() => input.focus(), 30);
+      function cleanup(result){
+        modal.classList.remove('active');
+        okBtn.removeEventListener('click', onOk);
+        cancelBtn.removeEventListener('click', onCancel);
+        modal.removeEventListener('click', onBackdrop);
+        input.removeEventListener('keydown', onKeydown);
+        resolve(result);
+      }
+      function onOk(){ const v = input.value.trim(); cleanup(v || null); }
+      function onCancel(){ cleanup(null); }
+      function onBackdrop(e){ if(e.target === modal) cleanup(null); }
+      function onKeydown(e){
+        if(e.key === 'Enter'){ e.preventDefault(); onOk(); }
+        else if(e.key === 'Escape'){ onCancel(); }
+      }
+      okBtn.addEventListener('click', onOk);
+      cancelBtn.addEventListener('click', onCancel);
+      modal.addEventListener('click', onBackdrop);
+      input.addEventListener('keydown', onKeydown);
     });
   }
 
@@ -2281,6 +2395,15 @@
 
   authForgotBtn.addEventListener('click', () => setAuthMode('reset'));
 
+  // Enter no campo de senha (ou e-mail, no modo "recuperar senha") já tenta logar/enviar,
+  // sem precisar clicar no botão.
+  authPassword.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); authSubmitBtn.click(); }
+  });
+  authEmail.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); authSubmitBtn.click(); }
+  });
+
   authSubmitBtn.addEventListener('click', async () => {
     const email = authEmail.value.trim();
     const password = authPassword.value;
@@ -2324,30 +2447,55 @@
     location.reload();
   });
 
+  document.getElementById('configSaveNameBtn').addEventListener('click', async () => {
+    const input = document.getElementById('configDisplayNameInput');
+    const name = input.value.trim();
+    const btn = document.getElementById('configSaveNameBtn');
+    const prevText = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Salvando...';
+    try{
+      await dbPatch(userPath('/Profile'), { DisplayName: name });
+      await renderHojeHeader();
+      showAppMessage('Nome salvo.', 'success');
+    }catch(err){
+      showAppMessage('Erro ao salvar nome: ' + err.message, 'error');
+    }finally{
+      btn.disabled = false; btn.textContent = prevText;
+    }
+  });
+
   /* ---------- INBOX ---------- */
   async function addInboxItem(text, source){
     const id = newId();
     await dbPut(userPath('/Inbox/' + id), { text, source: source || 'inbox', createdAt: new Date().toISOString(), status:'pending' });
     await renderInbox();
   }
-  document.getElementById('inboxCaptureBtn').addEventListener('click', async () => {
-    const input = document.getElementById('inboxCaptureInput');
+  document.getElementById('newCaptureOpenBtn').addEventListener('click', () => {
+    document.getElementById('newCaptureModal').classList.add('active');
+    setTimeout(() => document.getElementById('newCaptureModalInput').focus(), 30);
+  });
+  function closeCaptureModal(){
+    document.getElementById('newCaptureModal').classList.remove('active');
+    document.getElementById('newCaptureModalInput').value = '';
+  }
+  document.getElementById('newCaptureModalCancelBtn').addEventListener('click', closeCaptureModal);
+  document.getElementById('newCaptureModal').addEventListener('click', (e) => {
+    if(e.target.id === 'newCaptureModal') closeCaptureModal();
+  });
+  document.getElementById('newCaptureModalOkBtn').addEventListener('click', async () => {
+    const input = document.getElementById('newCaptureModalInput');
     const text = input.value.trim();
     if(!text) return;
+    document.getElementById('newCaptureModal').classList.remove('active');
     input.value = '';
-    input.style.height = 'auto';
     await addInboxItem(text, 'inbox');
   });
-  document.getElementById('inboxCaptureInput').addEventListener('keydown', (e) => {
+  document.getElementById('newCaptureModalInput').addEventListener('keydown', (e) => {
     if(e.key === 'Enter' && !e.shiftKey){
       e.preventDefault();
-      document.getElementById('inboxCaptureBtn').click();
+      document.getElementById('newCaptureModalOkBtn').click();
     }
     // Shift+Enter: comportamento padrão do textarea (quebra de linha)
-  });
-  document.getElementById('inboxCaptureInput').addEventListener('input', (e) => {
-    e.target.style.height = 'auto';
-    e.target.style.height = Math.min(e.target.scrollHeight, 200) + 'px';
   });
 
   async function renderInbox(){
@@ -2360,7 +2508,7 @@
     // Só mostra o botão de organizar com IA se houver itens ainda não enviados para revisão
     const organizable = items.filter(([id,it]) => it.status !== 'awaiting_review');
     if(aiOrganizeBtn){ aiOrganizeBtn.style.display = organizable.length ? '' : 'none'; }
-    if(!items.length){ el.innerHTML = '<p class="empty-state">Sua Inbox está vazia. Capture qualquer coisa acima.</p>'; return; }
+    if(!items.length){ el.innerHTML = '<p class="empty-state">Nenhuma captura ainda. Clique em "+ Nova captura" acima.</p>'; return; }
     el.innerHTML = items.sort((a,b) => (b[1].createdAt||'').localeCompare(a[1].createdAt||'')).map(([id, it]) => {
       const titulo = detectInboxTitle(it.text);
       return `
@@ -2413,7 +2561,7 @@
     try{
       const inbox = await dbGet(userPath('/Inbox')) || {};
       const pending = Object.entries(inbox).filter(([id,it]) => it.status === 'pending');
-      if(!pending.length){ alert('Não há itens novos na Inbox para organizar.'); return; }
+      if(!pending.length){ alert('Não há itens novos em Capturas para organizar.'); return; }
       const gavetas = await dbGet(userPath('/Gavetas')) || {};
       const gavetaSummary = Object.entries(gavetas).map(([gid,g]) => ({
         id: gid, nome: g.name, itens: Object.entries(g.items||{}).map(([iid,it]) => ({ id:iid, texto: it.text }))
@@ -2449,12 +2597,12 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
       }
       await renderInbox();
       await renderRevisao();
-      document.querySelector('.subtab[data-target="inbox-revisao"]').click();
+      document.querySelector('.subtab[data-target="storage-revisao"]').click();
     }catch(err){
       alert('Erro ao organizar com IA: ' + err.message);
     }finally{
       hideLoading();
-      btn.disabled = false; btn.textContent = '✦ Organizar com IA';
+      btn.disabled = false; btn.textContent = '✦ Organizar Capturas com IA';
     }
   });
 
@@ -2464,7 +2612,7 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
     const data = await dbGet(userPath('/Revisao')) || {};
     const entries = Object.entries(data);
     document.getElementById('revisaoCountTab').textContent = entries.filter(([id,r]) => r.status==='pending').length ? '(' + entries.filter(([id,r]) => r.status==='pending').length + ')' : '';
-    if(!entries.length){ el.innerHTML = '<p class="empty-state">Nenhuma proposta pendente. Capture algo na Inbox e clique em "Organizar com IA".</p>'; return; }
+    if(!entries.length){ el.innerHTML = '<p class="empty-state">Nenhuma proposta pendente. Clique em "+ Nova captura" na aba Capturas e depois em "Organizar Capturas com IA".</p>'; return; }
     el.innerHTML = entries.sort((a,b) => (b[1].createdAt||'').localeCompare(a[1].createdAt||'')).map(([id, r]) => {
       const isEditing = editingRevisoes.has(id);
       return `
@@ -2529,6 +2677,13 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
     if(lines.length <= 1) return text.replace(/^\s*[\*\-]\s+/, '• ');
     return lines.map(l => (l.trim() ? ensureBulletLine(l) : l)).join('\n');
   }
+  // Usado especificamente para conteúdo gerado pela IA no Storage: diferente de
+  // normalizeBullets, força bullet point mesmo em textos de uma linha só,
+  // já que todo item vindo da IA deve aparecer como bullet point.
+  function forceBulletText(text){
+    if(!text) return text;
+    return text.split('\n').map(l => (l.trim() ? ensureBulletLine(l) : l)).join('\n');
+  }
   async function approveRevisao(id){
     const r = await dbGet(userPath('/Revisao/' + id));
     if(!r) return;
@@ -2539,7 +2694,7 @@ Responda APENAS com um array JSON, sem markdown, sem texto extra, no formato:
       await dbPut(userPath('/Gavetas/' + gavetaId), { name: r.gavetaNome || 'Sem nome', order: Object.keys(existing).length, collapsed:false, items:{} });
     }
     const itemId = newId();
-    await dbPut(userPath('/Gavetas/' + gavetaId + '/items/' + itemId), { text: normalizeBullets(r.texto), addedAt: new Date().toISOString() });
+    await dbPut(userPath('/Gavetas/' + gavetaId + '/items/' + itemId), { text: forceBulletText(r.texto), addedAt: new Date().toISOString() });
     await dbDelete(userPath('/Inbox/' + r.inboxId));
     await dbDelete(userPath('/Revisao/' + id));
     await renderInbox(); await renderRevisao(); await renderStorage();
@@ -2603,11 +2758,9 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato:
   }
 
   /* ---------- STORAGE (Gavetas) ---------- */
-  document.getElementById('newGavetaBtn').addEventListener('click', async () => {
-    const input = document.getElementById('newGavetaInput');
-    const name = input.value.trim();
+  document.getElementById('newGavetaOpenBtn').addEventListener('click', async () => {
+    const name = await showPrompt('newGavetaModal', 'newGavetaModalInput', 'newGavetaModalOkBtn', 'newGavetaModalCancelBtn');
     if(!name) return;
-    input.value = '';
     const existing = await dbGet(userPath('/Gavetas')) || {};
     const id = newId();
     await dbPut(userPath('/Gavetas/' + id), { name, order: Object.keys(existing).length, collapsed:false, items:{} });
@@ -2669,7 +2822,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       showAppMessage('Erro ao analisar organização com IA: ' + err.message, 'error');
     }finally{
       hideLoading();
-      btn.disabled = false; btn.textContent = '✦ Analisar organização com IA';
+      btn.disabled = false; btn.textContent = '✦ Analisar Gavetas com IA';
     }
   });
 
@@ -2774,7 +2927,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
             if(gavetas[a.gavetaId]) gavetas[a.gavetaId].name = a.novoNome;
           } else if(a.tipo === 'editar_item'){
             if(gavetas[a.gavetaId] && gavetas[a.gavetaId].items && gavetas[a.gavetaId].items[a.itemId]){
-              gavetas[a.gavetaId].items[a.itemId].text = normalizeBullets(a.novoTexto);
+              gavetas[a.gavetaId].items[a.itemId].text = forceBulletText(a.novoTexto);
             }
           }
         }catch(actionErr){ console.warn('Falha ao aplicar ação de reorganização:', a, actionErr); }
@@ -2808,9 +2961,10 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       <div class="gaveta-card ${g.collapsed && !isEditing ? 'collapsed' : ''}" data-gid="${id}">
         <div class="gaveta-head" data-toggle-collapse="${id}">
           <span class="gaveta-chevron">▾</span>
-          <span class="gaveta-name">${escapeHtml(g.name)}</span>
+          ${isEditing
+            ? `<input type="text" class="gaveta-name-edit" data-gid-name-edit="${id}" value="${escapeHtml(g.name)}" onclick="event.stopPropagation()">`
+            : `<span class="gaveta-name">${escapeHtml(g.name)}</span>`}
           <span class="gaveta-count">${items.length} ${items.length===1 ? 'item' : 'itens'}</span>
-          <span class="gaveta-state-tag">${g.collapsed && !isEditing ? 'minimizada' : 'maximizada'}</span>
           <div class="gaveta-actions">
             ${isEditing ? '' : `<button data-move-up="${id}" ${idx===0?'disabled':''}>↑</button>
             <button data-move-down="${id}" ${idx===gavetas.length-1?'disabled':''}>↓</button>
@@ -2840,8 +2994,6 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
         g.collapsed = newCollapsed;
         const card = headEl.closest('.gaveta-card');
         if(card) card.classList.toggle('collapsed', newCollapsed);
-        const stateTag = headEl.querySelector('.gaveta-state-tag');
-        if(stateTag) stateTag.textContent = newCollapsed ? 'minimizada' : 'maximizada';
         dbPatchSilent(userPath('/Gavetas/' + gid), { collapsed: newCollapsed })
           .catch(err => console.error('Erro ao salvar estado da gaveta', err));
       });
@@ -2870,11 +3022,14 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       e.stopPropagation();
       const gid = btn.getAttribute('data-save-gaveta');
       const ta = el.querySelector(`[data-gid-edit="${gid}"]`);
+      const nameInput = el.querySelector(`[data-gid-name-edit="${gid}"]`);
       const rawLines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
       const lines = rawLines.length > 1 ? rawLines.map(ensureBulletLine) : rawLines.map(l => normalizeBullets(l));
       const newItems = {};
       lines.forEach((text, i) => { newItems['it' + i] = { text, order: i, addedAt: new Date().toISOString() }; });
+      const newName = nameInput ? nameInput.value.trim() : '';
       await dbPut(userPath('/Gavetas/' + gid + '/items'), newItems);
+      if(newName){ await dbPatch(userPath('/Gavetas/' + gid), { name: newName }); }
       editingGavetas.delete(gid);
       await renderStorage();
     }));
@@ -2952,7 +3107,10 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     moodSummaryEl.innerHTML = predominant ? `<span>humor predominante: ${escapeHtml(predominant[0])}</span>` : '<span>sem entradas ainda</span>';
   }
 
-  /* ---------- HOJE — painel "Plano alimentar hoje" ---------- */
+  /* ---------- HOJE — painel "Plano alimentar hoje" ----------
+     Mostra sempre a PRÓXIMA refeição do dia ainda não confirmada, com todos
+     os itens dela e dois botões (Fiz / Não fiz). Só ao responder é que a
+     refeição seguinte aparece. O registro fica em /MealLog/{data}/{mealId}. */
   async function renderHojePlanoAlimentar(){
     const el = document.getElementById('hojePlanoAlimentarList');
     const dow = new Date().getDay();
@@ -2964,16 +3122,42 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       el.innerHTML = '<p class="empty-state">Nenhuma refeição configurada para hoje ainda.</p>';
       return;
     }
-    const nowMin = new Date().getHours() * 60 + new Date().getMinutes();
-    el.innerHTML = refeicoes.map(([mid, r]) => {
-      const rMin = rotToMinutes(r.horario);
-      const passed = rMin != null && rMin < nowMin;
-      const qtdAlimentos = Object.keys(r.alimentos || {}).length;
-      return `<div class="queue-item ${passed ? 'done' : ''}">
-        <div class="queue-text">${escapeHtml(r.nome || 'Refeição')}${qtdAlimentos ? ' <span style="color:var(--text-dim); font-size:11.5px;">(' + qtdAlimentos + ' item' + (qtdAlimentos===1?'':'ns') + ')</span>' : ''}</div>
-        <span class="queue-time">${escapeHtml(r.horario || '—')}</span>
+
+    const today = todayStr();
+    const mealLog = await dbGet(userPath('/MealLog/' + today)) || {};
+    const pending = refeicoes.find(([mid]) => !mealLog[mid]);
+
+    if(!pending){
+      const feitas = refeicoes.filter(([mid]) => mealLog[mid] && mealLog[mid].status === 'done').length;
+      el.innerHTML = `<p class="empty-state" style="color:var(--sage);">✓ Todas as ${refeicoes.length} refeições de hoje já foram registradas (${feitas} feita${feitas===1?'':'s'}).</p>`;
+      return;
+    }
+
+    const [mid, r] = pending;
+    const alimentos = Object.entries(r.alimentos || {}).sort((a,b) => (a[1].order||0) - (b[1].order||0));
+    el.innerHTML = `
+      <div class="pa-hoje-card">
+        <div class="pa-hoje-head">
+          <div class="pa-hoje-name">${escapeHtml(r.nome || 'Refeição')}</div>
+          <span class="queue-time">${escapeHtml(r.horario || '—')}</span>
+        </div>
+        ${alimentos.length ? `<ul class="pa-hoje-foods">
+          ${alimentos.map(([fid,a]) => `<li>${escapeHtml(a.nome||'')}${a.quantidade ? ' <span style="color:var(--text-dim);">— ' + escapeHtml(a.quantidade) + '</span>' : ''}</li>`).join('')}
+        </ul>` : '<p class="empty-state" style="margin:0;">Nenhum item cadastrado para esta refeição.</p>'}
+        <div class="pa-hoje-actions">
+          <button class="btn btn-approve btn-sm" id="mealHojeDoneBtn">✓ Fiz essa refeição</button>
+          <button class="btn btn-reject btn-sm" id="mealHojeSkipBtn">✕ Não fiz</button>
+        </div>
       </div>`;
-    }).join('');
+
+    document.getElementById('mealHojeDoneBtn').addEventListener('click', () => confirmMealHoje(mid, 'done'));
+    document.getElementById('mealHojeSkipBtn').addEventListener('click', () => confirmMealHoje(mid, 'skipped'));
+  }
+
+  async function confirmMealHoje(mid, status){
+    const today = todayStr();
+    await dbPut(userPath('/MealLog/' + today + '/' + mid), { status, at: new Date().toISOString() });
+    await renderHojePlanoAlimentar();
   }
 
   /* ---------- HOJE — painel "Diário hoje" ---------- */
@@ -3688,22 +3872,38 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   }
 
   /* ---------- AGENDA (eventos + importação .ics) ---------- */
-  const eventAllDayToggle = document.getElementById('eventAllDayToggle');
-  eventAllDayToggle.addEventListener('click', () => {
-    eventAllDayToggle.classList.toggle('active');
+  const newEventAllDayToggle = document.getElementById('newEventAllDayToggle');
+  newEventAllDayToggle.addEventListener('click', () => {
+    newEventAllDayToggle.classList.toggle('active');
   });
 
-  document.getElementById('addEventBtn').addEventListener('click', async () => {
-    const title = document.getElementById('eventTitleInput').value.trim();
-    const date = document.getElementById('eventDateInput').value;
-    const time = document.getElementById('eventTimeInput').value;
-    const allDay = eventAllDayToggle.classList.contains('active');
+  function openEventModal(){
+    document.getElementById('newEventTitleInput').value = '';
+    document.getElementById('newEventDateInput').value = todayStr();
+    document.getElementById('newEventTimeInput').value = '';
+    newEventAllDayToggle.classList.remove('active');
+    document.getElementById('newEventModal').classList.add('active');
+    setTimeout(() => document.getElementById('newEventTitleInput').focus(), 30);
+  }
+  function closeEventModal(){
+    document.getElementById('newEventModal').classList.remove('active');
+  }
+  document.getElementById('addEventOpenBtn').addEventListener('click', openEventModal);
+  document.getElementById('newEventCancelBtn').addEventListener('click', closeEventModal);
+  document.getElementById('newEventModal').addEventListener('click', (e) => {
+    if(e.target.id === 'newEventModal') closeEventModal();
+  });
+
+  document.getElementById('newEventCreateBtn').addEventListener('click', async () => {
+    const title = document.getElementById('newEventTitleInput').value.trim();
+    const date = document.getElementById('newEventDateInput').value;
+    const time = document.getElementById('newEventTimeInput').value;
+    const allDay = newEventAllDayToggle.classList.contains('active');
     if(!title || !date) return;
     const id = newId();
     await dbPut(userPath('/Events/' + id), { title, date, time: allDay ? '' : time, allDay, createdAt: new Date().toISOString() });
-    document.getElementById('eventTitleInput').value = '';
-    eventAllDayToggle.classList.remove('active');
-    await renderAgenda(); await renderHojeEvents();
+    closeEventModal();
+    await renderAgenda(); await renderHojeAvisosEventos();
   });
 
   document.getElementById('importIcsBtn').addEventListener('click', () => document.getElementById('importIcsInput').click());
@@ -3727,7 +3927,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
         await dbPatch(userPath('/Events'), eventsObj);
       }
       await renderAgenda();
-      await renderHojeEvents();
+      await renderHojeAvisosEventos();
       alert(events.length + ' evento(s) importado(s) do .ics.');
     }catch(err){
       alert('Erro ao importar .ics: ' + err.message);
@@ -3819,21 +4019,24 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     return null;
   }
 
+  /* ---------- SIDEBAR — data de hoje (visível em qualquer página) ---------- */
+  function renderSidebarDate(){
+    const el = document.getElementById('sidebarDate');
+    if(!el) return;
+    const now = new Date();
+    const weekdayFull = WEEKDAYS_PT[now.getDay()];
+    const weekdayCap = weekdayFull.charAt(0).toUpperCase() + weekdayFull.slice(1);
+    el.innerHTML = `${weekdayCap}, <strong>${now.getDate()} de ${MONTHS_FULL_PT[now.getMonth()]}</strong>`;
+  }
+
   async function renderAgenda(){
     const el = document.getElementById('agendaList');
     const data = await dbGet(userPath('/Events')) || {};
     const today = todayStr();
     const now = new Date();
 
-    const bannerEl = document.getElementById('agendaTodayBanner');
-    if(bannerEl){
-      const weekdayFull = WEEKDAYS_PT[now.getDay()];
-      const weekdayCap = weekdayFull.charAt(0).toUpperCase() + weekdayFull.slice(1);
-      bannerEl.innerHTML = `Hoje é <strong>${weekdayCap}, ${now.getDate()} de ${MONTHS_FULL_PT[now.getMonth()]} de ${now.getFullYear()}</strong>`;
-    }
-
     const events = Object.values(data).filter(ev => ev.date >= today).sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
-    if(!events.length){ el.innerHTML = '<p class="empty-state">Nenhum evento futuro. Adicione um acima ou importe seu .ics.</p>'; return; }
+    if(!events.length){ el.innerHTML = '<p class="empty-state">Nenhum evento futuro. Clique em "+ Novo evento" acima ou importe seu .ics.</p>'; return; }
 
     const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay());
     const endOfWeek = new Date(startOfWeek); endOfWeek.setDate(startOfWeek.getDate() + 6);
@@ -3881,34 +4084,51 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   }
 
   /* ---------- TAREFAS ---------- */
-  const taskNoDateToggle = document.getElementById('taskNoDateToggle');
-  const taskDateInput = document.getElementById('taskDateInput');
-  taskNoDateToggle.addEventListener('click', () => {
-    const nowActive = !taskNoDateToggle.classList.contains('active');
-    taskNoDateToggle.classList.toggle('active', nowActive);
-    taskDateInput.disabled = nowActive;
-    if(nowActive) taskDateInput.value = '';
+  const newTaskNoDateToggle = document.getElementById('newTaskNoDateToggle');
+  const newTaskDateInput = document.getElementById('newTaskDateInput');
+  newTaskNoDateToggle.addEventListener('click', () => {
+    const nowActive = !newTaskNoDateToggle.classList.contains('active');
+    newTaskNoDateToggle.classList.toggle('active', nowActive);
+    newTaskDateInput.disabled = nowActive;
+    if(nowActive) newTaskDateInput.value = '';
   });
 
-  document.getElementById('addTaskBtn').addEventListener('click', async () => {
-    const name = document.getElementById('taskNameInput').value.trim();
+  function openTaskModal(){
+    document.getElementById('newTaskNameInput').value = '';
+    newTaskDateInput.value = '';
+    newTaskDateInput.disabled = false;
+    newTaskNoDateToggle.classList.remove('active');
+    document.getElementById('newTaskModal').classList.add('active');
+    setTimeout(() => document.getElementById('newTaskNameInput').focus(), 30);
+  }
+  function closeTaskModal(){
+    document.getElementById('newTaskModal').classList.remove('active');
+  }
+  document.getElementById('addTaskOpenBtn').addEventListener('click', openTaskModal);
+  document.getElementById('newTaskCancelBtn').addEventListener('click', closeTaskModal);
+  document.getElementById('newTaskModal').addEventListener('click', (e) => {
+    if(e.target.id === 'newTaskModal') closeTaskModal();
+  });
+
+  document.getElementById('newTaskCreateBtn').addEventListener('click', async () => {
+    const name = document.getElementById('newTaskNameInput').value.trim();
     if(!name) return;
-    const noDate = taskNoDateToggle.classList.contains('active');
-    const date = noDate ? '' : taskDateInput.value;
-    const group = document.getElementById('taskGroupInput').value;
+    const noDate = newTaskNoDateToggle.classList.contains('active');
+    const date = noDate ? '' : newTaskDateInput.value;
+    const group = document.getElementById('newTaskGroupSelect').value;
     const id = newId();
     await dbPut(userPath('/Tasks/' + id), { name, date, group, done:false, createdAt: new Date().toISOString() });
-    document.getElementById('taskNameInput').value = '';
-    await renderTasks(); await renderHojeQueue();
+    closeTaskModal();
+    await renderTasks(); await renderTaskGroups(); await renderHojeQueue();
   });
 
   async function toggleTaskDone(id, done){
     await dbPatch(userPath('/Tasks/' + id), { done });
-    await renderTasks(); await renderHojeQueue();
+    await renderTaskGroups(); await renderHojeQueue();
   }
   async function deleteTask(id){
     await dbDelete(userPath('/Tasks/' + id));
-    await renderTasks(); await renderHojeQueue();
+    await renderTaskGroups(); await renderHojeQueue();
   }
 
   // Classifica o prazo de uma tarefa em: Hoje, Dia DD/MM (próximos 6 dias ou
@@ -3940,7 +4160,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     return seeded;
   }
   async function populateTaskGroupSelect(){
-    const sel = document.getElementById('taskGroupInput');
+    const sel = document.getElementById('newTaskGroupSelect');
     if(!sel) return;
     const groups = await ensureTaskGroupDefaults();
     const sorted = Object.entries(groups).sort((a,b) => (a[1].order||0) - (b[1].order||0));
@@ -3950,18 +4170,13 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   }
 
   document.getElementById('addTaskGroupBtn').addEventListener('click', async () => {
-    const input = document.getElementById('newTaskGroupInput');
-    const name = input.value.trim();
+    const name = await showPrompt('newGroupModal', 'newGroupModalInput', 'newGroupModalOkBtn', 'newGroupModalCancelBtn');
     if(!name) return;
     const groups = await dbGet(userPath('/TaskGroups')) || {};
     const id = newId();
     await dbPut(userPath('/TaskGroups/' + id), { name, order: Object.keys(groups).length, collapsed:false });
-    input.value = '';
     await populateTaskGroupSelect();
     await renderTaskGroups();
-  });
-  document.getElementById('newTaskGroupInput').addEventListener('keydown', (e) => {
-    if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('addTaskGroupBtn').click(); }
   });
 
   async function renderTaskGroups(){
@@ -3978,7 +4193,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       return Object.entries(tasks).filter(([id,t]) => (t.group || '') === gid);
     }
     function groupCardHtml(gid, g, isUngrouped){
-      const groupTasks = tasksOfGroup(gid).sort((a,b) => (a[1].done?1:0) - (b[1].done?1:0));
+      const groupTasks = tasksOfGroup(gid).sort((a,b) => (a[1].date||'9999').localeCompare(b[1].date||'9999'));
       const pending = groupTasks.filter(([id,t]) => !t.done).length;
       return `
       <div class="gaveta-card ${g.collapsed ? 'collapsed' : ''}" data-tgid="${gid}">
@@ -3993,12 +4208,19 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
           </div>`}
         </div>
         <div class="gaveta-body">
-          ${groupTasks.length ? groupTasks.map(([id,t]) => `
-            <div class="gaveta-item-row">
-              <div class="queue-check ${t.done?'done':''}" data-toggle-task="${id}" style="${t.done?'background:var(--sage);border-color:var(--sage);':''} flex-shrink:0; margin-top:2px;"></div>
-              <div class="gaveta-item-text" style="${t.done?'text-decoration:line-through;color:var(--text-dim);':''}">${escapeHtml(t.name)}${t.date ? ' ' + prazoPillHtml(t.date) : ''}</div>
-              <button data-del-task="${id}">excluir</button>
-            </div>`).join('') : '<p class="gaveta-empty">Nenhuma tarefa neste grupo ainda.</p>'}
+          ${groupTasks.length ? `
+          <table class="task-table">
+            <thead><tr><th>Prazo</th><th>Tarefa</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              ${groupTasks.map(([id,t]) => `
+              <tr>
+                <td>${prazoPillHtml(t.date)}</td>
+                <td style="${t.done?'text-decoration:line-through;color:var(--text-dim);':''}">${escapeHtml(t.name)}</td>
+                <td><span class="status-pill ${t.done?'status-concluido':'status-fazer'}" data-toggle-task="${id}" style="cursor:pointer;">${t.done?'concluído':'a fazer'}</span></td>
+                <td><button class="task-del-btn" data-del-task="${id}">excluir</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>` : '<p class="gaveta-empty">Nenhuma tarefa neste grupo ainda.</p>'}
         </div>
       </div>`;
     }
@@ -4065,29 +4287,9 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
   }
 
   async function renderTasks(){
-    const data = await dbGet(userPath('/Tasks')) || {};
-    const all = Object.entries(data);
-    const groupsData = await ensureTaskGroupDefaults();
-    const groupName = (gid) => (gid && groupsData[gid]) ? groupsData[gid].name : '—';
+    // Mantém o select de grupos do formulário rápido atualizado.
+    // A listagem em si (Prazo, Tarefa, Status, Excluir) é renderizada por renderTaskGroups().
     await populateTaskGroupSelect();
-
-    // Lista completa
-    const listaBody = document.getElementById('tarefasListaBody');
-    listaBody.innerHTML = all.length ? all.sort((a,b)=>(a[1].date||'9999').localeCompare(b[1].date||'9999')).map(([id,t]) => `
-      <tr>
-        <td>${prazoPillHtml(t.date)}</td>
-        <td>${escapeHtml(t.name)}</td>
-        <td class="mono">${escapeHtml(groupName(t.group))}</td>
-        <td><span class="status-pill ${t.done?'status-concluido':'status-fazer'}">${t.done?'concluído':'a fazer'}</span></td>
-        <td><button class="btn btn-reject btn-sm" data-del-task="${id}">excluir</button></td>
-      </tr>`).join('') : '<tr><td colspan="5">Nenhuma tarefa ainda.</td></tr>';
-
-    document.querySelectorAll('[data-toggle-task]').forEach(el => el.addEventListener('click', async () => {
-      const id = el.getAttribute('data-toggle-task');
-      const t = data[id];
-      await toggleTaskDone(id, !t.done);
-    }));
-    document.querySelectorAll('[data-del-task]').forEach(btn => btn.addEventListener('click', () => deleteTask(btn.getAttribute('data-del-task'))));
   }
 
   /* ---------- HOJE (fila combinada: tarefas + treino/hábitos de hoje) ---------- */
@@ -4189,28 +4391,41 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }));
   }
 
-  async function renderHojeEvents(){
-    const el = document.getElementById('hojeEventsList');
-    const data = await dbGet(userPath('/Events')) || {};
+  /* ---------- HOJE — painel "Avisos & eventos" (unificado) ----------
+     Um único container: mostra os eventos de hoje e os avisos ativos juntos,
+     com uma divisória apenas quando os dois tipos coexistem. Só mostra a
+     mensagem de "nada por hoje" quando os dois estiverem realmente vazios. */
+  async function renderHojeAvisosEventos(){
+    const el = document.getElementById('hojeAvisosEventosList');
+    const [eventsRaw, avisosRaw] = await Promise.all([
+      dbGet(userPath('/Events')),
+      dbGet(userPath('/Avisos'))
+    ]);
+    const eventsData = eventsRaw || {};
+    const avisosData = avisosRaw || {};
     const today = todayStr();
-    const todays = Object.values(data).filter(ev => ev.date === today).sort((a,b) => (a.time||'').localeCompare(b.time||''));
-    el.innerHTML = todays.length
-      ? todays.map(ev => `<div class="event-row"><div class="event-time">${ev.allDay?'dia todo':(ev.time||'—')}</div><div class="event-title">${escapeHtml(ev.title)}</div></div>`).join('') + '<div style="height:1px; background:var(--line); margin:8px 0;"></div>'
-      : '';
+    const todaysEvents = Object.values(eventsData).filter(ev => ev.date === today).sort((a,b) => (a.time||'').localeCompare(b.time||''));
+    const ativos = Object.values(avisosData).filter(a => a.active !== false);
+
+    if(!todaysEvents.length && !ativos.length){
+      el.innerHTML = '<p class="empty-state">Nenhum aviso ou evento por hoje.</p>';
+      return;
+    }
+
+    const eventsHtml = todaysEvents.map(ev => `<div class="event-row"><div class="event-time">${ev.allDay?'dia todo':(ev.time||'—')}</div><div class="event-title">${escapeHtml(ev.title)}</div></div>`).join('');
+    const avisosHtml = ativos.map(a => `<div class="notice" style="margin-top:0;">✳ ${escapeHtml(a.text)}</div>`).join('');
+    const divider = (todaysEvents.length && ativos.length) ? '<div style="height:1px; background:var(--line); margin:8px 0;"></div>' : '';
+    el.innerHTML = eventsHtml + divider + avisosHtml;
   }
 
-  async function renderHojeAvisos(){
-    const el = document.getElementById('hojeAvisosList');
-    const data = await dbGet(userPath('/Avisos')) || {};
-    const ativos = Object.values(data).filter(a => a.active !== false);
-    el.innerHTML = ativos.length ? ativos.map(a => `<div class="notice" style="margin-top:0;">✳ ${escapeHtml(a.text)}</div>`).join('') : '<p class="empty-state">Nenhum aviso no momento.</p>';
-  }
-
-  function renderHojeHeader(){
+  async function renderHojeHeader(){
     const now = new Date();
     const hour = now.getHours();
     const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
-    document.getElementById('hojeEyebrow').textContent = greeting + (session && session.email ? ', ' + session.email.split('@')[0] : '');
+    const profile = await dbGet(userPath('/Profile')) || {};
+    userDisplayName = (profile.DisplayName || '').trim();
+    const shownName = userDisplayName || (session && session.email ? session.email.split('@')[0] : '');
+    document.getElementById('hojeEyebrow').textContent = greeting + (shownName ? ', ' + shownName : '');
     document.getElementById('hojeDatePill').textContent = fmtDatePill(now);
   }
 
@@ -4373,13 +4588,15 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     }
   }
   async function bootApp(){
-    renderHojeHeader();
+    await renderHojeHeader();
+    renderSidebarDate();
     const configEmailEl = document.getElementById('configAccountEmail');
     if(configEmailEl) configEmailEl.textContent = (session && session.email) || '—';
+    const configNameEl = document.getElementById('configDisplayNameInput');
+    if(configNameEl) configNameEl.value = userDisplayName;
     await Promise.allSettled([
       guardRender(renderHojeQueue, 'a fila de hoje', []),
-      guardRender(renderHojeEvents, 'os eventos de hoje', 'hojeEventsList'),
-      guardRender(renderHojeAvisos, 'os avisos', 'hojeAvisosList'),
+      guardRender(renderHojeAvisosEventos, 'os avisos e eventos', 'hojeAvisosEventosList'),
       guardRender(renderHojeHidratacao, 'água & creatina', 'hojeHidratacaoList'),
       guardRender(renderHojePlanoAlimentar, 'o plano alimentar de hoje', 'hojePlanoAlimentarList'),
       guardRender(renderHojeDiarioStatus, 'o status do diário hoje', 'hojeDiarioStatus'),
@@ -4391,7 +4608,7 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       guardRender(renderStorage, 'as Gavetas', 'gavetaList'),
       guardRender(renderStorageRevisao, 'a Revisão de Gavetas', 'storageRevisaoList'),
       guardRender(renderAgenda, 'a Agenda', 'agendaList'),
-      guardRender(renderTasks, 'as Tarefas', 'tarefasListaBody'),
+      guardRender(renderTasks, 'as Tarefas', []),
       guardRender(renderTaskGroups, 'os grupos de tarefas', 'taskGroupsList'),
       guardRender(renderAcademia, 'a Academia', 'academiaDaysGrid'),
       guardRender(renderDiario, 'o Diário', 'diarioEntriesList'),
