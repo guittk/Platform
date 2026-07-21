@@ -1171,7 +1171,7 @@
 
       <div class="timeline-24h" id="hojeTimeline24h">
         <div class="timeline-24h-track" id="hojeTimeline24hTrack"></div>
-        <div class="timeline-24h-hours"><span>00h</span><span>03h</span><span>06h</span><span>09h</span><span>12h</span><span>15h</span><span>18h</span><span>21h</span><span>24h</span></div>
+        <div class="timeline-24h-hours"><span>00h</span><span>03h</span><span>06h</span><span>09h</span><span>12h</span><span>15h</span><span>18h</span><span>21h</span><span>23:59</span></div>
       </div>
 
       <div class="rot-hoje-now-row" id="rotinaHojeNowRow">Carregando...</div>
@@ -1317,13 +1317,10 @@
       </div>
     </div>
 
-    <div style="margin-bottom:16px;">
-      <button class="btn btn-primary btn-sm" id="addTaskOpenBtn">+ Nova tarefa</button>
-    </div>
-
     <!-- Grupos (como o Storage: containers nomeados que você cria), com as tarefas de cada grupo
          exibidas como em Lista (Prazo, Tarefa, Status, Excluir), ordenadas por data -->
-    <div style="margin-bottom:16px;">
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+      <button class="btn btn-primary btn-sm" id="addTaskOpenBtn">+ Nova tarefa</button>
       <button class="btn btn-primary btn-sm" id="addTaskGroupBtn">+ Novo grupo</button>
     </div>
     <div id="taskGroupsList"><p class="empty-state">Carregando...</p></div>
@@ -2395,13 +2392,23 @@
 
   authForgotBtn.addEventListener('click', () => setAuthMode('reset'));
 
-  // Enter no campo de senha (ou e-mail, no modo "recuperar senha") já tenta logar/enviar,
-  // sem precisar clicar no botão.
+  // Enter no campo de senha já tenta logar. Enter no campo de e-mail: se a senha
+  // já estiver visível e ainda vazia, foca o campo de senha em vez de tentar
+  // enviar o formulário incompleto; caso contrário (senha já preenchida, ou
+  // no modo "recuperar senha", onde não há campo de senha), envia normalmente.
   authPassword.addEventListener('keydown', (e) => {
     if(e.key === 'Enter'){ e.preventDefault(); authSubmitBtn.click(); }
   });
   authEmail.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter'){ e.preventDefault(); authSubmitBtn.click(); }
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const passwordVisible = authPasswordField.style.display !== 'none';
+      if(passwordVisible && !authPassword.value){
+        authPassword.focus();
+      } else {
+        authSubmitBtn.click();
+      }
+    }
   });
 
   authSubmitBtn.addEventListener('click', async () => {
