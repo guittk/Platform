@@ -469,6 +469,52 @@
   .subview{ display:none; }
   .subview.active{ display:block; }
 
+  /* ---------- Quadros (Grupos/Famílias) ---------- */
+  .board-switcher{ position:relative; margin:14px 18px 6px; }
+  .board-switcher-btn{
+    width:100%; display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line-strong);
+    border-radius:var(--radius-sm); padding:8px 10px; color:var(--text); font-family:var(--sans); font-size:12.5px; cursor:pointer; text-align:left;
+  }
+  .board-switcher-btn:hover{ border-color:var(--sage-line); }
+  .board-switcher-icon{ color:var(--sage); font-size:13px; }
+  .board-switcher-name{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .board-switcher-caret{ color:var(--text-dim); font-size:10px; }
+  .board-switcher-menu{
+    display:none; position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:40; background:var(--surface-hi);
+    border:1px solid var(--line-strong); border-radius:var(--radius-sm); padding:6px; box-shadow:0 12px 28px rgba(0,0,0,0.35);
+  }
+  .board-switcher-menu.active{ display:block; }
+  .board-switcher-list{ max-height:220px; overflow-y:auto; }
+  .board-switcher-item{
+    display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:7px; font-size:12.5px; cursor:pointer; color:var(--text-mut);
+  }
+  .board-switcher-item:hover{ background:var(--surface); color:var(--text); }
+  .board-switcher-item.active{ background:var(--sage-soft); color:var(--sage); }
+  .board-switcher-item .role-tag{ margin-left:auto; font-family:var(--mono); font-size:9.5px; color:var(--text-dim); text-transform:uppercase; }
+  .board-switcher-divider{ height:1px; background:var(--line); margin:6px 2px; }
+  .board-switcher-action{
+    width:100%; background:none; border:none; color:var(--sage); font-family:var(--sans); font-size:12.5px; text-align:left; padding:7px 8px; cursor:pointer; border-radius:7px;
+  }
+  .board-switcher-action:hover{ background:var(--sage-soft); }
+
+  .board-perm-list{ display:flex; flex-direction:column; gap:6px; max-height:180px; overflow-y:auto; margin-top:8px; }
+  .board-perm-item{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text-mut); }
+  .board-perm-item input{ accent-color: var(--sage); }
+
+  .casa-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:10px;
+    display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+  }
+  .casa-card-main{ min-width:0; }
+  .casa-card-title{ font-size:13.5px; color:var(--text); margin:0 0 4px; }
+  .casa-card-meta{ font-family:var(--mono); font-size:11px; color:var(--text-dim); display:flex; gap:8px; flex-wrap:wrap; }
+  .casa-card-actions{ flex-shrink:0; display:flex; gap:6px; }
+  .casa-card-actions button{ background:none; border:1px solid var(--line-strong); color:var(--text-mut); border-radius:6px; padding:4px 8px; font-size:11px; cursor:pointer; font-family:var(--sans); }
+  .casa-card-actions button:hover{ border-color:var(--coral); color:var(--coral); }
+  .casa-pending-item{ background:var(--surface); border:1px solid var(--sage-line); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .casa-pending-item-text{ font-size:12.5px; }
+  .casa-pending-item-actions{ display:flex; gap:6px; flex-shrink:0; }
+
   /* ---------- Tarefas: linha completa & kanban ---------- */
   .task-row{ display:flex; align-items:center; gap:10px; padding:12px 4px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
   .task-row:last-child{ border-bottom:none; }
@@ -976,6 +1022,19 @@
   </div>
   <div class="sidebar-date" id="sidebarDate">—</div>
 
+  <div class="board-switcher">
+    <button class="board-switcher-btn" id="boardSwitcherBtn" type="button">
+      <span class="board-switcher-icon">▤</span>
+      <span class="board-switcher-name" id="boardSwitcherName">Meu Quadro</span>
+      <span class="board-switcher-caret">▾</span>
+    </button>
+    <div class="board-switcher-menu" id="boardSwitcherMenu">
+      <div class="board-switcher-list" id="boardSwitcherList"></div>
+      <div class="board-switcher-divider"></div>
+      <button class="board-switcher-action" id="boardInviteOpenBtn" type="button">+ Convidar alguém</button>
+    </div>
+  </div>
+
   <nav class="nav-level">
     <div class="nav-level-label">Executar</div>
     <div class="nav-item active" data-view="hoje">
@@ -989,6 +1048,7 @@
     <div class="nav-item" data-view="tarefas"><span class="dot"></span> Tarefas</div>
     <div class="nav-item" data-view="agenda"><span class="dot"></span> Agenda</div>
     <div class="nav-item" data-view="rotina"><span class="dot"></span> Rotina</div>
+    <div class="nav-item" data-view="casa"><span class="dot"></span> Casa</div>
   </nav>
 
   <nav class="nav-level">
@@ -1144,6 +1204,87 @@
     <div class="confirm-modal-actions">
       <button class="btn btn-ghost btn-sm" id="newCaptureModalCancelBtn">Cancelar</button>
       <button class="btn btn-primary btn-sm" id="newCaptureModalOkBtn">Capturar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — CONVIDAR PARA O QUADRO -->
+<div class="confirm-modal" id="boardInviteModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:4px;">Convidar alguém para o seu Quadro</p>
+    <p class="subview-toolbar-label" style="margin:0 0 12px;">A pessoa vai receber o convite ao logar com este e-mail no Life OS.</p>
+    <input type="email" id="boardInviteEmailInput" class="modal-text-input" placeholder="email@exemplo.com" autocomplete="off">
+    <p class="modal-field-label" style="margin-top:14px;">O que ela pode ver</p>
+    <div class="board-perm-list" id="boardInvitePermList"></div>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="boardInviteCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="boardInviteOkBtn">Enviar convite</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVA ATIVIDADE DA CASA -->
+<div class="confirm-modal" id="casaAtividadeModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Nova atividade da casa</p>
+    <label class="modal-field-label">O que precisa ser feito</label>
+    <input type="text" id="casaAtividadeNomeInput" class="modal-text-input" placeholder="ex: Lavar louça, Limpar banheiro..." autocomplete="off">
+    <div class="modal-field-row">
+      <div>
+        <label class="modal-field-label">Frequência</label>
+        <select id="casaAtividadeFrequenciaInput" class="modal-text-input">
+          <option value="diaria">Diária</option>
+          <option value="semanal">Semanal</option>
+          <option value="quinzenal">Quinzenal</option>
+          <option value="mensal">Mensal</option>
+        </select>
+      </div>
+      <div>
+        <label class="modal-field-label">Responsável (opcional)</label>
+        <input type="text" id="casaAtividadeResponsavelInput" class="modal-text-input" placeholder="ex: Júlia">
+      </div>
+    </div>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="casaAtividadeCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="casaAtividadeOkBtn">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — NOVA REGRA DA CASA -->
+<div class="confirm-modal" id="casaRegraModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Nova regra da casa</p>
+    <textarea id="casaRegraTextoInput" class="modal-text-input" rows="3" placeholder="ex: Louça suja não pode passar a noite na pia" style="resize:vertical;"></textarea>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="casaRegraCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="casaRegraOkBtn">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — REGISTRAR ERRO DA CASA -->
+<div class="confirm-modal" id="casaErroModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Registrar erro da casa</p>
+    <label class="modal-field-label">O que aconteceu</label>
+    <textarea id="casaErroDescricaoInput" class="modal-text-input" rows="3" placeholder="ex: Não levou os pratos pra pia" style="resize:vertical;"></textarea>
+    <label class="modal-field-label" style="margin-top:10px;">Quem (opcional)</label>
+    <input type="text" id="casaErroPessoaInput" class="modal-text-input" placeholder="ex: Guilherme">
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="casaErroCancelBtn">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="casaErroOkBtn">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL — CONVITES PENDENTES (ao logar) -->
+<div class="confirm-modal" id="boardInvitesPendingModal">
+  <div class="confirm-modal-panel">
+    <p class="confirm-modal-text" style="margin-bottom:12px;">Você foi convidado</p>
+    <div id="boardInvitesPendingList"></div>
+    <div class="confirm-modal-actions">
+      <button class="btn btn-ghost btn-sm" id="boardInvitesPendingCloseBtn">Fechar</button>
     </div>
   </div>
 </div>
@@ -1376,6 +1517,50 @@
     </div>
     <div class="rot-days-grid" id="rotinaDaysGrid">
       <p class="empty-state">Carregando...</p>
+    </div>
+  </section>
+
+  <!-- CASA -->
+  <section class="view" id="view-casa">
+    <div class="view-head">
+      <div>
+        <p class="eyebrow" id="casaEyebrow">Organizar</p>
+        <h1 class="view-title">Casa</h1>
+        <p class="view-desc" id="casaBoardDesc">Atividades, regras e avisos do quadro da casa. Compartilhado com quem você convidar.</p>
+      </div>
+    </div>
+
+    <div class="subtabs">
+      <button class="subtab active" data-sub="casa" data-target="casa-atividades">Atividades</button>
+      <button class="subtab" data-sub="casa" data-target="casa-regras">Regras da casa</button>
+      <button class="subtab" data-sub="casa" data-target="casa-erros">Erros</button>
+    </div>
+
+    <!-- Atividades -->
+    <div class="subview active" id="casa-atividades">
+      <div class="subview-toolbar">
+        <p class="subview-toolbar-label">Tarefas rotineiras da casa — lavar louça, banheiro, organizar o quarto...</p>
+        <button class="btn btn-primary btn-sm" id="casaAddAtividadeBtn">+ Nova atividade</button>
+      </div>
+      <div id="casaAtividadesList"><p class="empty-state">Carregando...</p></div>
+    </div>
+
+    <!-- Regras -->
+    <div class="subview" id="casa-regras">
+      <div class="subview-toolbar">
+        <p class="subview-toolbar-label">Combinados que todo mundo da casa deve seguir.</p>
+        <button class="btn btn-primary btn-sm" id="casaAddRegraBtn">+ Nova regra</button>
+      </div>
+      <div id="casaRegrasList"><p class="empty-state">Carregando...</p></div>
+    </div>
+
+    <!-- Erros -->
+    <div class="subview" id="casa-erros">
+      <div class="subview-toolbar">
+        <p class="subview-toolbar-label">Registre quando alguém deixou de fazer algo combinado — sem acusação, só registro.</p>
+        <button class="btn btn-primary btn-sm" id="casaAddErroBtn">+ Registrar erro</button>
+      </div>
+      <div id="casaErrosList"><p class="empty-state">Carregando...</p></div>
     </div>
   </section>
 
@@ -2125,6 +2310,9 @@
   const SESSION_KEY = "lifeos_v5_session";
 
   let session = null;      // { idToken, uid, email, expiresAt }
+  let activeDataUid = null; // uid cujos dados /users/{uid}/... estão sendo lidos (== session.uid, ou o dono do Quadro selecionado)
+  let currentBoardId = null; // Quadro atualmente selecionado (o id é sempre o uid do dono do quadro)
+  let myBoards = {};         // { boardId: { name, role: 'owner'|'member', permissions? } }
   let userDisplayName = ''; // nome de exibição, salvo em /Profile/DisplayName
   let openaiApiKey = null; // carregada de /openAiKey após login
 
@@ -2318,12 +2506,321 @@
       return await res.json();
     } finally { hideLoading(); }
   }
-  function userPath(sub){ return '/users/' + session.uid + sub; }
+  function userPath(sub){ return '/users/' + (activeDataUid || session.uid) + sub; }
 
   async function loadOpenAiKey(){
     try{ openaiApiKey = await dbGet('/openAiKey'); }
     catch(e){ console.error('Não foi possível carregar a chave da OpenAI', e); openaiApiKey = null; }
   }
+
+  /* ---------- Quadros (Grupos/Famílias) ----------
+     Cada pessoa tem um Quadro próprio, identificado pelo seu próprio uid.
+     Convidar alguém dá acesso de LEITURA/ESCRITA a /users/{seuUid}/... (com base nas
+     permissões escolhidas por tela). Ao trocar de Quadro no seletor, activeDataUid
+     passa a ser o uid do dono do quadro selecionado, e todas as chamadas userPath()
+     do resto do app passam a ler/gravar os dados daquele quadro automaticamente. */
+  const BOARD_VIEW_OPTIONS = [
+    { key:'casa', label:'Casa' },
+    { key:'hoje', label:'Hoje' },
+    { key:'rotina', label:'Rotina' },
+    { key:'tarefas', label:'Tarefas' },
+    { key:'agenda', label:'Agenda' },
+    { key:'storage', label:'Storage' },
+    { key:'academia', label:'Academia' },
+    { key:'diario', label:'Diário' },
+    { key:'planoalimentar', label:'Plano Alimentar' },
+    { key:'dashboard', label:'Dashboard' },
+    { key:'objetivos', label:'Objetivos' },
+    { key:'projetos', label:'Projetos' },
+    { key:'estatisticas', label:'Estatísticas' },
+    { key:'revisao-semanal', label:'Revisão Semanal' }
+  ];
+  const BOARD_ID_STORAGE_KEY = 'lifeos_currentBoardId';
+
+  function sanitizeEmailKey(email){
+    return (email || '').trim().toLowerCase().replace(/[.#$\[\]]/g, '_');
+  }
+
+  async function ensureOwnBoard(){
+    const uid = session.uid;
+    let meta = null;
+    try{ meta = await dbGet('/boards/' + uid + '/meta'); }catch(e){ meta = null; }
+    if(!meta){
+      meta = { name: 'Meu Quadro', ownerUid: uid, ownerEmail: session.email };
+      await dbPut('/boards/' + uid + '/meta', meta);
+      const allPerms = {}; BOARD_VIEW_OPTIONS.forEach(o => allPerms[o.key] = true);
+      await dbPut('/boards/' + uid + '/members/' + uid, { email: session.email, role: 'owner', permissions: allPerms });
+    }
+    try{ await dbPatchSilent('/users/' + uid + '/boards/' + uid, { name: (meta && meta.name) || 'Meu Quadro', role: 'owner' }); }catch(e){ /* ignore */ }
+  }
+
+  async function loadMyBoards(){
+    let data = null;
+    try{ data = await dbGet('/users/' + session.uid + '/boards'); }catch(e){ data = null; }
+    data = data || {};
+    if(!data[session.uid]) data[session.uid] = { name: 'Meu Quadro', role: 'owner' };
+    for(const boardId of Object.keys(data)){
+      if(boardId === session.uid) continue;
+      try{
+        const memberInfo = await dbGet('/boards/' + boardId + '/members/' + session.uid);
+        if(memberInfo){ data[boardId] = Object.assign({}, data[boardId], { permissions: memberInfo.permissions || {} }); }
+      }catch(e){ /* sem acesso mais — ignora */ }
+    }
+    myBoards = data;
+  }
+
+  function renderBoardSwitcher(){
+    const list = document.getElementById('boardSwitcherList');
+    if(!list) return;
+    const entries = Object.entries(myBoards);
+    list.innerHTML = entries.map(([id, b]) => `
+      <div class="board-switcher-item ${id === currentBoardId ? 'active' : ''}" data-board-id="${id}">
+        <span>${escapeHtml(b.name || (id === session.uid ? 'Meu Quadro' : 'Quadro'))}</span>
+        <span class="role-tag">${id === session.uid ? 'dono' : 'membro'}</span>
+      </div>`).join('');
+    list.querySelectorAll('[data-board-id]').forEach(item => {
+      item.addEventListener('click', () => {
+        document.getElementById('boardSwitcherMenu').classList.remove('active');
+        switchBoard(item.getAttribute('data-board-id'));
+      });
+    });
+    const nameEl = document.getElementById('boardSwitcherName');
+    if(nameEl){
+      const current = myBoards[currentBoardId];
+      nameEl.textContent = current ? (current.name || 'Quadro') : 'Meu Quadro';
+    }
+  }
+
+  function applyBoardPermissionsToNav(){
+    const isOwn = currentBoardId === session.uid;
+    document.querySelectorAll('.nav-item[data-view]').forEach(item => {
+      const key = item.getAttribute('data-view');
+      if(isOwn){ item.style.display = ''; return; }
+      const perms = (myBoards[currentBoardId] && myBoards[currentBoardId].permissions) || {};
+      item.style.display = perms[key] ? '' : 'none';
+    });
+    const inviteBtn = document.getElementById('boardInviteOpenBtn');
+    if(inviteBtn) inviteBtn.style.display = isOwn ? '' : 'none';
+    const activeNav = document.querySelector('.nav-item.active[data-view]');
+    if(activeNav && activeNav.style.display === 'none'){
+      const firstVisible = Array.from(document.querySelectorAll('.nav-item[data-view]')).find(i => i.style.display !== 'none');
+      goToView(firstVisible ? firstVisible.getAttribute('data-view') : 'casa');
+    }
+  }
+
+  async function switchBoard(boardId){
+    if(boardId === currentBoardId) return;
+    currentBoardId = boardId;
+    activeDataUid = boardId;
+    localStorage.setItem(BOARD_ID_STORAGE_KEY, boardId);
+    renderBoardSwitcher();
+    applyBoardPermissionsToNav();
+    await bootApp();
+  }
+
+  async function initBoards(){
+    await ensureOwnBoard();
+    await loadMyBoards();
+    const saved = localStorage.getItem(BOARD_ID_STORAGE_KEY);
+    currentBoardId = (saved && myBoards[saved]) ? saved : session.uid;
+    activeDataUid = currentBoardId;
+    renderBoardSwitcher();
+    applyBoardPermissionsToNav();
+  }
+
+  async function checkPendingInvites(){
+    const emailKey = sanitizeEmailKey(session.email);
+    let invites = null;
+    try{ invites = await dbGet('/boardInvites/' + emailKey); }catch(e){ invites = null; }
+    if(!invites) return;
+    const entries = Object.entries(invites);
+    if(!entries.length) return;
+    const list = document.getElementById('boardInvitesPendingList');
+    list.innerHTML = entries.map(([id, inv]) => `
+      <div class="casa-pending-item" data-invite-id="${id}">
+        <span class="casa-pending-item-text">Quadro de <strong>${escapeHtml(inv.ownerEmail || '')}</strong></span>
+        <div class="casa-pending-item-actions">
+          <button class="btn btn-ghost btn-sm" data-decline-invite="${id}">Recusar</button>
+          <button class="btn btn-primary btn-sm" data-accept-invite="${id}">Aceitar</button>
+        </div>
+      </div>`).join('');
+    list.querySelectorAll('[data-accept-invite]').forEach(btn => btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-accept-invite');
+      const inv = invites[id];
+      await dbPut('/boards/' + inv.ownerUid + '/members/' + session.uid, { email: session.email, role: 'member', permissions: inv.permissions || { casa:true } });
+      await dbPut('/users/' + session.uid + '/boards/' + inv.ownerUid, { name: inv.boardName || 'Quadro', role: 'member' });
+      await dbDelete('/boardInvites/' + emailKey + '/' + id);
+      const row = btn.closest('.casa-pending-item'); if(row) row.remove();
+      await loadMyBoards();
+      renderBoardSwitcher();
+      showAppMessage('Convite aceito! Use o seletor de Quadro para acessar.', 'success');
+      if(!document.getElementById('boardInvitesPendingList').children.length){
+        document.getElementById('boardInvitesPendingModal').classList.remove('active');
+      }
+    }));
+    list.querySelectorAll('[data-decline-invite]').forEach(btn => btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-decline-invite');
+      await dbDelete('/boardInvites/' + emailKey + '/' + id);
+      const row = btn.closest('.casa-pending-item'); if(row) row.remove();
+      if(!document.getElementById('boardInvitesPendingList').children.length){
+        document.getElementById('boardInvitesPendingModal').classList.remove('active');
+      }
+    }));
+    document.getElementById('boardInvitesPendingModal').classList.add('active');
+  }
+
+  document.getElementById('boardSwitcherBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('boardSwitcherMenu').classList.toggle('active');
+  });
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('boardSwitcherMenu');
+    if(menu && menu.classList.contains('active') && !e.target.closest('.board-switcher')){ menu.classList.remove('active'); }
+  });
+  document.getElementById('boardInvitesPendingCloseBtn').addEventListener('click', () => {
+    document.getElementById('boardInvitesPendingModal').classList.remove('active');
+  });
+
+  function renderInvitePermChecklist(){
+    const wrap = document.getElementById('boardInvitePermList');
+    wrap.innerHTML = BOARD_VIEW_OPTIONS.map(o => `
+      <label class="board-perm-item"><input type="checkbox" data-perm-key="${o.key}" ${o.key === 'casa' ? 'checked' : ''}> ${o.label}</label>
+    `).join('');
+  }
+  document.getElementById('boardInviteOpenBtn').addEventListener('click', () => {
+    document.getElementById('boardSwitcherMenu').classList.remove('active');
+    document.getElementById('boardInviteEmailInput').value = '';
+    renderInvitePermChecklist();
+    document.getElementById('boardInviteModal').classList.add('active');
+  });
+  document.getElementById('boardInviteCancelBtn').addEventListener('click', () => {
+    document.getElementById('boardInviteModal').classList.remove('active');
+  });
+  document.getElementById('boardInviteOkBtn').addEventListener('click', async () => {
+    const email = document.getElementById('boardInviteEmailInput').value.trim().toLowerCase();
+    if(!email || !email.includes('@')){ showAppMessage('Digite um e-mail válido.', 'error'); return; }
+    const permissions = {};
+    document.querySelectorAll('#boardInvitePermList [data-perm-key]').forEach(cb => { permissions[cb.getAttribute('data-perm-key')] = cb.checked; });
+    const emailKey = sanitizeEmailKey(email);
+    const inviteId = newId();
+    await dbPut('/boardInvites/' + emailKey + '/' + inviteId, {
+      ownerUid: session.uid,
+      ownerEmail: session.email,
+      boardName: (myBoards[session.uid] && myBoards[session.uid].name) || 'Meu Quadro',
+      permissions,
+      criadoEm: new Date().toISOString()
+    });
+    document.getElementById('boardInviteModal').classList.remove('active');
+    showAppMessage('Convite enviado para ' + email + '. Ele aparece quando essa pessoa logar no Life OS.', 'success');
+  });
+
+  /* ---------- CASA (dados do Quadro ativo — atividades, regras, erros) ---------- */
+  const CASA_FREQ_LABELS = { diaria:'Diária', semanal:'Semanal', quinzenal:'Quinzenal', mensal:'Mensal' };
+
+  async function renderCasaAtividades(){
+    const el = document.getElementById('casaAtividadesList');
+    const data = await dbGet(userPath('/casa/atividades')) || {};
+    const entries = Object.entries(data).sort((a,b) => (a[1].criadoEm||'').localeCompare(b[1].criadoEm||''));
+    if(!entries.length){ el.innerHTML = '<p class="empty-state">Nenhuma atividade cadastrada ainda.</p>'; return; }
+    el.innerHTML = entries.map(([id, a]) => `
+      <div class="casa-card" data-id="${id}">
+        <div class="casa-card-main">
+          <p class="casa-card-title">${escapeHtml(a.nome)}</p>
+          <div class="casa-card-meta">
+            <span>${CASA_FREQ_LABELS[a.frequencia] || a.frequencia || ''}</span>
+            ${a.responsavel ? `<span>· ${escapeHtml(a.responsavel)}</span>` : ''}
+          </div>
+        </div>
+        <div class="casa-card-actions"><button data-del-atividade="${id}">excluir</button></div>
+      </div>`).join('');
+    el.querySelectorAll('[data-del-atividade]').forEach(btn => btn.addEventListener('click', async () => {
+      if(!await showConfirm('Excluir esta atividade?')) return;
+      await dbDelete(userPath('/casa/atividades/' + btn.getAttribute('data-del-atividade')));
+      await renderCasaAtividades();
+    }));
+  }
+  document.getElementById('casaAddAtividadeBtn').addEventListener('click', () => {
+    document.getElementById('casaAtividadeNomeInput').value = '';
+    document.getElementById('casaAtividadeFrequenciaInput').value = 'semanal';
+    document.getElementById('casaAtividadeResponsavelInput').value = '';
+    document.getElementById('casaAtividadeModal').classList.add('active');
+  });
+  document.getElementById('casaAtividadeCancelBtn').addEventListener('click', () => document.getElementById('casaAtividadeModal').classList.remove('active'));
+  document.getElementById('casaAtividadeOkBtn').addEventListener('click', async () => {
+    const nome = document.getElementById('casaAtividadeNomeInput').value.trim();
+    if(!nome){ showAppMessage('Digite o nome da atividade.', 'error'); return; }
+    const frequencia = document.getElementById('casaAtividadeFrequenciaInput').value;
+    const responsavel = document.getElementById('casaAtividadeResponsavelInput').value.trim();
+    await dbPut(userPath('/casa/atividades/' + newId()), { nome, frequencia, responsavel, criadoEm: new Date().toISOString() });
+    document.getElementById('casaAtividadeModal').classList.remove('active');
+    await renderCasaAtividades();
+  });
+
+  async function renderCasaRegras(){
+    const el = document.getElementById('casaRegrasList');
+    const data = await dbGet(userPath('/casa/regras')) || {};
+    const entries = Object.entries(data).sort((a,b) => (a[1].criadoEm||'').localeCompare(b[1].criadoEm||''));
+    if(!entries.length){ el.innerHTML = '<p class="empty-state">Nenhuma regra cadastrada ainda.</p>'; return; }
+    el.innerHTML = entries.map(([id, r]) => `
+      <div class="casa-card" data-id="${id}">
+        <div class="casa-card-main"><p class="casa-card-title" style="white-space:pre-wrap;">${escapeHtml(r.texto)}</p></div>
+        <div class="casa-card-actions"><button data-del-regra="${id}">excluir</button></div>
+      </div>`).join('');
+    el.querySelectorAll('[data-del-regra]').forEach(btn => btn.addEventListener('click', async () => {
+      if(!await showConfirm('Excluir esta regra?')) return;
+      await dbDelete(userPath('/casa/regras/' + btn.getAttribute('data-del-regra')));
+      await renderCasaRegras();
+    }));
+  }
+  document.getElementById('casaAddRegraBtn').addEventListener('click', () => {
+    document.getElementById('casaRegraTextoInput').value = '';
+    document.getElementById('casaRegraModal').classList.add('active');
+  });
+  document.getElementById('casaRegraCancelBtn').addEventListener('click', () => document.getElementById('casaRegraModal').classList.remove('active'));
+  document.getElementById('casaRegraOkBtn').addEventListener('click', async () => {
+    const texto = document.getElementById('casaRegraTextoInput').value.trim();
+    if(!texto){ showAppMessage('Digite o texto da regra.', 'error'); return; }
+    await dbPut(userPath('/casa/regras/' + newId()), { texto, criadoEm: new Date().toISOString() });
+    document.getElementById('casaRegraModal').classList.remove('active');
+    await renderCasaRegras();
+  });
+
+  async function renderCasaErros(){
+    const el = document.getElementById('casaErrosList');
+    const data = await dbGet(userPath('/casa/erros')) || {};
+    const entries = Object.entries(data).sort((a,b) => (b[1].criadoEm||'').localeCompare(a[1].criadoEm||''));
+    if(!entries.length){ el.innerHTML = '<p class="empty-state">Nenhum erro registrado. 🎉</p>'; return; }
+    el.innerHTML = entries.map(([id, er]) => `
+      <div class="casa-card" data-id="${id}">
+        <div class="casa-card-main">
+          <p class="casa-card-title">${escapeHtml(er.descricao)}</p>
+          <div class="casa-card-meta">
+            ${er.pessoa ? `<span>${escapeHtml(er.pessoa)}</span>` : ''}
+            <span>${er.criadoEm ? fmtShortDate(er.criadoEm.slice(0,10)) : ''}</span>
+          </div>
+        </div>
+        <div class="casa-card-actions"><button data-del-erro="${id}">excluir</button></div>
+      </div>`).join('');
+    el.querySelectorAll('[data-del-erro]').forEach(btn => btn.addEventListener('click', async () => {
+      if(!await showConfirm('Excluir este registro?')) return;
+      await dbDelete(userPath('/casa/erros/' + btn.getAttribute('data-del-erro')));
+      await renderCasaErros();
+    }));
+  }
+  document.getElementById('casaAddErroBtn').addEventListener('click', () => {
+    document.getElementById('casaErroDescricaoInput').value = '';
+    document.getElementById('casaErroPessoaInput').value = '';
+    document.getElementById('casaErroModal').classList.add('active');
+  });
+  document.getElementById('casaErroCancelBtn').addEventListener('click', () => document.getElementById('casaErroModal').classList.remove('active'));
+  document.getElementById('casaErroOkBtn').addEventListener('click', async () => {
+    const descricao = document.getElementById('casaErroDescricaoInput').value.trim();
+    if(!descricao){ showAppMessage('Descreva o que aconteceu.', 'error'); return; }
+    const pessoa = document.getElementById('casaErroPessoaInput').value.trim();
+    await dbPut(userPath('/casa/erros/' + newId()), { descricao, pessoa, autorEmail: session.email, criadoEm: new Date().toISOString() });
+    document.getElementById('casaErroModal').classList.remove('active');
+    await renderCasaErros();
+  });
 
   /* ---------- Autenticação (Identity Toolkit REST) ---------- */
   async function identityRequest(kind, email, password){
@@ -2363,11 +2860,15 @@
       email: data.email,
       expiresAt: Date.now() + (parseInt(data.expiresIn || '3600', 10) * 1000) - 30000
     });
-    await dbPatch(userPath('/Profile'), { Email: data.email, LastLogin: new Date().toISOString() });
+    activeDataUid = session.uid;
+    currentBoardId = session.uid;
+    await dbPatch('/users/' + session.uid + '/Profile', { Email: data.email, LastLogin: new Date().toISOString() });
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appShell').style.display = '';
     await loadOpenAiKey();
+    await initBoards();
     await bootApp();
+    checkPendingInvites();
   }
 
   /* ---------- Formulário de login/cadastro ---------- */
@@ -4655,7 +5156,10 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
       guardRender(renderDiario, 'o Diário', 'diarioEntriesList'),
       guardRender(renderPlanoAlimentar, 'o Plano Alimentar', 'paDaysGrid'),
       guardRender(renderRotina, 'a Rotina', 'rotinaDaysGrid'),
-      guardRender(renderFluencia, 'o Fluência', [])
+      guardRender(renderFluencia, 'o Fluência', []),
+      guardRender(renderCasaAtividades, 'as atividades da Casa', 'casaAtividadesList'),
+      guardRender(renderCasaRegras, 'as regras da Casa', 'casaRegrasList'),
+      guardRender(renderCasaErros, 'os erros da Casa', 'casaErrosList')
     ]);
     // Trava de segurança: garante que o overlay global de loading nunca fique
     // travado após o boot, independentemente de qualquer erro acima.
@@ -4667,10 +5171,14 @@ Responda APENAS com um objeto JSON, sem markdown, sem texto extra, no formato ex
     const restored = loadSessionFromStorage();
     if(restored){
       session = restored;
+      activeDataUid = session.uid;
+      currentBoardId = session.uid;
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('appShell').style.display = '';
       await loadOpenAiKey();
+      await initBoards();
       await bootApp();
+      checkPendingInvites();
     }
   })();
 </script>
