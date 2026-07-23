@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/guilherme.oliveira/Downloads/**)",
+      "Bash(grep -n \"</style>\\\\|<script\\\\|</script>\\\\|<body\\\\|</body>\\\\|</html>\" \"C:\\\\Users\\\\guilherome.oliveira\\\\Downloads\\\\Life_OS_v13.html\" 2>/dev/null; grep -n \"</style>\\\\|<script\\\\|</script>\\\\|<body\\\\|</body>\\\\|</html>\" \"C:\\\\Users\\\\guilherme.oliveira\\\\Downloads\\\\Life_OS_v13.html\")",
+      "Bash(grep -n \"/\\\\* ----------\" js/app.js)",
+      "Bash(grep -n \"^\\\\s*/\\\\* ----------\" css/style.css)"
+    ]
+  }
+}
